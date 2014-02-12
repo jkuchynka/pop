@@ -1,0 +1,16 @@
+{
+  "name": "pop",
+  "version": "0.1.0",
+  "authors": [
+    "Jason Kuchynka <jason.kuchynka@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

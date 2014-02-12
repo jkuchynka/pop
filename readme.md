@@ -1,21 +1,57 @@
-## Laravel PHP Framework
+## Pop
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
+Pop is a Laravel 4, AngularJS, fully functional starter site.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+Use it to jumpstart a project, or just to learn some new things about Laravel and AngularJS interaction. Currently, it is fairly biased about the external dependencies it uses and the way it is setup, so make sure you understand any limitations before using it for your app. Or, be open to customizing it to your needs.
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+## Architecture
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+In this project, Angular is setup as a SPA (single page app). It handles all the routes, views, anything that happens on the client side, and interacts with the server (laravel) via REST json services. This makes for a nice separation of server and client concerns, but has a few limitations (namely SEO). See more here: http://popwords.net/issues-with-spa .
 
-## Official Documentation
+Here's a quick rundown of everything used by pop:
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+Front end:
 
-### Contributing To Laravel
+foundation
+angular
+jquery
+font-awesome
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+Back end:
+laravel 4
+ardent
 
-### License
+Package management:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+composer
+bower
+
+Testing:
+
+karma
+phpunit
+
+Development/Build:
+
+grunt
+sass
+
+## Getting started
+
+$ git clone http://github.com/jbizzay/pop newapp
+
+$ cd newapp
+
+$ composer update
+
+$ bower install
+
+$ npm update
+
+$ grunt
+
+$ php artisan migrate
+
+$ php artisan db:seed
+
+$ php artisan serve
