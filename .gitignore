@@ -1,3 +1,31 @@
+############################################
+#            WHITELIST APPROACH            #
+############################################
+
+# Ignore EVERYTHING in the main directory...
+/*
+
+
+# ...except these whitelisted files and folders
+
+!.gitignore
+!*.sublime-project
+!artisan
+!bower.json
+!composer.json
+!gulpfile.js
+!package.json
+!phpunit.xml
+!readme.md
+!server.php
+
+!app/
+!bootstrap/
+!src/
+
+
+
+
 /bootstrap/compiled.php
 /vendor
 composer.phar
@@ -6,6 +34,6 @@ composer.lock
 .env.php
 .DS_Store
 Thumbs.db
-public/assets
+public/
 node_modules
 bower_components

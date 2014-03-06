@@ -1,0 +1,10 @@
+@import "normalize";
+@import "mixins";
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    background: whitesmoke;
+}

@@ -1,9 +1,11 @@
 {
-  "name": "pop",
-  "version": "0.1.0",
+  "name": "Boilerplate",
+  "version": "0.9.0",
   "authors": [
-    "Jason Kuchynka <jason.kuchynka@gmail.com>"
+    "Cameron Spear <cameronspear@gmail.com>"
   ],
+  "description": "Starter kit!",
+  "main": "js/app.js",
   "license": "MIT",
   "private": true,
   "ignore": [
@@ -14,10 +16,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.2.12",
-    "angular-route": "~1.2.12",
-    "underscore": "~1.6.0",
-    "foundation": "~5.1.1",
-    "font-awesome": "~4.0.3"
+    "angular": "latest",
+    "angular-route": "latest",
+    "angular-animate": "latest"
   }
 }
