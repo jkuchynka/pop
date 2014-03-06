@@ -26,7 +26,8 @@
     "npm": "latest",
     "terminal-notifier": "latest",
     "wordwrap": "latest",
-    "gulp-plumber": "latest"
+    "gulp-plumber": "latest",
+    "gulp-less": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

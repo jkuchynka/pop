@@ -9,6 +9,8 @@ var npm    = require('npm');
 var rimraf = require('rimraf');
 var q      = require('q');
 
+var less   = require('gulp-less');
+
 // start config
 
 var dest = 'public/';
@@ -39,12 +41,17 @@ var onError = function (err) {
 };
 
 gulp.task('styles', function () {
-  return gulp.src(src + 'scss/style.scss')
+  return gulp.src(src + 'css/app.less')
     .pipe(plumber({
       errorHandler: onError
     }))
+/*
     .pipe(rubysass({
       style: gutil.env.production ? 'compressed' : 'nested',
+    }))
+*/
+    .pipe(less({
+      paths: [path.join(__dirname, 'less', 'includes')]
     }))
     .pipe(autoprefixer('last 1 version'))
     .pipe(gutil.env.production ? rev() : gutil.noop())
@@ -97,18 +104,22 @@ gulp.task('scripts', ['index', 'bower'], function () {
 
 gulp.task('bower', ['index'], function () {
   wiredep({
-    directory: 'bower_components',
+    directory: './bower_components',
     bowerJson: require('./bower.json'),
     src: [dest + 'index.html'],
     fileTypes: {
       html: {
         replace: {
-          js: '<script src="/{{filePath}}"></script>'
+          js: '<script src="/{{filePath}}"></script>',
+          css: '<link rel="stylesheet" href="/{{filePath}}" />'
         }
       }
     }
   });
-
+/*
+  gulp.src('./bower_components/components-font-awesome/fonts/*')
+    .pipe(gulp.dest(dest + 'bower_components/components-font-awesome/fonts/'));
+*/
   if (!gutil.env.production)
     return bowerfiles().pipe(gulp.dest(dest + 'bower_components/'));
     // return gulp.src('bower_components/**/*').pipe(gulp.dest(dest + 'bower_components/'));
@@ -191,7 +202,7 @@ gulp.task('default', function () {
       if (isWatching) return;
       isWatching = true;
 
-      gulp.watch(src + 'scss/**/*.scss', ['styles']);
+      gulp.watch(src + 'css/**/*.less', ['styles']);
       gulp.watch(src + 'js/**/*.js', ['scripts']);
       gulp.watch(src + 'views/**/*.jade', ['templates']);
       gulp.watch([
@@ -201,7 +212,7 @@ gulp.task('default', function () {
 
       gulp.watch(src + 'index.jade', ['index', 'scripts', 'bower', 'usemin']);
 
-      var bs = browsersync.init([dest + 'css/style.css', dest + '**/*.*'], {
+      var bs = browsersync.init([dest + 'css/app.css', dest + '**/*.*'], {
         ghostMode: {
           clicks: false,
           links: false,

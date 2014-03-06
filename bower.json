@@ -18,6 +18,20 @@
   "dependencies": {
     "angular": "latest",
     "angular-route": "latest",
-    "angular-animate": "latest"
+    "angular-animate": "latest",
+    "bootstrap": "latest",
+    "fontawesome": "latest"
+  },
+  "overrides": {
+    "fontawesome": {
+      "main": [
+        "./css/font-awesome.css",
+        "./fonts/FontAwesome.otf",
+        "./fonts/fontawesome-webfont.eot",
+        "./fonts/fontawesome-webfont.svg",
+        "./fonts/fontawesome-webfont.ttf",
+        "./fonts/fontawesome-webfont.woff"
+      ]
+    }
   }
 }
