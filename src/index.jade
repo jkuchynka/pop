@@ -5,25 +5,42 @@ html(lang='en', ng-app='app')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
 
-    title Title
+    title Pop App
 
     base(href='/')
 
     link(rel='shortcut icon', href='favicon.ico')
 
+    // bower:css
+    // endbower
+
     // inject:css 
-    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet', href='/css/app.css')
     // endinject 
   body
-    nav
-      a(href='#/') Home
-      a(href='#/about/') About
-      a(href='#/contact/') Contact
+    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role='navigation')
+      .container-fluid
+        .navbar-header
+          a.navbar-brand(href='#/')
+            i.fa.fa-lg.fa-bolt
 
-    div(ng-view)
+        h4.navbar-text Pop App
+
+        p.navbar-text.navbar-right
+          a.navbar-link(href='#/login') Login
+
+    ul.nav.nav-pills.subnav
+      li.active
+        a(href='#/') Home
+      li
+        a(href='#/about') About
+      li
+        a(href='#/contact') Contact
+
+    div.container(ng-view)
 
     // build:js(.) /js/vendor.js
-    // bower 
+    // bower:js
     // endbower 
     // endbuild 
 
@@ -31,6 +48,6 @@ html(lang='en', ng-app='app')
     // endinject 
 
     if includeBrowserSync
-      script(src='//localhost:3000/socket.io/socket.io.js')
-      script. var ___socket___ = io.connect('http://localhost:3000');
-      script(src='//localhost:3001/client/browser-sync-client.0.6.0.js')
+      script(src='//10.0.0.11:3000/socket.io/socket.io.js')
+      script. var ___socket___ = io.connect('http://10.0.0.11:3000');
+      script(src='//10.0.0.11:3001/client/browser-sync-client.0.6.2.js')

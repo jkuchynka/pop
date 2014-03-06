@@ -11,6 +11,7 @@ Route::any('{all}', function()
 	return file_get_contents(__DIR__ .'/../public/index.html');
 })->where('all', '.*');
 
+
 /**
  * Api calls to the laravel app
  */
