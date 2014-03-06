@@ -1,17 +1,19 @@
 <?php
 
-// If no other route matches, return master view
-Route::get('{any}', function()
+/**
+ * Catchall route.
+ * Any routes that aren't already matched by laravel should
+ * be passed on to angular's routing.
+ */
+Route::any('{all}', function()
 {
-	return View::make('pop/master');
-});
-// Homepage, return master view
-Route::get('/', function()
-{
-	return View::make('pop/master');
-});
+	// Return the built index.html file from public/
+	return file_get_contents(__DIR__ .'/../public/index.html');
+})->where('all', '.*');
 
-// Api rest services
+/**
+ * Api calls to the laravel app
+ */
 Route::group(array('prefix' => 'api'), function()
 {
 
