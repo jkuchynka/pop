@@ -1,10 +1,10 @@
 {
-  "name": "Boilerplate",
-  "version": "0.9.0",
+  "name": "Pop",
+  "version": "0.1.0",
   "authors": [
-    "Cameron Spear <cameronspear@gmail.com>"
+    "Jason Kuchynka <jason.kuchynka@gmail.com>"
   ],
-  "description": "Starter kit!",
+  "description": "Pop app",
   "main": "js/app.js",
   "license": "MIT",
   "private": true,

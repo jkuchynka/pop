@@ -1,7 +1,7 @@
 {
-  "name": "GulpConfig",
-  "version": "0.9.0",
-  "description": "A good starter config for Gulp.",
+  "name": "Pop",
+  "version": "0.1.0",
+  "description": "Pop app",
   "dependencies": {},
   "repository": {},
   "devDependencies": {
@@ -30,6 +30,5 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Mavrx"
+  }
 }

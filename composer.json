@@ -1,6 +1,6 @@
 {
 	"name": "jbizzay/pop",
-	"description": "Pop Laravel 4 AngularJS Starter Site",
+	"description": "Pop app",
 	"keywords": ["laravel", "angular"],
 	"require": {
 		"laravel/framework": "4.1.*",

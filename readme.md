@@ -12,10 +12,11 @@ Here's a quick rundown of everything used by pop:
 
 Front end:
 
-foundation
+bootstrap
 angular
 jquery
-font-awesome
+jade
+sass
 
 Back end:
 laravel 4
@@ -28,12 +29,11 @@ bower
 
 Testing:
 
-karma
 phpunit
 
 Development/Build:
 
-grunt
+gulp
 sass
 
 ## Getting started
@@ -46,9 +46,9 @@ $ composer update
 
 $ bower install
 
-$ npm update
+$ npm install
 
-$ grunt
+$ gulp --install
 
 $ php artisan migrate
 
