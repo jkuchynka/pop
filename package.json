@@ -8,7 +8,6 @@
     "gulp": "latest",
     "gulp-util": "latest",
     "gulp-concat": "latest",
-    "gulp-ruby-sass": "latest",
     "gulp-uglify": "latest",
     "gulp-autoprefixer": "latest",
     "gulp-jade": "latest",
@@ -17,17 +16,16 @@
     "gulp-inject": "latest",
     "gulp-bower-files": "latest",
     "browser-sync": "latest",
-    "wiredep": "latest",
     "gulp-usemin": "latest",
-    "lodash": "latest",
-    "q": "latest",
-    "rimraf": "latest",
+    "gulp-rimraf": "latest",
     "bower": "latest",
     "npm": "latest",
     "terminal-notifier": "latest",
     "wordwrap": "latest",
     "gulp-plumber": "latest",
-    "gulp-less": "latest"
+    "gulp-less": "latest",
+    "event-stream": "latest",
+    "gulp-rimraf": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

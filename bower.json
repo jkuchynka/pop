@@ -19,6 +19,7 @@
     "angular": "latest",
     "angular-route": "latest",
     "angular-animate": "latest",
+    "angular-sanitize": "latest",
     "bootstrap": "latest",
     "fontawesome": "latest"
   },
