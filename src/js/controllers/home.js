@@ -1,5 +1,5 @@
 angular.module('app')
 
 .controller('HomeCtrl', function ($scope) {
-    console.log('test');
+  console.log('home controller');
 });

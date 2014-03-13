@@ -11,14 +11,14 @@ html(lang='en', ng-app='app')
 
     link(rel='shortcut icon', href='favicon.ico')
 
-    // bower:css
-    // endbower
+    // inject:vendor:css
+    // endinject
 
-    // inject:css 
-    link(rel='stylesheet', href='/css/app.css')
-    // endinject 
+    // inject:css
+    // endinject
+
   body
-    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role='navigation')
+    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role='navigation', ng-controller='UserMenuCtrl')
       .container-fluid
         .navbar-header
           a.navbar-brand(href='#/')
@@ -27,7 +27,17 @@ html(lang='en', ng-app='app')
         h4.navbar-text Pop App
 
         p.navbar-text.navbar-right
-          a.navbar-link(href='#/login') Login
+        ul.nav.navbar-nav.navbar-right(ng-if='user.id')
+          li
+            span.navbar-text Yo, &nbsp;
+              a(href='#/', ng-bind='user.username')
+              | &nbsp; !
+          li
+            a.fa.fa-lg.fa-sign-out(href='/logout', title='Logout')
+
+        ul.nav.navbar-nav.navbar-right(ng-if='!user.id')
+          li
+            a(href='#/login') Login
 
     ul.nav.nav-pills.subnav
       li.active
@@ -37,15 +47,19 @@ html(lang='en', ng-app='app')
       li
         a(href='#/contact') Contact
 
+    div.row
+      div.large-6.large-offset-3
+        div#flash.alert-box.alert(ng-show='flash', ng-bind='flash')
+
     div.container(ng-view)
 
-    // build:js(.) /js/vendor.js
-    // bower:js
-    // endbower 
-    // endbuild 
+    // inject:vendor:js
+    // endinject
 
-    // inject:js 
-    // endinject 
+    // inject:js
+    // endinject
+
+    script. angular.module('app').constant('CSRF_TOKEN', 'INJECT_CSRF_TOKEN');
 
     if includeBrowserSync
       script(src='//10.0.0.11:3000/socket.io/socket.io.js')

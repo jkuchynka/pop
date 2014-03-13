@@ -107,6 +107,8 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
+    'Zizaco\Confide\ConfideServiceProvider',
+    'Zizaco\Entrust\EntrustServiceProvider',
 	),
 
 	/*
@@ -173,6 +175,8 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 
+    'Confide' => 'Zizaco\Confide\ConfideFacade',
+    'Entrust' => 'Zizaco\Entrust\EntrustFacade',
 	),
 
 );
