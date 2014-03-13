@@ -11,7 +11,10 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		// $this->call('UserTableSeeder');
+    // Seeding refreshes all data
+    DB::table('users')->delete();
+
+		$this->call('UserSeeder');
 	}
 
 }
