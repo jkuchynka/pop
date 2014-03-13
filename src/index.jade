@@ -18,7 +18,7 @@ html(lang='en', ng-app='app')
     // endinject
 
   body
-    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role='navigation', ng-controller='UserMenuCtrl')
+    nav.navbar.navbar-default.navbar-inverse.navbar-fixed-top(role='navigation')
       .container-fluid
         .navbar-header
           a.navbar-brand(href='#/')
@@ -27,17 +27,7 @@ html(lang='en', ng-app='app')
         h4.navbar-text Pop App
 
         p.navbar-text.navbar-right
-        ul.nav.navbar-nav.navbar-right(ng-if='user.id')
-          li
-            span.navbar-text Yo, &nbsp;
-              a(href='#/', ng-bind='user.username')
-              | &nbsp; !
-          li
-            a.fa.fa-lg.fa-sign-out(href='/logout', title='Logout')
-
-        ul.nav.navbar-nav.navbar-right(ng-if='!user.id')
-          li
-            a(href='#/login') Login
+        div(user-menu)
 
     ul.nav.nav-pills.subnav
       li.active

@@ -1,0 +1,12 @@
+
+ul.nav.navbar-nav.navbar-right(ng-if='user.id')
+  li
+    span.navbar-text Yo, &nbsp;
+      a(href='#/', ng-bind='user.username')
+      | &nbsp; !
+  li
+    a.fa.fa-lg.fa-sign-out(href='/logout', title='Logout')
+
+ul.nav.navbar-nav.navbar-right(ng-if='!user.id')
+  li
+    a(href='#/login') Login
