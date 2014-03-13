@@ -4,10 +4,12 @@ class UserSeeder extends Seeder {
 
   public function run()
   {
+    $roles = Role::all();
     // Create users
     $users = array(
       'admin' => array(
-        'email' => 'jason.kuchynka@gmail.com'
+        'email' => 'jason.kuchynka@gmail.com',
+        'roles' => $roles->toArray()
       )
     );
     foreach ($users as $username => $data) {
@@ -18,6 +20,7 @@ class UserSeeder extends Seeder {
       $user->created_at = $user->updated_at = time();
       $user->confirmed = 1;
       $user->updateUniques();
+      $user->saveRoles($data['roles']);
     }
   }
 

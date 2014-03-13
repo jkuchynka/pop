@@ -4,19 +4,23 @@ angular.module('app', ['ngRoute', 'ngAnimate'])
   $routeProvider
     .when('/', {
       controller: 'HomeCtrl',
-      templateUrl: 'views/home.html'
+      templateUrl: '/views/home.html'
     })
     .when('/about/', {
       controller: 'AboutCtrl',
-      templateUrl: 'views/about.html'
+      templateUrl: '/views/about.html'
     })
     .when('/contact/', {
       controller: 'ContactCtrl',
-      templateUrl: 'views/contact.html'
+      templateUrl: '/views/contact.html'
     })
     .when('/login/', {
       controller: 'LoginCtrl',
-      templateUrl: 'views/login.html'
+      templateUrl: '/views/login.html'
+    })
+    .when('/user/:username', {
+      controller: 'UserCtrl',
+      templateUrl: '/views/user.html'
     })
     .otherwise({
       redirectTo: '/'

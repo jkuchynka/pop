@@ -52,4 +52,20 @@ class User extends ConfideUser {
 		return $this->email;
 	}
 
+	/**
+	 * Save roles for this user
+	 * @param  array $roles Assoc. of Role
+	 */
+	public function saveRoles($roles) {
+		if ( ! empty($roles)) {
+			$save = array();
+			foreach ($roles as $role) {
+				$save[] = $role['id'];
+			}
+			$this->roles()->sync($save);
+		} else {
+			$this->roles()->detach();
+		}
+	}
+
 }

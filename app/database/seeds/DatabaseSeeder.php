@@ -12,8 +12,11 @@ class DatabaseSeeder extends Seeder {
 		Eloquent::unguard();
 
     // Seeding refreshes all data
+    DB::table('assigned_roles')->delete();
+    DB::table('roles')->delete();
     DB::table('users')->delete();
 
+    $this->call('RolePermissionSeeder');
 		$this->call('UserSeeder');
 	}
 

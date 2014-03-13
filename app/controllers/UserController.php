@@ -2,15 +2,25 @@
 
 class UserController extends BaseController {
 
+  /**
+   * Get a list of user records
+   */
   public function getIndex()
   {
-    $users = User::all();
+    $users = User::with('roles')->get();
     return $users;
   }
 
+  /**
+   * Get a user record
+   */
   public function getShow($id)
   {
-    return User::find($id);
+    if (is_numeric($id)) {
+      return User::with('roles')->find($id);
+    } else {
+      return User::with('roles')->where('username', $id)->first();
+    }
   }
 
   /**
