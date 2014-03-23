@@ -1,0 +1,15 @@
+
+h2 Edit User &nbsp;
+  em {{ origUser.username }}
+
+form
+  .form-group
+    label(for="username") Username
+    input.form-control#username(type="text", ng-model="user.username", required)
+
+  .form-group
+    label(for="email") Email
+    input.form-control#email(type="email", ng-model="user.email", required)
+
+  button.btn.btn-primary(type="button", ng-click="update()") Save
+  button.btn.btn-danger(type="button", ng-click="delete()") Delete

@@ -5,7 +5,7 @@ class UserController extends BaseController {
   /**
    * Get a list of user records
    */
-  public function getIndex()
+  public function index($id = null)
   {
     $users = User::with('roles')->get();
     return $users;
@@ -14,20 +14,23 @@ class UserController extends BaseController {
   /**
    * Get a user record
    */
-  public function getShow($id)
+  public function show($id)
   {
     if (is_numeric($id)) {
-      return User::with('roles')->find($id);
+      $user = User::with('roles')->find($id);
     } else {
-      return User::with('roles')->where('username', $id)->first();
+      $user = User::with('roles')->where('username', $id)->first();
     }
+    if ($user) {
+      return $user;
+    }
+    return $this->responseError("User not found");
   }
 
   /**
    * Stores new account
-   *
    */
-  public function postIndex()
+  public function store()
   {
     $user = new User;
 
@@ -50,23 +53,59 @@ class UserController extends BaseController {
     }
     else
     {
-      return Response::json(array(
-        $user->errors()
-      ), 400);
+      return $this->responseError($user->errors()->all(':message'));
     }
   }
 
   /**
+   * Update user record
+   */
+  public function update($id)
+  {
+    $user = User::find($id);
+
+    if ( ! $user) {
+      return $this->responseError("User not found");
+    }
+
+    $user->username = Input::get('username');
+    $user->email = Input::get('email');
+
+    try {
+      $updated = $user->updateUniques();
+    }
+    catch (Exception $e) {
+      $updated = false;
+    }
+
+    if ($updated) {
+      return $this->show($user->id);
+    }
+    return $this->responseError($user->errors()->all(':message'));
+  }
+
+  /**
+   * Delete user record
+   */
+  public function destroy($id)
+  {
+    $user = User::find($id);
+    if ($user->delete()) {
+      return array('success' => 'OK');
+    }
+    return $this->responseError("Couldn't delete user");
+  }
+
+  /**
    * Attempt to do login
-   *
    */
   public function postLogin()
   {
     $input = array(
-      'email'    => Input::get( 'email' ), // May be the username too
-      'username' => Input::get( 'email' ), // so we have to pass both
-      'password' => Input::get( 'password' ),
-      'remember' => Input::get( 'remember' ),
+      'email'    => Input::get('email'), // May be the username too
+      'username' => Input::get('email'), // so we have to pass both
+      'password' => Input::get('password'),
+      'remember' => Input::get('remember'),
     );
 
     // If you wish to only allow login from confirmed users, call logAttempt
@@ -105,23 +144,14 @@ class UserController extends BaseController {
 
   /**
    * Attempt to confirm account with code
-   *
-   * @param  string  $code
    */
-  public function getConfirm( $code )
+  public function putConfirm()
   {
-      if ( Confide::confirm( $code ) )
-      {
-          $notice_msg = Lang::get('confide::confide.alerts.confirmation');
-                      return Redirect::to('user/login')
-                          ->with( 'notice', $notice_msg );
-      }
-      else
-      {
-          $error_msg = Lang::get('confide::confide.alerts.wrong_confirmation');
-                      return Redirect::to('user/login')
-                          ->with( 'error', $error_msg );
-      }
+    if (Confide::confirm(Input::get('code'))) {
+      return array('success' => 'OK');
+    } else {
+      return $this->responseError("Wrong confirmation code");
+    }
   }
 
 
@@ -131,30 +161,10 @@ class UserController extends BaseController {
    */
   public function postForgot()
   {
-    if( Confide::forgotPassword( Input::get( 'email' ) ) )
-    {
-      $notice_msg = Lang::get('confide::confide.alerts.password_forgot');
-      return array(
-        $notice_msg
-      );
+    if (Confide::forgotPassword(Input::get('email'))) {
+      return array('success' => 'OK');
     }
-    else
-    {
-      $error_msg = Lang::get('confide::confide.alerts.wrong_password_forgot');
-      return Response::json(array(
-        'error' => $error_msg
-      ), 400);
-    }
-  }
-
-  /**
-   * Shows the change password form with the given token
-   *
-   */
-  public function getReset( $token )
-  {
-      return View::make(Config::get('confide::reset_password_form'))
-              ->with('token', $token);
+    return $this->responseError("Invalid email");
   }
 
   /**
@@ -164,32 +174,26 @@ class UserController extends BaseController {
   public function postReset()
   {
     $input = array(
-      'token'=>Input::get( 'token' ),
-      'password'=>Input::get( 'password' ),
-      'password_confirmation'=>Input::get( 'password_confirmation' ),
+      'token' => Input::get('token'),
+      'password' => Input::get('password'),
+      'password_confirmation' => Input::get('password_confirmation'),
     );
 
     // By passing an array with the token, password and confirmation
-    if( Confide::resetPassword( $input ) )
-    {
-      $notice_msg = Lang::get('confide::confide.alerts.password_reset');
-      return array(
-        $notice_msg
-      );
-    }
-    else
-    {
-      $error_msg = Lang::get('confide::confide.alerts.wrong_password_reset');
-      return Response::json(array(
-        'error' => $error_msg
-      ), 400);
+    if (Confide::resetPassword($input)) {
+      return array('success' => 'OK');
+    } else {
+      if ($input['password'] != $input['password_confirmation']) {
+        return $this->responseError("Passwords don't match.");
+      }
+      return $this->responseError("Couldn't reset password.");
     }
   }
 
   public function getCurrent()
   {
     if ($user = Confide::user()) {
-      return $this->getShow($user->id);
+      return $this->show($user->id);
     }
     return array(
       'id' => null,
@@ -204,7 +208,7 @@ class UserController extends BaseController {
   public function getLogout()
   {
     Confide::logout();
-    return array();
+    return array('success' => 'OK');
   }
 
 }

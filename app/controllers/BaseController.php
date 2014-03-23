@@ -15,4 +15,15 @@ class BaseController extends Controller {
 		}
 	}
 
+	/**
+	 * Return a error json response
+	 * @param  array  $data Data to json encode
+	 * @return json Response
+	 */
+	protected function responseError($data)
+	{
+		$data = (array) $data;
+		return Response::json(array('errors' => $data), 400);
+	}
+
 }

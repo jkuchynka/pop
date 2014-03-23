@@ -8,8 +8,10 @@ angular.module('app')
       // When initializing the app or when current user changes (login/logout)
       // Update the user scope
       scope.user = {};
+      scope.isAdmin = false;
       scope.$watch(AuthService.getCurrentUser, function () {
         scope.user = AuthService.getCurrentUser();
+        scope.isAdmin = AuthService.userCanAccess('admin');
       });
     }
   };

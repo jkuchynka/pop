@@ -109,6 +109,7 @@ return array(
 
     'Zizaco\Confide\ConfideServiceProvider',
     'Zizaco\Entrust\EntrustServiceProvider',
+
 	),
 
 	/*

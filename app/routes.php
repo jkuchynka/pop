@@ -6,7 +6,21 @@
  */
 Route::group(array('prefix' => 'api'), function()
 {
-  Route::controller('user', 'UserController');
+
+  Route::group(array('prefix' => 'users'), function () {
+    Route::post('login', 'UserController@postLogin');
+    Route::get('current', 'UserController@getCurrent');
+    Route::get('logout', 'UserController@getLogout');
+    Route::put('confirm', 'UserController@putConfirm');
+    Route::post('forgot', 'UserController@postForgot');
+    Route::post('reset', 'UserController@postReset');
+  });
+  Route::resource('users', 'UserController', array(
+    'only' => array('index', 'store', 'show', 'update', 'destroy')
+  ));
+
+  Route::controller('role', 'RoleController');
+
 });
 
 // When logging out, calls the server directly and redirect back to
@@ -20,6 +34,8 @@ Route::get('logout', function () {
 Route::get('user/confirm/{code}', 'UserController@getConfirm');
 Route::get('user/reset/{token}', 'UserController@getReset');
 //Route::controller( 'user', 'UserController');
+//
+
 
 /**
  * Catchall route.
@@ -28,6 +44,12 @@ Route::get('user/reset/{token}', 'UserController@getReset');
  */
 Route::any('{all}', function()
 {
+  // If route starts with api and the route wasn't matched, return an error response
+  if (Request::is('api/*')) {
+    return Response::json(array(
+      'error' => 'Unknown route: '. Request::path()
+    ), 400);
+  }
   // Return the built index.html file from public/
   $index = file_get_contents(__DIR__ .'/../public/index.html');
   // Inject CSRF

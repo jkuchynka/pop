@@ -1,13 +1,13 @@
 angular.module('app')
 
-.factory('AuthService', function ($http, $rootScope, FlashService, CSRF_TOKEN) {
+.factory('AuthService', function ($http, $rootScope, Flash, CSRF_TOKEN) {
 
   var loginSuccess = function (response) {
-    FlashService.show("Welcome back, " + response.username);
+    Flash.show("Welcome back, " + response.username);
   };
 
   var loginError = function (response) {
-    FlashService.show(response.error);
+    Flash.show(response.error);
   };
 
   var currentUser = {};
@@ -19,8 +19,8 @@ angular.module('app')
         password: creds.password,
         csrf_token: CSRF_TOKEN
       };
-      var login = $http.post('/api/user/login', sanCreds);
-      login.success(FlashService.clear);
+      var login = $http.post('/api/users/login', sanCreds);
+      login.success(Flash.clear);
       login.success(this.loadCurrentUser);
       login.success(loginSuccess);
       login.error(loginError);
@@ -30,11 +30,26 @@ angular.module('app')
       return currentUser;
     },
     loadCurrentUser: function () {
-      call = $http.get('/api/user/current');
+      call = $http.get('/api/users/current');
       call.success(function (response) {
         currentUser = response;
       });
       return call;
+    },
+    userCanAccess: function (path) {
+      var access = false;
+      switch (path) {
+        case 'admin':
+          if (currentUser.roles) {
+            angular.forEach(currentUser.roles, function (val) {
+              if (val.name == 'admin') {
+                access = true;
+              }
+            });
+          }
+        break;
+      }
+      return access;
     }
   };
 });

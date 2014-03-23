@@ -3,7 +3,9 @@ ul.nav.navbar-nav.navbar-right(ng-if='user.id')
   li
     span.navbar-text Yo, &nbsp;
       a(ng-href='#/user/{{ user.username }}', ng-bind='user.username')
-      | &nbsp; !
+      | !
+  li(ng-if='isAdmin')
+    a(href='#/admin') Admin
   li
     a.fa.fa-lg.fa-sign-out(href='/logout', title='Logout')
 

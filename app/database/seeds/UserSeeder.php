@@ -10,6 +10,18 @@ class UserSeeder extends Seeder {
       'admin' => array(
         'email' => 'jason.kuchynka@gmail.com',
         'roles' => $roles->toArray()
+      ),
+      'jason' => array(
+        'email' => 'jason.kuchynka+jason@gmail.com',
+        'roles' => array()
+      ),
+      'test1' => array(
+        'email' => 'jason.kuchynka+test1@gmail.com',
+        'roles' => array()
+      ),
+      'test2' => array(
+        'email' => 'jason.kuchynka+test2@gmail.com',
+        'roles' => array()
       )
     );
     foreach ($users as $username => $data) {

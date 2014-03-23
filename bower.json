@@ -17,11 +17,14 @@
   ],
   "dependencies": {
     "angular": "latest",
+    "angular-resource": "latest",
     "angular-route": "latest",
     "angular-animate": "latest",
     "angular-sanitize": "latest",
     "bootstrap": "latest",
-    "fontawesome": "latest"
+    "fontawesome": "latest",
+    "ng-table": "git://github.com/jbizzay/ng-table#~0.3.1",
+    "angular-growl": "~0.4.0"
   },
   "overrides": {
     "fontawesome": {
@@ -34,5 +37,8 @@
         "./fonts/fontawesome-webfont.woff"
       ]
     }
+  },
+  "resolutions": {
+    "angular": "1.2.15"
   }
 }
