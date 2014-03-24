@@ -1,76 +1,80 @@
 <?php
 
+use Woodling\Woodling;
+
 class RoleIntegrationTest extends TestCase {
 
-	public function testIndex()
+	public function testGetRoles()
 	{
-		$this->setupTestRoles();
-		$response = $this->call('GET', 'api/role');
-		$roles = json_decode($response->getContent());
-		$this->assertRoleFields($this->getTestRoles(1), $roles[0]);
-		$this->assertRoleFields($this->getTestRoles(2), $roles[1]);
+		$roles = Woodling::savedList('Role', 5);
+		$response = $this->call('GET', '/api/roles');
+		$data = $this->assertResponse($response);
+		foreach ($data as $key => $role) {
+			$this->assertRole($roles[$key], $role);
+		}
 	}
 
-	public function testStore()
+	public function testShowReturnsRoleRecord()
 	{
-		$expect = $this->getTestRoles(1);
-		$response = $this->call('POST', 'api/role', array(
-			'name' => $expect['name']
+		$roles = Woodling::savedList('Role', 5);
+		$response = $this->call('GET', '/api/roles/'. $roles[2]->id);
+		$data = $this->assertResponse($response);
+		$this->assertRole($roles[2], $data);
+	}
+
+	public function testShowNonExistentRoleReturnsError()
+	{
+		$response = $this->call('GET', '/api/roles/999');
+		$data = $this->assertResponse($response, true);
+		$this->assertContains('found', $data->errors[0]);
+	}
+
+	public function testStoreNewRoleReturnsRoleObject()
+	{
+		$role = Woodling::retrieve('Role');
+		$response = $this->call('POST', '/api/roles', $role->toArray());
+		$data = $this->assertResponse($response);
+		$role->id = $data->id;
+		$this->assertRole($role, $data);
+	}
+
+	public function testStoreExistingRoleReturnsError()
+	{
+		$role = Woodling::saved('Role');
+		$response = $this->call('POST', '/api/roles', array(
+			'name' => $role->name
 		));
-		$role = json_decode($response->getContent());
-		$this->assertRoleFields($expect, $role);
+		$data = $this->assertResponse($response, true);
+		$this->assertContains('taken', $data->errors[0]);
 	}
 
-	public function testStoreFailValidationReturnsError()
+	public function testUpdateRole()
 	{
-		$response = $this->call('POST', 'api/role', array(
-			'name' => '',
+		$role = Woodling::saved('Role');
+		$response = $this->call('PUT', '/api/roles/'. $role->id, array(
+			'name' => 'foobar'
 		));
-		$this->assertResponseStatus(401);
-		$response = json_decode($response->getContent());
-		$this->assertNotEmpty($response->errors->name);	
+		$role->name = 'foobar';
+		$data = $this->assertResponse($response);
+		$this->assertRole($role, $data);
 	}
 
-	public function testShow()
+	public function testUpdateExistingRoleReturnsError()
 	{
-		$this->setupTestRoles();
-		$expect = $this->getTestRoles(1);
-		$response = $this->call('GET', 'api/role/'. $expect['id']);
-		$this->assertRoleFields($expect, json_decode($response->getContent()));
-	}
-
-	public function testUpdate()
-	{
-		$this->setupTestRoles();
-		$expect = $this->getTestRoles(1);
-		$changes = array('name' => 'Writer');
-		$expect = array_merge($expect, $changes);
-		$response = $this->call('PUT', 'api/role/'. $expect['id'], $changes);
-		$this->assertRoleFields($expect, json_decode($response->getContent()));
-	}
-
-	public function testUpdateFailValidationReturnsError()
-	{
-		$this->setupTestRoles();
-		$expects = $this->getTestRoles();
-		// Try to change role name to already existing name
-		$response = $this->call('PUT', 'api/role/'. $expects[1]['id'], array(
-			'name' => $expects[2]['name']
+		$roles = Woodling::savedList('Role', 3);
+		$response = $this->call('PUT', '/api/roles/'. $roles[2]->id, array(
+			'name' => $roles[1]->name
 		));
-		$response = json_decode($response->getContent());
-		$this->assertResponseStatus(401);
-		$this->assertNotEmpty($response->errors->name);
+		$data = $this->assertResponse($response, true);
+		$this->assertContains('taken', $data->errors[0]);
 	}
 
-	public function testDestroy()
+	public function testDeleteRole()
 	{
-		$this->setupTestRoles();
-		$expect = $this->getTestRoles(1);
-		$response = $this->call('DELETE', 'api/role/'. $expect['id']);
-		$response = json_decode($response->getContent());
-		// @todo: Determine a common response to use here
-		$this->assertEquals('OK', $response->success);
-		$id = DB::table('roles')->where('id', $expect['id'])->pluck('id');
+		$role = Woodling::saved('Role');
+		$response = $this->call('DELETE', '/api/roles/'. $role->id);
+		$data = $this->assertResponse($response);
+		$id = DB::table('roles')->where('id', $role->id)->pluck('id');
 		$this->assertEmpty($id);
 	}
 

@@ -5,7 +5,7 @@ class RoleController extends BaseController {
   /**
    * Get a list of all roles
    */
-  public function getIndex()
+  public function index()
   {
     return Role::all();
   }
@@ -13,29 +13,29 @@ class RoleController extends BaseController {
   /**
    * Get a role record
    */
-  public function getShow($id)
+  public function show($id)
   {
-    if (is_numeric($id)) {
-      return Role::find($id);
-    } else {
-      return Role::where('name', $id)->first();
+    $role = Role::find($id);
+    if ($role) {
+      return $role;
     }
+    return $this->responseError("Role not found");
   }
 
   /**
    * Stores new role
    *
    */
-  public function postIndex()
+  public function store()
   {
     $role = new Role;
     $role->name = Input::get('name');
     $role->save();
     if ($role->id) {
-      // Return newly created user object
-      return $this->getShow($role->id);
+      // Return newly created object
+      return $this->show($role->id);
     } else {
-      return $this->responseError($role->errors());
+      return $this->responseError($role->errors()->all(':message'));
     }
   }
 
@@ -44,14 +44,14 @@ class RoleController extends BaseController {
    * @param  integer $id Role id
    * @return json Role object
    */
-  public function putIndex($id)
+  public function update($id)
   {
     $role = Role::find($id);
     $role->name = Input::get('name');
     if ($role->updateUniques()) {
-      return $this->getShow($role->id);
+      return $this->show($role->id);
     } else {
-      return $this->responseError($role->errors());
+      return $this->responseError($role->errors()->all(':message'));
     }
 
   }
@@ -61,7 +61,7 @@ class RoleController extends BaseController {
    * @param  integer $id Role id
    * @return json
    */
-  public function deleteIndex($id)
+  public function destroy($id)
   {
     $role = Role::find($id);
      if ($role->delete()) {

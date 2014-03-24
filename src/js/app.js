@@ -52,8 +52,17 @@ angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular
       controller: 'AdminRolesCtrl',
       templateUrl: '/views/admin/roles.html',
       resolve: {
-        roles: function (RoleService) {
-          return RoleService.query();
+        roles: function (Api) {
+          return Api.Roles.query().$promise;
+        }
+      }
+    })
+    .when('/admin/roles/:id/edit', {
+      controller: 'AdminRolesEditCtrl',
+      templateUrl: '/views/admin/roles-edit.html',
+      resolve: {
+        role: function ($route, Api) {
+          return Api.Roles.get({ id: $route.current.params.id });
         }
       }
     })

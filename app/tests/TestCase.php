@@ -105,6 +105,19 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     */
   }
 
+  protected function assertRole($expect, $role)
+  {
+    // Fields that should match
+    $equals = array(
+      'id', 'name'
+    );
+    foreach ($equals as $field) {
+      if (empty($role->$field) || ($expect[$field] != $role->$field)) {
+        $this->assertEquals($expect[$field], $role->$field, "Role field $field doesn't match");
+      }
+    }
+  }
+
   /**
    * Assert against an api response
    * @param  object  $response

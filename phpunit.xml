@@ -17,5 +17,8 @@
         <testsuite name="User">
             <file>./app/tests/integration/UserIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="Role">
+            <file>./app/tests/integration/RoleIntegrationTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

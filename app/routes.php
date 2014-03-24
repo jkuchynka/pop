@@ -19,7 +19,9 @@ Route::group(array('prefix' => 'api'), function()
     'only' => array('index', 'store', 'show', 'update', 'destroy')
   ));
 
-  Route::controller('role', 'RoleController');
+  Route::resource('roles', 'RoleController', array(
+    'only' => array('index', 'store', 'show', 'update', 'destroy')
+  ));
 
 });
 

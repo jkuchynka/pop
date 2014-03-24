@@ -1,5 +1,17 @@
 
 h2 Roles
 
-table(ng-table='table')
+table.table.admin-table(ng-table="table", show-filter="false")
+  tbody
+    tr(ng-repeat="role in roles")
+      td.checkbox(header="'ng-table/headers/checkbox.html'")
+        input(type="checkbox", ng-model="checkboxes.items[user.id]")
+      td.id.right(data-title="'ID'", ng-bind="role.id", sortable="'id'", filter="{ id: 'text' }")
+      td(data-title="'Name'", ng-bind="role.name", sortable="'name'", filter="{ name: 'text' }")
+      td(data-title="'Created'", ng-bind="role.created_at", sortable="'created_at'")
+      td(data-title="'Actions'")
+        a(ng-href="#/admin/roles/{{ role.id }}/edit") Edit
+
+script(id="ng-table/headers/checkbox.html", type="text/ng-template")
+  |<input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />
 

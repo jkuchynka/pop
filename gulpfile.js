@@ -48,7 +48,8 @@ var config = {
 
 var onError = function (err) {
   gutil.beep();
-  console.log(wrap(err.message), wrap(err));
+  //console.log(wrap(err.message), wrap(err));
+  console.log(err.message);
 };
 
 gulp.task('clean', function () {
