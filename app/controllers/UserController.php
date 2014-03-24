@@ -123,6 +123,7 @@ class UserController extends BaseController {
   public function destroy($id)
   {
     $user = User::find($id);
+    DB::delete('delete from assigned_roles where user_id = ?', array($id));
     if ($user->delete()) {
       return array('success' => 'OK');
     }

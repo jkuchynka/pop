@@ -108,4 +108,16 @@ class UserRoleIntegrationTest extends TestCase {
     $this->assertEmpty($data->roles);
   }
 
+  public function testDeleteUserWithRoles()
+  {
+    $roles = Woodling::savedList('Role', 3);
+    $user = Woodling::saved('User');
+    foreach ($roles as $role) {
+      DB::insert('insert into assigned_roles (role_id, user_id) values (?, ?)',
+        array($role->id, $user->id));
+    }
+    $response = $this->call('DELETE', '/api/users/'. $user->id);
+    $this->assertResponse($response);
+  }
+
 }

@@ -6,12 +6,10 @@ angular.module('app')
   $scope.origUser = {};
   angular.extend($scope.origUser, user.data);
   $scope.roles = [];
-  roles.$promise.then(function (data) {
-    angular.forEach(data, function (val) {
-      $scope.roles.push({
-        id: val.id,
-        name: val.name
-      });
+  angular.forEach(roles, function (val) {
+    $scope.roles.push({
+      id: val.id,
+      name: val.name
     });
   });
 
@@ -19,7 +17,8 @@ angular.module('app')
     Api.Users.delete({
       id: $scope.user.id
     }, function () {
-      alert('deleted');
+      $location.path('/admin/users');
+      growl.addSuccessMessage('User ' + $scope.user.username + ' deleted.');
     });
   };
 

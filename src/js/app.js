@@ -50,7 +50,7 @@ angular.module('app', [
           return UserService.get($route.current.params.id);
         },
         roles: function ($route, Api) {
-          return Api.Roles.query();
+          return Api.Roles.query().$promise;
         }
       }
     })
