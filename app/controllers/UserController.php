@@ -8,7 +8,20 @@ class UserController extends BaseController {
   public function index($id = null)
   {
     $users = User::with('roles')->get();
-    return $users;
+    $data = $users->toArray();
+    foreach ($data as &$user) {
+      $roles = array();
+      if ( ! empty($user['roles'])) {
+        foreach ($user['roles'] as $role) {
+          $roles[] = array(
+            'id' => $role['id'],
+            'name' => $role['name']
+          );
+        }
+      }
+      $user['roles'] = $roles;
+    }
+    return $data;
   }
 
   /**
@@ -22,7 +35,18 @@ class UserController extends BaseController {
       $user = User::with('roles')->where('username', $id)->first();
     }
     if ($user) {
-      return $user;
+      $data = $user->toArray();
+      $roles = array();
+      if ( ! empty($data['roles'])) {
+        foreach ($data['roles'] as $role) {
+          $roles[] = array(
+            'id' => $role['id'],
+            'name' => $role['name']
+          );
+        }
+      }
+      $data['roles'] = $roles;
+      return $data;
     }
     return $this->responseError("User not found");
   }
@@ -71,6 +95,11 @@ class UserController extends BaseController {
     $user->username = Input::get('username');
     $user->email = Input::get('email');
 
+    if (Input::get('password')) {
+      $user->password = Input::get('password');
+      $user->password_confirmation = Input::get('password_confirmation');
+    }
+
     try {
       $updated = $user->updateUniques();
     }
@@ -79,6 +108,10 @@ class UserController extends BaseController {
     }
 
     if ($updated) {
+      // Attach any roles
+      if (Input::has('roles')) {
+        $user->saveRoles(Input::get('roles'));
+      }
       return $this->show($user->id);
     }
     return $this->responseError($user->errors()->all(':message'));

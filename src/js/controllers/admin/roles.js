@@ -1,7 +1,6 @@
 angular.module('app')
 
 .controller('AdminRolesCtrl', function ($filter, $scope, ngTableParams, roles) {
-  console.log('IN ROLES CTRL');
   $scope.title = 'Administer Roles';
   $scope.roles = [];
   $scope.checkboxes = {
@@ -19,10 +18,10 @@ angular.module('app')
       name: ''
     }
   }, {
+    counts: [], // Hide page counts control
     filterEmptyTitle: 'All',
     total: $scope.roles.length,
     getData: function ($defer, params) {
-      console.log('ROLES GET DATA', roles, roles.$resolved);
       // Use builtin angular filter
       var data = params.sorting ?
         $filter('orderBy')(roles, params.orderBy()) :

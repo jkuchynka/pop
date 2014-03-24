@@ -139,6 +139,21 @@ class UserIntegrationTest extends TestCase {
 		$this->assertUser($user, $data);
 	}
 
+	public function testUpdateUserPassword()
+	{
+		$user = Woodling::saved('User');
+		$data = $user->toArray();
+		$data['password'] = $data['password_confirmation'] = 'foobar123';
+		$response = $this->call('PUT', '/api/users/'. $user->id, $data);
+		$this->assertResponse($response);
+		$response = $this->call('POST', '/api/users/login', array(
+			'email' => $user->email,
+			'password' => 'foobar123'
+		));
+		$data = $this->assertResponse($response);
+		$this->assertUser($user, $data);
+	}
+
 	public function testUpdateNonExistantUserReturnsError()
 	{
 		$response = $this->call('PUT', '/api/users/9999', array(

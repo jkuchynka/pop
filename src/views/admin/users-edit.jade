@@ -11,5 +11,20 @@ form
     label(for="email") Email
     input.form-control#email(type="email", ng-model="user.email", required)
 
+  .form-group
+    label(for="password") Password
+    input.form-control#password(type="password", ng-model="user.password")
+
+  .form-group
+    label(for="password_confirmation") Confirm Password
+    input.form-control#password_confirmation(type="password", ng-model="user.password_confirmation")
+
+  label Roles
+  .checkbox(ng-repeat="role in roles")
+    label
+      input(type="checkbox", checklist-model="user.roles", checklist-value="role")
+      |{{ role.name }}
+
+
   button.btn.btn-primary(type="button", ng-click="update()") Save
   button.btn.btn-danger(type="button", ng-click="delete()") Delete

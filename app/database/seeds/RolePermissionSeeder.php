@@ -6,7 +6,11 @@ class RolePermissionSeeder extends Seeder {
   {
     // Seed roles & permissions
     $roles = array(
-      'admin' => array()
+      'admin' => array(),
+      'manager' => array(),
+      'editor' => array(),
+      'writer' => array(),
+      'contributor' => array(),
     );
     foreach ($roles as $name => $perms) {
       $role = new Role;

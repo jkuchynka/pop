@@ -20,5 +20,8 @@
         <testsuite name="Role">
             <file>./app/tests/integration/RoleIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="UserRole">
+            <file>./app/tests/integration/UserRoleIntegrationTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

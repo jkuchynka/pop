@@ -1,4 +1,7 @@
-angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular-growl'])
+angular.module('app', [
+  'ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular-growl',
+  'checklist-model'
+])
 
 .config(function (growlProvider) {
   growlProvider.globalTimeToLive(5000);
@@ -45,6 +48,9 @@ angular.module('app', ['ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular
       resolve: {
         user: function ($route, UserService) {
           return UserService.get($route.current.params.id);
+        },
+        roles: function ($route, Api) {
+          return Api.Roles.query();
         }
       }
     })

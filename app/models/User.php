@@ -54,7 +54,7 @@ class User extends ConfideUser {
 
 	/**
 	 * Save roles for this user
-	 * @param  array $roles Assoc. of Role
+	 * @param  array $roles Role IDs
 	 */
 	public function saveRoles($roles) {
 		if ( ! empty($roles)) {

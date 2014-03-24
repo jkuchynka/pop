@@ -87,10 +87,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     }
     // Fields that shouldn't be empty in the api response
     $isSet = array(
-      'created_at', 'updated_at'
+      'created_at', 'updated_at', 'roles'
     );
     foreach ($isSet as $field) {
-      if (empty($user->$field)) {
+      if ( ! isset($user->$field)) {
         $this->fail("User field ". $field ." should be non empty");
       }
     }

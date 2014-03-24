@@ -1,15 +1,16 @@
 angular.module('app')
 
-.controller('AdminRoleEditCtrl', function ($location, $scope, growl, role, Api) {
+.controller('AdminRolesEditCtrl', function ($location, $scope, growl, role, Api) {
 
-  $scope.role = role.data;
+  $scope.role = role;
   $scope.origRole = {};
-  angular.extend($scope.origRole, role.data);
+  angular.extend($scope.origRole, role);
 
   $scope.delete = function () {
     Api.Roles.delete({
       id: $scope.role.id
     }, function () {
+      $location.path('/admin/roles');
       growl.addSuccessMessage('Role ' + $scope.role.name + ' deleted.');
     });
   };
