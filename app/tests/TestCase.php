@@ -47,17 +47,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 		return require __DIR__.'/../../bootstrap/start.php';
 	}
 
-  /**
-   * Assert role fields
-   * @param  array $expect Expected role
-   * @param  object $role  Role object to check
-   */
-  protected function assertRoleFields($expect, $role) {
-    $err = 'Failed assertion in role object: ';
-    $this->assertEquals($expect['id'], $role->id, $err .' ->id');
-    $this->assertEquals($expect['name'], $role->name, $err .' ->name');
-    $this->assertNotEmpty($role->created_at, $err .' ->created_at');
-    $this->assertNotEmpty($role->updated_at, $err .' ->updated_at');
+  protected function assertModel($expect, $compare) {
+    $fail = function () use ($expect) {
+      $className = get_class($expect);
+      return $className .': ';
+    };
+    if (method_exists($expect, 'assertions')) {
+      $assertions = $expect->assertions();
+      if ( ! empty($assertions['equals'])) {
+        // These fields should match
+        foreach ($assertions['equals'] as $field) {
+          $this->assertEquals($expect->$field, $compare->$field, $fail());
+        }
+      }
+    } else {
+      $this->fail("Model has no function assertions.");
+    }
   }
 
   /**

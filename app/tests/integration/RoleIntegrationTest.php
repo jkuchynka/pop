@@ -10,7 +10,7 @@ class RoleIntegrationTest extends TestCase {
 		$response = $this->call('GET', '/api/roles');
 		$data = $this->assertResponse($response);
 		foreach ($data as $key => $role) {
-			$this->assertRole($roles[$key], $role);
+			$this->assertModel($roles[$key], $role);
 		}
 	}
 
@@ -19,7 +19,8 @@ class RoleIntegrationTest extends TestCase {
 		$roles = Woodling::savedList('Role', 5);
 		$response = $this->call('GET', '/api/roles/'. $roles[2]->id);
 		$data = $this->assertResponse($response);
-		$this->assertRole($roles[2], $data);
+		//$this->assertRole($roles[2], $data);
+		$this->assertModel($roles[2], $data);
 	}
 
 	public function testShowNonExistentRoleReturnsError()
@@ -35,7 +36,7 @@ class RoleIntegrationTest extends TestCase {
 		$response = $this->call('POST', '/api/roles', $role->toArray());
 		$data = $this->assertResponse($response);
 		$role->id = $data->id;
-		$this->assertRole($role, $data);
+		$this->assertModel($role, $data);
 	}
 
 	public function testStoreExistingRoleReturnsError()
@@ -56,7 +57,7 @@ class RoleIntegrationTest extends TestCase {
 		));
 		$role->name = 'foobar';
 		$data = $this->assertResponse($response);
-		$this->assertRole($role, $data);
+		$this->assertModel($role, $data);
 	}
 
 	public function testUpdateExistingRoleReturnsError()
