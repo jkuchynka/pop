@@ -2,6 +2,12 @@
 	"name": "jbizzay/pop",
 	"description": "Pop app",
 	"keywords": ["laravel", "angular"],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/jbizzay/confide.git"
+    }
+  ],
 	"require": {
 		"laravel/framework": "4.1.*",
     "laravelbook/ardent": "dev-master",
