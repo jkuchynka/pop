@@ -76,12 +76,13 @@ class UserIntegrationTest extends TestCase {
 	public function testStoreNewUserReturnsUserObject()
 	{
 		$user = Woodling::retrieve('User');
-		$data = $user->toArray();
-		$data['password'] = $data['password_confirmation'] = 'password';
-		$response = $this->call('POST', '/api/users', $data);
-		$newUser = $this->assertResponse($response);
-		$data['id'] = $newUser->id;
-		$this->assertUser($data, $newUser);
+		$params = $user->toArray();
+		$params['password'] = 'password';
+		$params['password_confirmation'] = 'password';
+		$response = $this->call('POST', '/api/users', $params);
+		$data = $this->assertResponse($response);
+		$user->id = $data->id;
+		$this->assertUser($user, $data);
 	}
 
 	public function testStoreNewUserValidationFailure()
@@ -128,23 +129,21 @@ class UserIntegrationTest extends TestCase {
 	public function testUpdateUserRecordReturnsUserObject()
 	{
 		$user = Woodling::saved('User');
-		// Make changes
-		$user['email'] = 'someother@email.net';
-		$user['username'] = 'someother';
-		$response = $this->call('PUT', '/api/users/'. $user->id, array(
-			'email' => $user['email'],
-			'username' => $user['username']
+		$changed = Woodling::retrieve('User', array(
+			'id' => $user->id
 		));
+		$response = $this->call('PUT', '/api/users/'. $user->id, $changed->toArray());
 		$data = $this->assertResponse($response);
-		$this->assertUser($user, $data);
+		$this->assertUser($changed, $data);
 	}
 
 	public function testUpdateUserPassword()
 	{
 		$user = Woodling::saved('User');
-		$data = $user->toArray();
-		$data['password'] = $data['password_confirmation'] = 'foobar123';
-		$response = $this->call('PUT', '/api/users/'. $user->id, $data);
+		$params = $user->toArray();
+		$params['password'] = 'foobar123';
+		$params['password_confirmation'] = 'foobar123';
+		$response = $this->call('PUT', '/api/users/'. $user->id, $params);
 		$this->assertResponse($response);
 		$response = $this->call('POST', '/api/users/login', array(
 			'email' => $user->email,
@@ -230,7 +229,6 @@ class UserIntegrationTest extends TestCase {
 		));
 		$data = $this->assertResponse($response);
 		$token = DB::table('password_reminders')->where('email', $user->email)->pluck('token');
-
 		$response = $this->call('POST', '/api/users/reset', array(
 			'token' => $token,
 			'password' => 'newpassword2',
@@ -241,7 +239,6 @@ class UserIntegrationTest extends TestCase {
 			'email' => $user->email,
 			'password' => 'newpassword2'
 		));
-		echo 'called login';
 		$data = $this->assertResponse($response);
 		$this->assertUser($user, $data);
 	}

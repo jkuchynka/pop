@@ -8,6 +8,13 @@ class User extends ConfideUser {
 
   public $autoPurgeRedundantAttributes = true;
 
+ 	public static $rules = array(
+	  'username' => 'required|alpha_dash|unique:users',
+	  'email' => 'required|email|unique:users',
+	  'password' => 'required|min:4|confirmed',
+    'password_confirmation' => 'min:4',
+	);
+
 	/**
 	 * The database table used by the model.
 	 *
@@ -20,7 +27,7 @@ class User extends ConfideUser {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('password', 'confirmation_code');
+	protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
 
 	/**
 	 * Get the unique identifier for the user.

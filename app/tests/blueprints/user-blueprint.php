@@ -9,6 +9,8 @@ Woodling::seed('User', function ($blueprint) {
   $blueprint->sequence('username', function($i) {
     return 'test_'. $i;
   });
-  $blueprint->password = $blueprint->password_confirmation = 'password';
+  $blueprint->password = 'password';
+  $blueprint->password_confirmation = 'password';
+  $blueprint->confirmation_code = rand(100, 1000);
   $blueprint->confirmed = 1;
 });

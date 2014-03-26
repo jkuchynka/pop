@@ -72,37 +72,32 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
       'id', 'username', 'email'
     );
     foreach ($equals as $field) {
-      if (empty($user->$field) || ($expect[$field] != $user->$field)) {
-        $this->assertEquals($expect[$field], $user->$field, "User field $field doesn't match");
-      }
+      $this->assertObjectHasAttribute($field, $user, "User field should be set: $field .");
+      $this->assertEquals($expect->$field, $user->$field, "User field doesn't match: $field .");
     }
     // Fields that shouldn't be set in the api response
     $notSet = array(
       'password', 'password_confirmation', 'confirmation_code'
     );
     foreach ($notSet as $field) {
-      if (isset($user->$field)) {
-        $this->fail("User field shouldn't be set: ". $field);
-      }
+      $this->assertObjectNotHasAttribute($field, $user, "User field shouldn't be set: $field .");
     }
     // Fields that shouldn't be empty in the api response
+    $notEmpty = array(
+      'created_at', 'updated_at'
+    );
+    foreach ($notEmpty as $field) {
+      if (empty($user->$field)) {
+        $this->fail("User field shouldn't be empty: $field .");
+      }
+    }
+    // Fields that should be set (allows empty)
     $isSet = array(
-      'created_at', 'updated_at', 'roles'
+      'roles'
     );
     foreach ($isSet as $field) {
-      if ( ! isset($user->$field)) {
-        $this->fail("User field ". $field ." should be non empty");
-      }
+      $this->assertObjectHasAttribute($field, $user, "User field should be set: $field .");
     }
-
-/*
-    $roles = array();
-    if ( ! empty($expect['roles'])) {
-      foreach ($expect['roles'] as $role) {
-        $roles[] = (object) $role;
-      }
-    }
-    */
   }
 
   protected function assertRole($expect, $role)
@@ -112,9 +107,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
       'id', 'name'
     );
     foreach ($equals as $field) {
-      if (empty($role->$field) || ($expect[$field] != $role->$field)) {
-        $this->assertEquals($expect[$field], $role->$field, "Role field $field doesn't match");
-      }
+      $this->assertEquals($expect->field, $role->field, "Role field doesn't match: $field .");
     }
   }
 

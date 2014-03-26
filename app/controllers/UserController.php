@@ -58,25 +58,19 @@ class UserController extends BaseController {
   {
     $user = new User;
 
-    $user->username = Input::get( 'username' );
-    $user->email = Input::get( 'email' );
-    $user->password = Input::get( 'password' );
-
-    // The password confirmation will be removed from model
-    // before saving. This field will be used in Ardent's
-    // auto validation.
-    $user->password_confirmation = Input::get( 'password_confirmation' );
+    $user->username = Input::get('username');
+    $user->email = Input::get('email');
+    $user->password = Input::get('password');
+    $user->password_confirmation = Input::get('password_confirmation');
+    $user->confirmation_code = md5( uniqid(mt_rand(), true) );
 
     // Save if valid. Password field will be hashed before save
     $user->save();
 
-    if ( $user->id )
-    {
+    if ($user->id) {
       // Return newly created user object
       return $this->show($user->id);
-    }
-    else
-    {
+    } else {
       return $this->responseError($user->errors()->all(':message'));
     }
   }
