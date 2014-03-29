@@ -4,6 +4,7 @@ angular.module('app')
   return {
     restrict: 'A',
     templateUrl: '/views/usermenu.html',
+    scope: true,
     link: function (scope, element, attrs) {
       // When initializing the app or when current user changes (login/logout)
       // Update the user scope

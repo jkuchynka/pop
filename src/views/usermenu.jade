@@ -1,14 +1,13 @@
 
-ul.nav.navbar-nav.navbar-right(ng-if='user.id')
+ul.nav.navbar-nav.navbar-right(ng-if="user.id")
   li
     span.navbar-text Yo, &nbsp;
-      a(ng-href='#/user/{{ user.username }}', ng-bind='user.username')
+      a(ng-href="#/user/{{ user.username }}", ng-bind="user.username")
       | !
-  li(ng-if='isAdmin')
-    a(href='#/admin') Admin
   li
-    a.fa.fa-lg.fa-sign-out(href='/logout', title='Logout')
+    a(href="", ng-click="toggleNav('right')")
+      i.fa.fa-2x.fa-bars
 
-ul.nav.navbar-nav.navbar-right(ng-if='!user.id')
+ul.nav.navbar-nav.navbar-right(ng-if="!user.id")
   li
-    a(href='#/login') Login
+    a(href="#/login") Login

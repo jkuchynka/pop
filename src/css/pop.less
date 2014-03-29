@@ -1,15 +1,78 @@
 @import 'variables.less';
 
+html {
+  height: 100%;
+}
+
 body {
   background: @background-color;
   color: @text-color;
   font-family: Lato, sans-serif;
   min-height: 100%;
-  padding-top: 55px;
+  height: 100%;
+  padding-top: 50px;
+  > .container-fluid {
+    background: #f9f9f9;
+    min-height: 100%;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.navbar-default {
+  height: 50px;
+  .navbar-nav {
+    > li > a {
+      padding-top: 12px;
+      padding-bottom: 0;
+    }
+    > li > .navbar-brand {
+      padding-top: 15px;
+      padding-left: 25px;
+    }
+  }
 }
 
 .subnav {
-  margin: 0 0 12px 0;
+  background: @dark-bg;
+  height: 100%;
+  width: @subnav-width;
+  position: absolute;
+  top: 0;
+  color: #f9f9f9;
+  padding-top: 50px;
+  .navbar-text {
+    float: none;
+  }
+}
+
+.subnav-left {
+  left: 0;
+}
+.subnav-right {
+  right: 0;
+}
+
+.show-right-nav-add, .show-right-nav-remove,
+.show-left-nav-add, .show-left-nav-remove {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.show-right-nav,
+.show-right-nav-add.show-right-nav-active {
+  margin-right: @subnav-width;
+}
+.show-right-nav-remove.show-right-nav-remove-active {
+  margin-right: 0;
+}
+
+.show-left-nav,
+.show-left-nav-add.show-left-nav-active {
+  margin-left: @subnav-width;
+}
+.show-left-nav-remove.show-left-nav-remove-active {
+  margin-left: 0;
 }
 
 .admin-table {
@@ -30,4 +93,8 @@ body {
   td.right {
     text-align: right;
   }
+}
+
+.view {
+  position: relative;
 }

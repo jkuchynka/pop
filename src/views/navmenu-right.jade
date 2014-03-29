@@ -1,0 +1,15 @@
+
+div.subnav-wrapper
+  ul.nav.nav-pills.nav-stacked
+    li
+      a(href="/logout", title="Logout")
+        |Logout &nbsp;
+        i.fa.fa-lg.fa-sign-out
+
+  ul.nav.nav-pills.nav-stacked(ng-if="isAdmin")
+    li
+      p.navbar-text ADMIN
+    li
+      a(href="#/admin/users") Users
+    li
+      a(href="#/admin/roles") Roles

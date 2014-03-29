@@ -18,8 +18,11 @@ var bower       = require('bower'),
     plumber     = require('gulp-plumber'),
     rev         = require('gulp-rev'),
     gutil       = require('gulp-util'),
+    rimraf      = require('gulp-rimraf')
+    watch       = require('gulp-watch')
     path        = require('path'),
-    rimraf      = require('gulp-rimraf');
+    lr          = require('tiny-lr'),
+    server      = lr();
 
 // Setup config
 var config = {
@@ -43,7 +46,8 @@ var config = {
   jade: {
     locals: {},
     pretty: !gutil.env.production
-  }
+  },
+  lrPort: 35729
 };
 
 var onError = function (err) {
@@ -100,7 +104,8 @@ gulp.task('inject', ['clean', 'index'], function () {
   return gulp.src(config.dest + 'index.html')
     .pipe(inject(bower, config.injectVendor))
     .pipe(inject(es.merge(styles, scripts), config.inject))
-    .pipe(gulp.dest(config.dest));
+    .pipe(gulp.dest(config.dest))
+    .pipe(livereload(server));
 });
 
 gulp.task('templates', ['clean'], function () {
@@ -119,9 +124,21 @@ gulp.task('usemin', ['inject'], function () {
     .pipe(gulp.dest(dest));
 });
 
-gulp.task('default', function () {
+gulp.task('watch', function () {
   gulp.start('run', function () {
-
+    server.listen(config.lrPort, function (err) {
+      if (err) {
+        return console.log(err);
+      }
+      gulp.watch([
+        config.src + 'js/**/*.js',
+        config.src + 'css/**/*.less',
+        config.src + 'views/**/*.jade',
+        config.src + 'copy/**/*',
+        config.src + 'img/**/*.{png,svg,gif,jpg}',
+        config.src + 'index.jade'
+      ], ['run']);
+    })
   });
 });
 

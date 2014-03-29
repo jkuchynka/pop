@@ -25,7 +25,9 @@
     "gulp-plumber": "latest",
     "gulp-less": "latest",
     "event-stream": "latest",
-    "gulp-rimraf": "latest"
+    "gulp-livereload": "~1.2.0",
+    "gulp-watch": "~0.5.3",
+    "tiny-lr": "0.0.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
