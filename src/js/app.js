@@ -1,6 +1,6 @@
 angular.module('app', [
   'ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular-growl',
-  'checklist-model'
+  'checklist-model', 'angularFileUpload'
 ])
 
 .config(function (growlProvider) {

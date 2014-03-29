@@ -57,7 +57,10 @@ var onError = function (err) {
 };
 
 gulp.task('clean', function () {
-  return gulp.src(config.dest + '**/*', {read: false})
+  return gulp.src([
+      config.dest + '**/*',
+      '!' + config.dest + '{uploads,uploads/**}'
+    ], {read: false})
     .pipe(plumber({ errorHandler: onError }))
     .pipe(rimraf());
 });
@@ -104,8 +107,8 @@ gulp.task('inject', ['clean', 'index'], function () {
   return gulp.src(config.dest + 'index.html')
     .pipe(inject(bower, config.injectVendor))
     .pipe(inject(es.merge(styles, scripts), config.inject))
-    .pipe(gulp.dest(config.dest))
-    .pipe(livereload(server));
+    .pipe(gulp.dest(config.dest));
+    //.pipe(livereload(server));
 });
 
 gulp.task('templates', ['clean'], function () {
@@ -125,7 +128,7 @@ gulp.task('usemin', ['inject'], function () {
 });
 
 gulp.task('watch', function () {
-  gulp.start('run', function () {
+  gulp.start('default', function () {
     server.listen(config.lrPort, function (err) {
       if (err) {
         return console.log(err);
@@ -137,9 +140,9 @@ gulp.task('watch', function () {
         config.src + 'copy/**/*',
         config.src + 'img/**/*.{png,svg,gif,jpg}',
         config.src + 'index.jade'
-      ], ['run']);
+      ], ['default']);
     })
   });
 });
 
-gulp.task('run', ['clean', 'copy', 'templates', 'index', 'inject', 'usemin']);
+gulp.task('default', ['clean', 'copy', 'templates', 'index', 'inject', 'usemin']);

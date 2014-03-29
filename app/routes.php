@@ -14,6 +14,7 @@ Route::group(array('prefix' => 'api'), function()
     Route::put('confirm', 'UserController@putConfirm');
     Route::post('forgot', 'UserController@postForgot');
     Route::post('reset', 'UserController@postReset');
+    Route::post('image/{id}', 'UserController@postImage');
   });
   Route::resource('users', 'UserController', array(
     'only' => array('index', 'store', 'show', 'update', 'destroy')
@@ -23,6 +24,12 @@ Route::group(array('prefix' => 'api'), function()
     'only' => array('index', 'store', 'show', 'update', 'destroy')
   ));
 
+  Route::resource('upload', 'UploadController', array(
+    'only' => array('index', 'store', 'show')
+  ));
+
+  Route::controller('upload', 'UploadController');
+
 });
 
 // When logging out, calls the server directly and redirect back to
@@ -31,13 +38,6 @@ Route::get('logout', function () {
   Confide::logout();
   return Redirect::to('/');
 });
-
-// Confide RESTful route
-Route::get('user/confirm/{code}', 'UserController@getConfirm');
-Route::get('user/reset/{token}', 'UserController@getReset');
-//Route::controller( 'user', 'UserController');
-//
-
 
 /**
  * Catchall route.
@@ -57,3 +57,4 @@ Route::any('{all}', function()
   // Inject CSRF
   return str_replace('INJECT_CSRF_TOKEN', csrf_token(), $index);
 })->where('all', '.*');
+

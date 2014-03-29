@@ -30,9 +30,9 @@ class UserController extends BaseController {
   public function show($id)
   {
     if (is_numeric($id)) {
-      $user = User::with('roles')->find($id);
+      $user = User::with('roles')->with('image')->find($id);
     } else {
-      $user = User::with('roles')->where('username', $id)->first();
+      $user = User::with('roles')->with('image')->where('username', $id)->first();
     }
     if ($user) {
       $data = $user->toArray();
@@ -46,6 +46,12 @@ class UserController extends BaseController {
         }
       }
       $data['roles'] = $roles;
+      if ( ! empty($data['image'])) {
+        $data['image'] = array(
+          'id' => $data['image']['id'],
+          'uri' => str_replace('/public', '', $data['image']['path']) . $data['image']['filename']
+        );
+      }
       return $data;
     }
     return $this->responseError("User not found");
@@ -105,6 +111,15 @@ class UserController extends BaseController {
       // Attach any roles
       if (Input::has('roles')) {
         $user->saveRoles(Input::get('roles'));
+      }
+      // Save user image
+      if (Input::has('image')) {
+        $image = Input::get('image');
+        if ($image['id']) {
+          $upload = Upload::find($image['id']);
+          $upload->upload_type = 'userimage';
+          $upload->update();
+        }
       }
       return $this->show($user->id);
     }
@@ -237,6 +252,41 @@ class UserController extends BaseController {
   {
     Confide::logout();
     return array('success' => 'OK');
+  }
+
+  /**
+   * Save a user image
+   */
+  public function postImage($id)
+  {
+    $file = Input::file('file');
+
+    $upload = new Upload;
+    // Set owner of file to passed user
+    $upload->user_id = $id;
+    // Set to temp for now
+    $upload->upload_type = 'temp';
+
+    try {
+      $upload->process($file);
+    } catch(Exception $exception){
+      // Something went wrong. Log it.
+      Log::error($exception);
+      // Return error
+      return $this->responseError($exception->getMessage());
+    }
+
+    // If it now has an id, it should have been successful.
+    if ( $upload->id ) {
+      // Return user record, which should have new image attached
+      return array(
+        'id' => $upload->id,
+        'uri' => str_replace('/public', '', $upload->path) . $upload->filename
+      );
+    } else {
+      return $this->responseError("Error uploading file");
+    }
+
   }
 
 }

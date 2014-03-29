@@ -29,6 +29,11 @@ class User extends ConfideUser {
 	 */
 	protected $hidden = array('password', 'password_confirmation', 'confirmation_code');
 
+	public function image()
+	{
+		return $this->hasOne('Upload', 'user_id', 'id')->where('uploads.upload_type', 'userimage');
+	}
+
 	/**
 	 * Get the unique identifier for the user.
 	 *

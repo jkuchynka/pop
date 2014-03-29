@@ -25,9 +25,16 @@
     "fontawesome": "latest",
     "ng-table": "git://github.com/jbizzay/ng-table#~0.3.1",
     "angular-growl": "~0.4.0",
-    "angular-checklist-model": "~0.1.3"
+    "angular-checklist-model": "~0.1.3",
+    "es5-shim": "latest",
+    "ng-file-upload": "latest"
   },
   "overrides": {
+    "es5-shim": {
+      "main": [
+        "./es5-shim.js"
+      ]
+    },
     "fontawesome": {
       "main": [
         "./css/font-awesome.css",
