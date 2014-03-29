@@ -59,7 +59,8 @@ var onError = function (err) {
 gulp.task('clean', function () {
   return gulp.src([
       config.dest + '**/*',
-      '!' + config.dest + '{uploads,uploads/**}'
+      '!' + config.dest + '{uploads,uploads/**}',
+      '!' + config.dest + '{image,image/**}'
     ], {read: false})
     .pipe(plumber({ errorHandler: onError }))
     .pipe(rimraf());

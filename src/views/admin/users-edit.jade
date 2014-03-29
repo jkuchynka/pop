@@ -6,7 +6,7 @@ form.form-edit-user
   .form-group
     label(for="image") Image
     div(ng-show="user.image")
-      img.user-image(ng-src="{{ user.image.uri }}")
+      img.user-image(ng-src="/image/medium{{ user.image.uri }}")
       button.btn.btn-danger(type="button", ng-click="removeImage()") Remove
 
     div(ng-show="!user.image")

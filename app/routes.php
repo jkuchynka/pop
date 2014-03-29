@@ -32,6 +32,11 @@ Route::group(array('prefix' => 'api'), function()
 
 });
 
+// If a file doesn't exist in the public/image folder yet,
+// Laravel will call this route.
+// Generate the image and return it
+Route::get('image/{size}/{file}', 'ImageController@getImage')->where('file', '.*');
+
 // When logging out, calls the server directly and redirect back to
 // the app's homepage
 Route::get('logout', function () {
