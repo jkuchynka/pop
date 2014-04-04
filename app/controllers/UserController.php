@@ -7,7 +7,7 @@ class UserController extends BaseController {
    */
   public function index($id = null)
   {
-    $users = User::with('roles')->get();
+    $users = User::with('roles')->with('image')->get();
     $data = $users->toArray();
     foreach ($data as &$user) {
       $roles = array();
@@ -19,7 +19,15 @@ class UserController extends BaseController {
           );
         }
       }
+      $image = array();
+      if ( ! empty($user['image'])) {
+        $image = array(
+          'id' => $user['image']['id'],
+          'uri' => str_replace('/public', '', $user['image']['path']) . $user['image']['filename']
+        );
+      }
       $user['roles'] = $roles;
+      $user['image'] = $image;
     }
     return $data;
   }

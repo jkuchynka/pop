@@ -1,13 +1,16 @@
 
 h2 Users
 
-table#admin-users-table.table.admin-table(ng-table="table", show-filter="true")
+table#admin-users-table.table.table-striped.table-condensed.admin-table(ng-table="table", show-filter="true")
   tbody
     tr(ng-repeat="user in users")
       td.checkbox(header="'ng-table/headers/checkbox.html'")
         input(type="checkbox", ng-model="checkboxes.items[user.id]")
       td.id.right(data-title="'ID'", ng-bind="user.id", sortable="'id'", filter="{ id: 'text' }")
-      td(data-title="'Username'", ng-bind="user.username", sortable="'username'", filter="{ username: 'text' }")
+      td(data-title="'Username'", sortable="'username'", filter="{ username: 'text' }")
+        img(ng-src="/image/thumb{{ user.image.uri }}" ng-if="user.image.uri")
+        img(ng-src="/image/thumb/img/default-userimage.png" ng-if="!user.image.uri")
+        |&nbsp; {{ user.username }}
       td(data-title="'Email'", ng-bind="user.email", sortable="'email'", filter="{ email: 'text' }")
       td(data-title="'Created'", ng-bind="user.created_at", sortable="'created_at'")
       td(data-title="'Roles'", sortable="'roles'")

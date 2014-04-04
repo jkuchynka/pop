@@ -4,7 +4,8 @@ div.subnav-wrapper
     li.header
       p.navbar-text
         |{{ user.username }}
-        img.user-image(ng-src="/image/thumb{{ user.image.uri }}")
+        img.user-image(ng-src="/image/thumb{{ user.image.uri }}" ng-if="user.image.uri")
+        img.user-image(ng-src="/image/thumb/img/default-userimage.png" ng-if="!user.image.uri")
     li
       a(href="#/user/{{ user.id }}/edit") Edit Profile
     li
