@@ -1,13 +1,18 @@
 angular.module('app')
 
-.factory('AuthService', function ($http, $rootScope, Flash, CSRF_TOKEN) {
+.factory('AuthService', function ($rootScope, growl, Restangular, CSRF_TOKEN) {
 
   var loginSuccess = function (response) {
-    Flash.show("Welcome back, " + response.username);
+    growl.addSuccessMessage("Welcome back, " + response.username);
   };
 
   var loginError = function (response) {
-    Flash.show(response.error);
+    growl.addErrorMessage(response.error);
+  };
+
+  var loadCurrentUser = function () {
+    currentUser = Restangular.one('auth/current').get().$object;
+    return currentUser;
   };
 
   var currentUser = {};
@@ -19,23 +24,19 @@ angular.module('app')
         password: creds.password,
         csrf_token: CSRF_TOKEN
       };
-      var login = $http.post('/api/auth', sanCreds);
-      login.success(Flash.clear);
-      login.success(this.loadCurrentUser);
-      login.success(loginSuccess);
-      login.error(loginError);
+      var login = Restangular
+        .all('auth')
+        .post(sanCreds)
+        .then(function (response) {
+          loadCurrentUser();
+          loginSuccess(response);
+        }, loginError);
       return login;
     },
     getCurrentUser: function() {
       return currentUser;
     },
-    loadCurrentUser: function () {
-      call = $http.get('/api/auth/current');
-      call.success(function (response) {
-        currentUser = response;
-      });
-      return call;
-    },
+    loadCurrentUser: loadCurrentUser,
     userCanAccess: function (path) {
       var access = false;
       switch (path) {

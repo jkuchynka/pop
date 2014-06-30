@@ -4,7 +4,11 @@ angular.module('app', [
 ])
 
 .config(function (growlProvider) {
-  growlProvider.globalTimeToLive(5000);
+  growlProvider.globalTimeToLive(4000);
+})
+
+.config(function (RestangularProvider) {
+  RestangularProvider.setBaseUrl('/api');
 })
 
 .config(function ($routeProvider) {
@@ -77,12 +81,31 @@ angular.module('app', [
     });
 })
 
-.run(function ($rootScope, AuthService, Flash) {
-  console.log('event: app.run');
-  $rootScope.greeting = 'Hello world!';
+.run(function ($rootScope, AuthService) {
+  $rootScope.showNav = false;
+  $rootScope.toggleNav = function (pos) {
+    if ( ! pos) {
+      $rootScope.showNav = false;
+    } else if ( ! $rootScope.showNav) {
+      $rootScope.showNav = pos;
+    } else {
+      if ($rootScope.showNav == pos) {
+        $rootScope.showNav = false;
+      } else {
+        $rootScope.showNav = pos;
+      }
+    }
+  };
+  $rootScope.bodyClass = function () {
+    var classes = [];
+    if ($rootScope.showNav) {
+      classes.push('show-' + $rootScope.showNav + '-nav');
+    }
+    return classes;
+  };
   // Load up the currently logged in user from the server
   AuthService.loadCurrentUser();
-  $rootScope.$on('$routeChangeStart', function () {
-    //FlashService.clear();
+  $rootScope.$on('$locationChangeStart', function (evt, next, current) {
+    $rootScope.toggleNav();
   });
 });

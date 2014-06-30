@@ -1,17 +1,19 @@
 angular.module('app')
 
-.directive('navMenuRight', function (AuthService, $location) {
+.directive('navMenuRight', function (AuthService, $location, $rootScope) {
   return {
     restrict: 'A',
     templateUrl: '/views/navmenu-right.html',
     transclude: true,
     link: function (scope, element, attrs) {
+
       // When initializing the app or when current user changes (login/logout)
       // Update the user scope
       scope.user = {};
       scope.isAdmin = false;
       scope.$watch(AuthService.getCurrentUser, function () {
         scope.user = AuthService.getCurrentUser();
+        console.log('user', scope.user);
         scope.isAdmin = AuthService.userCanAccess('admin');
       });
 

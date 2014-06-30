@@ -130,10 +130,10 @@ gulp.task('usemin', ['inject'], function () {
 
 gulp.task('watch', function () {
   gulp.start('default', function () {
-    server.listen(config.lrPort, function (err) {
-      if (err) {
-        return console.log(err);
-      }
+    //server.listen(config.lrPort, function (err) {
+      //if (err) {
+        //return console.log(err);
+      //}
       gulp.watch([
         config.src + 'js/**/*.js',
         config.src + 'css/**/*.less',
@@ -142,7 +142,7 @@ gulp.task('watch', function () {
         config.src + 'img/**/*.{png,svg,gif,jpg}',
         config.src + 'index.jade'
       ], ['default']);
-    })
+    //})
   });
 });
 
