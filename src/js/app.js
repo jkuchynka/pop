@@ -1,10 +1,10 @@
 angular.module('app', [
   'ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular-growl',
-  'checklist-model', 'angularFileUpload', 'restangular'
+  'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap'
 ])
 
 .config(function (growlProvider) {
-  growlProvider.globalTimeToLive(4000);
+  growlProvider.globalTimeToLive(5000);
 })
 
 .config(function (RestangularProvider) {
@@ -32,6 +32,10 @@ angular.module('app', [
     .when('/user/:username', {
       controller: 'UserCtrl',
       templateUrl: '/views/user.html'
+    })
+    .when('/user/:userid/edit', {
+      controller: 'UserEditCtrl',
+      templateUrl: '/views/user-edit.html'
     })
     .when('/admin', {
       controller: 'AdminCtrl',
@@ -104,7 +108,9 @@ angular.module('app', [
     return classes;
   };
   // Load up the currently logged in user from the server
-  AuthService.loadCurrentUser();
+  AuthService.loadCurrentUser().then(function (user) {
+    console.log('Current user', user);
+  });
   $rootScope.$on('$locationChangeStart', function (evt, next, current) {
     $rootScope.toggleNav();
   });

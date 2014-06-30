@@ -53,7 +53,9 @@ class UserController extends \BaseController {
       if (Input::has('image')) {
         $image = Input::get('image');
         if ($image['id']) {
-          $upload = Upload::find($image['id']);
+          // Delete previous userimages
+          \Upload::where('user_id', $user->id)->where('upload_type', 'userimage')->delete();
+          $upload = \Upload::find($image['id']);
           $upload->upload_type = 'userimage';
           $upload->update();
         }
@@ -138,7 +140,7 @@ class UserController extends \BaseController {
   {
     $file = Input::file('file');
 
-    $upload = new Upload;
+    $upload = new \Upload;
     // Set owner of file to passed user
     $upload->user_id = $id;
     // Set to temp for now
@@ -155,11 +157,7 @@ class UserController extends \BaseController {
 
     // If it now has an id, it should have been successful.
     if ( $upload->id ) {
-      // Return user record, which should have new image attached
-      return [
-        'id' => $upload->id,
-        'uri' => str_replace('/public', '', $upload->path) . $upload->filename
-      ];
+      return $upload;
     } else {
       return $this->responseError("Error uploading file");
     }

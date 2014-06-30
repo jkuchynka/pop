@@ -29,7 +29,8 @@
     "es5-shim": "latest",
     "ng-file-upload": "latest",
     "restangular": "~1.4.0",
-    "angular-bootstrap": "latest"
+    "angular-bootstrap": "latest",
+    "lodash": "~2.4.1"
   },
   "overrides": {
     "es5-shim": {

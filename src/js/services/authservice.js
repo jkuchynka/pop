@@ -11,11 +11,14 @@ angular.module('app')
   };
 
   var loadCurrentUser = function () {
-    currentUser = Restangular.one('auth/current').get().$object;
+    currentUser = Restangular
+      .one('auth/current')
+      .get({ 'with[]': ['image', 'roles'] })
+    ;
     return currentUser;
   };
 
-  var currentUser = {};
+  var currentUser = null;
 
   return {
     login: function (creds) {
@@ -34,7 +37,7 @@ angular.module('app')
       return login;
     },
     getCurrentUser: function() {
-      return currentUser;
+      return currentUser.$object;
     },
     loadCurrentUser: loadCurrentUser,
     userCanAccess: function (path) {

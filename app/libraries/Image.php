@@ -32,10 +32,12 @@ class Image {
     // Where to put resized images
     $outputDir = 'image/'. $sizeString;
 
+    //$filename = str_replace('public/', '', $filename);
+
     // Create an output file path from the size and the filename.
     $outputFile = public_path() .'/image/'. $sizeString .'/'. $filename;
 
-    $inputFile = public_path() .'/'. $filename;
+    $inputFile = base_path() .'/'. $filename;
 
     // If the resized file already exists we will just return it.
     if (File::isFile($outputFile)) {
@@ -74,7 +76,7 @@ class Image {
   public function getMimeType($filename) {
 
     // Make the input file path.
-    $inputFile = public_path() .'/' .  $filename;
+    $inputFile = base_path() .'/'.  $filename;
 
     // Get the file mimetype using the Symfony File class.
     $file = new \Symfony\Component\HttpFoundation\File\File($inputFile);

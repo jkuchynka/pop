@@ -4,6 +4,8 @@ use Confide;
 use Lang;
 use User;
 
+use Jbizzay\Magma\Magma;
+
 class AuthController extends \BaseController {
   
   /**
@@ -43,8 +45,7 @@ class AuthController extends \BaseController {
   public function show($id)
   {
     if ($user = \Confide::user()) {
-      $ctrl = new UserController;
-      return $ctrl->show($user->id);
+      return Magma::find('User', $user->id);
     }
     return [
       'id' => null,

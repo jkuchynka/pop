@@ -13,7 +13,6 @@ angular.module('app')
       scope.isAdmin = false;
       scope.$watch(AuthService.getCurrentUser, function () {
         scope.user = AuthService.getCurrentUser();
-        console.log('user', scope.user);
         scope.isAdmin = AuthService.userCanAccess('admin');
       });
 
