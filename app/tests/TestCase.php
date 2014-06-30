@@ -29,10 +29,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
    */
   protected function setupCleanTables()
   {
-    DB::table('assigned_roles')->delete();
-    DB::table('password_reminders')->delete();
-    DB::table('users')->delete();
-    DB::table('roles')->delete();
+    
   }
 
 	/**

@@ -1,6 +1,8 @@
-<?php
+<?php namespace Pop;
 
-class RoleController extends BaseController {
+use Role;
+
+class RoleController extends \BaseController {
 
   /**
    * Get a list of all roles
@@ -29,9 +31,7 @@ class RoleController extends BaseController {
   public function store()
   {
     $role = new Role;
-    $role->name = Input::get('name');
-    $role->save();
-    if ($role->id) {
+    if ($role->save()) {
       // Return newly created object
       return $this->show($role->id);
     } else {
@@ -47,7 +47,6 @@ class RoleController extends BaseController {
   public function update($id)
   {
     $role = Role::find($id);
-    $role->name = Input::get('name');
     if ($role->updateUniques()) {
       return $this->show($role->id);
     } else {
@@ -65,7 +64,7 @@ class RoleController extends BaseController {
   {
     $role = Role::find($id);
      if ($role->delete()) {
-      return array('success' => 'OK');
+      return ['success' => 'OK'];
      } else {
       return $this->responseError($role->errors());
      }

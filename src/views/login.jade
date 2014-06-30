@@ -1,13 +1,14 @@
 
 h2 Login
 
-.form-group
-	label(for='email') Email
-	input.form-control#email(type='text', ng-model='user.email', required)
+form
+  .form-group
+    label(for='email') Email
+    input.form-control#email(type='text', ng-model='user.email', required)
 
-.form-group
-	label(for='passwod') Password
-	input.form-control#password(type='password', ng-model='user.password', required)
+  .form-group
+    label(for='passwod') Password
+    input.form-control#password(type='password', ng-model='user.password', required)
 
-button.btn.btn-primary(type='button', ng-click='login()') Login
+  input.btn.btn-primary(type='submit', ng-click='login()', value='Login')
 

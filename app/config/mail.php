@@ -55,7 +55,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'http://popwords.net', 'name' => 'Pop admin'),
+	'from' => array('address' => 'admin@popwords.net', 'name' => 'Pop admin'),
 
 	/*
 	|--------------------------------------------------------------------------

@@ -112,6 +112,8 @@ return array(
     'Andrew13\Cabinet\CabinetServiceProvider',
     'Orchestra\Imagine\ImagineServiceProvider',
 
+    'Jbizzay\Magma\MagmaServiceProvider'
+
 	),
 
 	/*
@@ -183,6 +185,8 @@ return array(
     'Cabinet' => 'Andrew13\Cabinet\CabinetFacade',
     'Imagine' => 'Orchestra\Imagine\Facade',
     'Image' => 'App\Libraries\Facades\Image',
+
+    'Magma' => 'Jbizzay\Magma\MagmaFacade',
 
 	),
 

@@ -23,7 +23,7 @@ class BaseController extends Controller {
 	protected function responseError($data)
 	{
 		$data = (array) $data;
-		return Response::json(array('errors' => $data), 400);
+		return Response::json(['errors' => $data], 400);
 	}
 
 }

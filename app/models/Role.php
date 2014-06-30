@@ -5,9 +5,19 @@ use Zizaco\Entrust\EntrustRole;
 class Role extends EntrustRole
 {
 
-  public static $rules = array(
+  public $autoHydrateEntityFromInput = true;
+
+  public $forceEntityHydrationFromInput = true;
+
+  public $autoPurgeRedundantAttributes = true;
+
+  protected $fillable = [
+    'name'
+  ];
+
+  public static $rules = [
     'name' => 'required|between:4,128|unique:roles'
-  );
+  ];
 
   /**
    * When running tests and asserting an instance of this model,
@@ -16,12 +26,12 @@ class Role extends EntrustRole
    * @var array
    */
   public function assertions() {
-    return array(
+    return [
       // Fields that should match test object
-      'equals' => array(
+      'equals' => [
         'id', 'name'
-      )
-    );
+      ]
+    ];
   }
 
 

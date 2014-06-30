@@ -2,10 +2,12 @@
 	"name": "jbizzay/pop",
 	"description": "Pop app",
 	"keywords": ["laravel", "angular"],
-  "repositories": [
+  "authors": [
     {
-      "type": "vcs",
-      "url": "https://github.com/jbizzay/confide.git"
+      "name": "Jason Kuchynka",
+      "email": "jason.kuchynka@gmail.com",
+      "homepage": "http://popwords.net",
+      "role": "Developer"
     }
   ],
 	"require": {

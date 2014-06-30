@@ -1,6 +1,9 @@
-<?php
+<?php namespace Pop;
 
-class UploadController extends BaseController {
+use Exception;
+use Upload;
+
+class UploadController extends \BaseController {
 
   public function index()
   {
@@ -43,19 +46,19 @@ class UploadController extends BaseController {
     return $this->responseError("Couldn't find file.");
   }
 
-    public function getData()
-    {
-        $uploads =  Upload::leftjoin('users', 'uploads.id', '=', 'users.id')
-            ->select(
-                array('uploads.id', 'uploads.filename', 'uploads.path', 'uploads.extension',
-                    'uploads.size', 'uploads.mimetype', 'users.id as user_id', 'users.username as username')
-            );
+  public function getData()
+  {
+    $uploads =  Upload::leftjoin('users', 'uploads.id', '=', 'users.id')
+      ->select([
+        'uploads.id', 'uploads.filename', 'uploads.path', 'uploads.extension',
+        'uploads.size', 'uploads.mimetype', 'users.id as user_id', 'users.username as username'
+      ]);
 
-        return Datatables::of($uploads)
-            ->remove_column('id')
-            ->remove_column('user_id')
-            ->edit_column('username', '<a href="{{ URL::to(\'admin/users/\'.$id.\'/edit\')}}">{{$username}}</a>')
-            ->make();
-    }
+    return Datatables::of($uploads)
+      ->remove_column('id')
+      ->remove_column('user_id')
+      ->edit_column('username', '<a href="{{ URL::to(\'admin/users/\'.$id.\'/edit\')}}">{{$username}}</a>')
+      ->make();
+  }
 
 }

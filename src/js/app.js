@@ -1,6 +1,6 @@
 angular.module('app', [
   'ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular-growl',
-  'checklist-model', 'angularFileUpload'
+  'checklist-model', 'angularFileUpload', 'restangular'
 ])
 
 .config(function (growlProvider) {
@@ -78,9 +78,9 @@ angular.module('app', [
 })
 
 .run(function ($rootScope, AuthService, Flash) {
+  console.log('event: app.run');
   $rootScope.greeting = 'Hello world!';
   // Load up the currently logged in user from the server
-  // @todo: Load from local storage first for quicker page draw?
   AuthService.loadCurrentUser();
   $rootScope.$on('$routeChangeStart', function () {
     //FlashService.clear();

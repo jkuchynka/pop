@@ -19,7 +19,7 @@ angular.module('app')
         password: creds.password,
         csrf_token: CSRF_TOKEN
       };
-      var login = $http.post('/api/users/login', sanCreds);
+      var login = $http.post('/api/auth', sanCreds);
       login.success(Flash.clear);
       login.success(this.loadCurrentUser);
       login.success(loginSuccess);
@@ -30,7 +30,7 @@ angular.module('app')
       return currentUser;
     },
     loadCurrentUser: function () {
-      call = $http.get('/api/users/current');
+      call = $http.get('/api/auth/current');
       call.success(function (response) {
         currentUser = response;
       });

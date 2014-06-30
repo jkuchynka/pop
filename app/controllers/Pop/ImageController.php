@@ -1,10 +1,10 @@
-<?php
+<?php namespace Pop;
 
-class ImageController extends BaseController {
+class ImageController extends \BaseController {
 
   public function getImage($size, $filename)
   {
-    $response = Response::make(
+    $response = \Response::make(
       Image::resize($filename, $size),
       200
     );
