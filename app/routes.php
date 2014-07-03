@@ -7,6 +7,8 @@
 Route::group(['prefix' => 'api'], function()
 {
 
+  Route::post('contact', 'Pop\MessageController@contact');
+
   // Pop routes
   Route::resource('auth', 'Pop\AuthController', [
     'only' => ['store', 'show', 'destroy']
