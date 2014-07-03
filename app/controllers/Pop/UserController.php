@@ -50,14 +50,23 @@ class UserController extends \BaseController {
         $user->saveRoles(Input::get('roles'));
       }
       // Save user image
-      if (Input::has('image')) {
+      $all = Input::all();
+      if (array_key_exists('image', $all)) {
         $image = Input::get('image');
         if ($image['id']) {
           // Delete previous userimages
-          \Upload::where('user_id', $user->id)->where('upload_type', 'userimage')->delete();
+          \Upload::where('user_id', $user->id)
+            ->where('upload_type', 'userimage')
+            ->where('id', '<>', $image['id'])
+            ->delete();
           $upload = \Upload::find($image['id']);
           $upload->upload_type = 'userimage';
           $upload->update();
+        } else {
+          // Delete all userimages
+          \Upload::where('user_id', $user->id)
+            ->where('upload_type', 'userimage')
+            ->delete();
         }
       }
     });

@@ -1,5 +1,5 @@
 angular.module('app', [
-  'ngResource', 'ngRoute', 'ngAnimate', 'ngTable', 'angular-growl',
+  'ngResource', 'ngRoute', 'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
   'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap'
 ])
 
