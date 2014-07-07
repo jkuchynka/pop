@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('AdminUsersCtrl', function ($scope, $filter, Api, ngTableParams) {
+.controller('AdminUsersCtrl', function ($scope, $filter, $modal, Api, growl, ngTableParams) {
 
   $scope.initialized = false;
 
@@ -12,6 +12,31 @@ angular.module('app')
   $scope.checkboxes = {
     checked: false,
     items: {}
+  };
+
+  $scope.deleteUser = function (user) {
+    var parentScope = $scope;
+    $modal.open({
+      templateUrl: 'confirm.html',
+      controller: function ($scope, $modalInstance) {
+
+        $scope.message = 'Are you sure you want to delete the user: <i>' + user.username + '</i> ?';
+        $scope.okText = 'Delete';
+        $scope.cancelText = 'Cancel';
+
+        $scope.ok = function () {
+          user.remove().then(function () {
+            growl.addSuccessMessage('User ' + user.username + ' deleted');
+            parentScope.table.reload();
+            $modalInstance.close();
+          });
+        };
+
+        $scope.cancel = function () {
+          $modalInstance.dismiss('cancel');
+        };
+      }
+    })
   };
 
   $scope.getTableData = function ($defer, params) {
@@ -50,6 +75,10 @@ angular.module('app')
         $scope.initialized = true;
         Api.Users.getList({ 'with[]': ['image', 'roles'] }).then(function (users) {
           $scope.users = users;
+          _.each($scope.users, function (user) {
+            user.created_at = new Date(user.created_at);
+            user.updated_at = new Date(user.updated_at);
+          });
           $scope.getTableData($defer, params);
         });
       } else {

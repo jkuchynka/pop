@@ -29,13 +29,23 @@ angular.module('app', [
       controller: 'LoginCtrl',
       templateUrl: '/views/login.html'
     })
+    .when('/user/new', {
+      controller: 'FormUserCtrl',
+      templateUrl: '/views/forms/user-form.html',
+      resolve: {
+        mode: function () { return 'create'; }
+      }
+    })
     .when('/user/:username', {
       controller: 'UserCtrl',
       templateUrl: '/views/user.html'
     })
     .when('/user/:userid/edit', {
-      controller: 'UserEditCtrl',
-      templateUrl: '/views/user-edit.html'
+      controller: 'FormUserCtrl',
+      templateUrl: '/views/forms/user-form.html',
+      resolve: {
+        mode: function () { return 'edit'; }
+      }
     })
     .when('/admin', {
       controller: 'AdminCtrl',
