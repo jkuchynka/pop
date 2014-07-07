@@ -1,12 +1,36 @@
 angular.module('app')
 
-.controller('AdminUsersCtrl', function ($scope, $filter, users, ngTableParams) {
+.controller('AdminUsersCtrl', function ($scope, $filter, Api, ngTableParams) {
+
+  $scope.initialized = false;
+
   $scope.title = 'Administer Users';
+
   $scope.users = [];
+  $scope.tableUsers = [];
+
   $scope.checkboxes = {
     checked: false,
     items: {}
   };
+
+  $scope.getTableData = function ($defer, params) {
+    // Use builtin angular filter
+    var data = params.sorting ?
+      $filter('orderBy')($scope.users, params.orderBy()) :
+      $scope.roles;
+
+    data = params.filter ?
+      $filter('filter')(data, params.filter()) :
+      data;
+
+    $scope.tableUsers = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
+      
+    // Reset total
+    params.total(data.length);
+    $defer.resolve($scope.tableUsers);
+  };
+
   $scope.table = new ngTableParams({
     page: 1,
     count: 20,
@@ -22,27 +46,20 @@ angular.module('app')
     filterEmptyTitle: 'All',
     total: $scope.users.length,
     getData: function ($defer, params) {
-      console.log('getData', params);
-      // Use builtin angular filter
-      var data = params.sorting ?
-        $filter('orderBy')(users.data, params.orderBy()) :
-        users.data;
-
-      data = params.filter ?
-        $filter('filter')(data, params.filter()) :
-        data;
-
-      $scope.users = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
-      // Reset total
-      params.total(data.length);
-      // Set current paged set
-      $defer.resolve($scope.users);
-
+      if ( ! $scope.initialized) {
+        $scope.initialized = true;
+        Api.Users.getList({ 'with[]': ['image', 'roles'] }).then(function (users) {
+          $scope.users = users;
+          $scope.getTableData($defer, params);
+        });
+      } else {
+        $scope.getTableData($defer, params);
+      }
     }
   });
   // Watch for check all checkbox
   $scope.$watch('checkboxes.checked', function (value) {
-    angular.forEach($scope.users, function (item) {
+    angular.forEach($scope.tableUsers, function (item) {
       if (angular.isDefined(item.id)) {
         $scope.checkboxes.items[item.id] = value;
       }

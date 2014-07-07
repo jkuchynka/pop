@@ -13,7 +13,7 @@ angular.module('app')
   var loadCurrentUser = function () {
     currentUser = Restangular
       .one('auth/current')
-      .get({ 'with[]': ['image', 'roles'] })
+      .get({ 'with[]': ['image', 'roles', 'roles.perms'] })
     ;
     return currentUser;
   };
@@ -44,8 +44,8 @@ angular.module('app')
       var access = false;
       switch (path) {
         case 'admin':
-          if (currentUser.roles) {
-            angular.forEach(currentUser.roles, function (val) {
+          if (currentUser.$object.roles) {
+            angular.forEach(currentUser.$object.roles, function (val) {
               if (val.name == 'admin') {
                 access = true;
               }

@@ -1,23 +1,26 @@
 
 h2 Users
 
-table#admin-users-table.table.table-striped.table-condensed.admin-table(ng-table="table", show-filter="true")
+table#admin-users-table.table.table-bordered.table-striped.table-condensed(ng-table="table", show-filter="true")
   tbody
     tr(ng-repeat="user in users")
-      td.checkbox(header="'ng-table/headers/checkbox.html'")
+      td.td-checkbox(header="'ng-table/headers/checkbox.html'")
         input(type="checkbox", ng-model="checkboxes.items[user.id]")
       td.id.right(data-title="'ID'", ng-bind="user.id", sortable="'id'", filter="{ id: 'text' }")
       td(data-title="'Username'", sortable="'username'", filter="{ username: 'text' }")
-        img(ng-src="/image/thumb{{ user.image.uri }}" ng-if="user.image.uri")
-        img(ng-src="/image/thumb/img/default-userimage.png" ng-if="!user.image.uri")
-        |&nbsp; {{ user.username }}
+        img(ng-src="/image/xsmall{{ user.image.path }}{{ user.image.filename }}" ng-if="user.image.path")
+        img(ng-src="/image/xsmall/public/img/default-userimage.png" ng-if="!user.image.path")
+        |&nbsp;
+        a(ng-href="#/user/{{ user.username }}") {{ user.username }}
       td(data-title="'Email'", ng-bind="user.email", sortable="'email'", filter="{ email: 'text' }")
       td(data-title="'Created'", ng-bind="user.created_at", sortable="'created_at'")
+      td(data-title="'Updated'", ng-bind="user.updated_at", sortable="'updated_at'")
       td(data-title="'Roles'", sortable="'roles'")
         span(ng-repeat="role in user.roles")
           |{{ role.name }}{{ $last ? '' : ', ' }}
       td(data-title="'Actions'")
-        a(ng-href="#/admin/users/{{ user.id }}/edit") Edit
+        a.btn.btn-primary.btn-sm(ng-href="#/user/{{ user.id }}/edit") Edit
+        a.btn.btn-danger.btn-sm(ng-click="deleteUser(user)") Delete
 
 script(id="ng-table/headers/checkbox.html", type="text/ng-template")
   |<input type="checkbox" ng-model="checkboxes.checked" id="select_all" name="filter-checkbox" value="" />

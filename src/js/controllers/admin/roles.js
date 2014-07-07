@@ -1,12 +1,36 @@
 angular.module('app')
 
-.controller('AdminRolesCtrl', function ($filter, $scope, ngTableParams, roles) {
+.controller('AdminRolesCtrl', function ($filter, $scope, ngTableParams, Api) {
+
+  $scope.initialized = false;
+
   $scope.title = 'Administer Roles';
+
   $scope.roles = [];
+  $scope.filteredRoles = [];
+  
   $scope.checkboxes = {
     checked: false,
     items: {}
   };
+
+  $scope.filterTableData = function ($defer, params) {
+    // Use builtin angular filter
+    var data = params.sorting ?
+      $filter('orderBy')($scope.roles, params.orderBy()) :
+      $scope.roles;
+
+    data = params.filter ?
+      $filter('filter')(data, params.filter()) :
+      data;
+
+    $scope.filteredRoles = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
+      
+    // Reset total
+    params.total(data.length);
+    $defer.resolve($scope.filteredRoles);
+  };
+
   $scope.table = new ngTableParams({
     page: 1,
     count: 20,
@@ -22,20 +46,15 @@ angular.module('app')
     filterEmptyTitle: 'All',
     total: $scope.roles.length,
     getData: function ($defer, params) {
-      // Use builtin angular filter
-      var data = params.sorting ?
-        $filter('orderBy')(roles, params.orderBy()) :
-        roles;
-
-      data = params.filter ?
-        $filter('filter')(data, params.filter()) :
-        data;
-
-      $scope.roles = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
-      // Reset total
-      params.total(data.length);
-      // Set current paged set
-      $defer.resolve($scope.roles);
+      if ( ! $scope.initialized) {
+        $scope.initialized = true;
+        Api.Roles.getList().then(function (roles) {
+          $scope.roles = roles;
+          $scope.filterTableData($defer, params);
+        });
+      } else {
+        $scope.filterTableData($defer, params);
+      }
     }
   })
 });

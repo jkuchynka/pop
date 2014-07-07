@@ -14,11 +14,6 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['store', 'show', 'destroy']
   ]);
 
-  // If a file doesn't exist in the public/image folder yet,
-  // Laravel will call this route.
-  // Generate the image and return it
-  Route::get('image/{size}/{file}', 'Pop\ImageController@getImage')->where('file', '.*');
-
   Route::resource('roles', 'Pop\RoleController', [
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);

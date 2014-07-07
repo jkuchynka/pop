@@ -43,42 +43,11 @@ angular.module('app', [
     })
     .when('/admin/users', {
       controller: 'AdminUsersCtrl',
-      templateUrl: '/views/admin/users.html',
-      resolve: {
-        users: function (UserService) {
-          return UserService.query();
-        }
-      }
-    })
-    .when('/admin/users/:id/edit', {
-      controller: 'AdminUsersEditCtrl',
-      templateUrl: '/views/admin/users-edit.html',
-      resolve: {
-        user: function ($route, UserService) {
-          return UserService.get($route.current.params.id);
-        },
-        roles: function ($route, Api) {
-          return Api.Roles.query().$promise;
-        }
-      }
+      templateUrl: '/views/admin/users.html'
     })
     .when('/admin/roles', {
       controller: 'AdminRolesCtrl',
-      templateUrl: '/views/admin/roles.html',
-      resolve: {
-        roles: function (Api) {
-          return Api.Roles.query().$promise;
-        }
-      }
-    })
-    .when('/admin/roles/:id/edit', {
-      controller: 'AdminRolesEditCtrl',
-      templateUrl: '/views/admin/roles-edit.html',
-      resolve: {
-        role: function ($route, Api) {
-          return Api.Roles.get({ id: $route.current.params.id });
-        }
-      }
+      templateUrl: '/views/admin/roles.html'
     })
     .otherwise({
       redirectTo: '/'

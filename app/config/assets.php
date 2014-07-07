@@ -1,24 +1,28 @@
 <?php
 
-return array(
-  'images' => array(
-    'sizes' => array(
-      'thumb' => array(
+return [
+  'images' => [
+    'sizes' => [
+      'xsmall' => [
+        'width' => 25,
+        'height' => 25
+      ],
+      'thumb' => [
         'width' => 50,
         'height' => 50
-      ),
-      'small' => array(
+      ],
+      'small' => [
         'width' => 75,
         'height' => 75
-      ),
-      'medium' => array(
+      ],
+      'medium' => [
         'width' => 150,
         'height' => 150
-      ),
-      'large' => array(
+      ],
+      'large' => [
         'width' => 600,
         'height' => 400
-      )
-    )
-  )
-);
+      ]
+    ]
+  ]
+];

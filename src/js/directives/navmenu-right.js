@@ -14,7 +14,7 @@ angular.module('app')
       scope.$watch(AuthService.getCurrentUser, function () {
         scope.user = AuthService.getCurrentUser();
         scope.isAdmin = AuthService.userCanAccess('admin');
-      });
+      }, true);
 
       scope.showMenu = 'main';
 

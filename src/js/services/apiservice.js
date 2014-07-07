@@ -4,13 +4,13 @@ angular.module('app')
 
   var contact = Restangular.all('contact');
 
+  var roles = Restangular.all('roles');
+
+  var users = Restangular.all('users');
+
   return {
-    Users: $resource('/api/users/:id', {id: '@id'}, {
-      update: {method: 'PUT'}
-    }),
-    Roles: $resource('/api/roles/:id', {id: '@id'}, {
-      update: {method: 'PUT'}
-    }),
+    Users: users,
+    Roles: roles,
     Contact: contact
   };
 });
