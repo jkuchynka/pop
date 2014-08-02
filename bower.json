@@ -16,6 +16,7 @@
     "tests"
   ],
   "dependencies": {
+    "jquery": "~2.1.1",
     "angular": "latest",
     "angular-resource": "latest",
     "angular-route": "latest",
@@ -30,7 +31,9 @@
     "ng-file-upload": "latest",
     "restangular": "~1.4.0",
     "angular-bootstrap": "latest",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "select2": ">=3.4.0 <=3.5.0",
+    "angular-ui-select2": "~0.0.5"
   },
   "overrides": {
     "es5-shim": {

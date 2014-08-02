@@ -3,12 +3,16 @@ angular.module('app')
 .controller('FormUserCtrl', function ($location, $scope, $http, $modal, $routeParams, $timeout, $upload, growl, mode, AuthService,Restangular, Api) {
 
   var init = function () {
+    $scope.roles = Api.Roles.getList().$object;
     if (mode == 'edit') {
       Restangular
         .one('users', $routeParams.userid)
         .get({ 'with[]': ['image', 'roles'] })
         .then(function (user) {
           $scope.user = user;
+          _.each(user.roles, function (value) {
+            $scope.selectedRoles.push(value.id);
+          });
           console.log('Editing user', $scope.user);
         }, function (response) {
           growl.addErrorMessage(response.data.errors[0]);
@@ -58,6 +62,7 @@ angular.module('app')
 
   var saveUser = function () {
     if ($scope.mode == 'edit') {
+      $scope.user.roles = $scope.selectedRoles;
       $scope.user
         .put()
         .then(function (response) {
@@ -70,8 +75,11 @@ angular.module('app')
       ;
     }
     if ($scope.mode == 'create') {
+      $scope.user.roles = $scope.selectedRoles;
+      //$scope.user.roles = '';
       Api.Users.post($scope.user)
         .then(function (user) {
+          
           growl.addSuccessMessage('Success! User ' + user.username + ' created.');
           $location.path('/user/' + user.username);
         }, function (response) {
@@ -83,6 +91,8 @@ angular.module('app')
   // Setup scope
   $scope.fileUploadObj = {};
   $scope.mode = mode;
+  $scope.roles = [];
+  $scope.selectedRoles = [];
   $scope.upload = [];
   $scope.user = {};
 

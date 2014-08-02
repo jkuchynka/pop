@@ -47,7 +47,7 @@ class UserController extends \BaseController {
     return Magma::update('User', $id, [], function ($user) {
       // Attach any roles
       if (Input::has('roles')) {
-        $user->saveRoles(Input::get('roles'));
+        $user->roles()->sync(Input::get('roles'));
       }
       // Save user image
       $all = Input::all();

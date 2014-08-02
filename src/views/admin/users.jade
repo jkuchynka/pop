@@ -4,7 +4,7 @@ h2 Users
 
 table#admin-users-table.table.table-bordered.table-striped.table-condensed(ng-table="table", show-filter="true")
   tbody
-    tr(ng-repeat="user in users")
+    tr(ng-repeat="user in tableUsers")
       
       td.td-checkbox(header="'ng-table/headers/checkbox.html'")
         input(type="checkbox", ng-model="checkboxes.items[user.id]")

@@ -15,6 +15,7 @@ angular.module('app')
   };
 
   $scope.filterTableData = function ($defer, params) {
+    console.log(params.orderBy());
     // Use builtin angular filter
     var data = params.sorting ?
       $filter('orderBy')($scope.roles, params.orderBy()) :

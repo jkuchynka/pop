@@ -43,7 +43,7 @@ angular.module('app')
     // Use builtin angular filter
     var data = params.sorting ?
       $filter('orderBy')($scope.users, params.orderBy()) :
-      $scope.roles;
+      $scope.users;
 
     data = params.filter ?
       $filter('filter')(data, params.filter()) :
