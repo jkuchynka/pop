@@ -4,33 +4,34 @@ use Zizaco\Confide\ConfideUser;
 use Zizaco\Entrust\HasRole;
 
 class User extends ConfideUser {
-  use HasRole;
+	use HasRole;
 
-  public $autoHydrateEntityFromInput = true;
+	public $autoHydrateEntityFromInput = true;
 
-  public $forceEntityHydrationFromInput = true;
+	public $forceEntityHydrationFromInput = true;
 
-  public $autoPurgeRedundantAttributes = true;
+	public $autoPurgeRedundantAttributes = true;
 
-  /**
-   * Properties that can be filled through Input or mass-assigned
-   */
-  protected $fillable = [
-    'username',
-    'email',
-    'password',
-    'password_confirmation'
-  ];
-
-  /**
-   * Ardent's validation rules
-   */
- 	public static $rules = [
-	  'username' => 'required|alpha_dash|unique:users',
-	  'email' => 'required|email|unique:users',
-	  'password' => 'required|min:4|confirmed',
-    'password_confirmation' => 'min:4',
+	/**
+	 * Properties that can be filled through Input or mass-assigned
+	 */
+	protected $fillable = [
+		'username',
+		'email',
+		'password',
+		'password_confirmation'
 	];
+
+	/**
+	 * Ardent's validation rules
+	 */
+ 	public static $rules = [
+	  	'username' => 'required|alpha_dash|unique:users',
+	  	'email' => 'required|email|unique:users',
+	  	'password' => 'required|min:4|confirmed',
+    	'password_confirmation' => 'min:4',
+	];
+
 
 	/**
 	 * The database table used by the model.
@@ -41,6 +42,21 @@ class User extends ConfideUser {
 	 * The attributes excluded from the model's JSON form.
 	 */
 	protected $hidden = ['password', 'password_confirmation', 'confirmation_code'];
+
+	public function assertions()
+	{
+		return [
+			'equals' => [
+				'id', 'username', 'email'
+			],
+			'not_set' => [
+				'password', 'password_confirmation', 'confirmation_code'
+			],
+			'not_empty' => [
+				'created_at', 'updated_at'
+			]
+		];
+	}
 
 	public function image()
 	{
@@ -76,9 +92,9 @@ class User extends ConfideUser {
 	 * @param array $roles Role IDs
 	 */
 	public function saveRoles($roles) 
-  {
+	{
 		if ( ! empty($roles)) {
-			$save = array();
+			$save = [];
 			foreach ($roles as $role) {
 				$save[] = $role['id'];
 			}
