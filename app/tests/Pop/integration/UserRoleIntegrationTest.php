@@ -80,6 +80,7 @@ class UserRoleIntegrationTest extends TestCase {
     $response = $this->call('PUT', '/api/users/'. $user->id, $data);
     $data = $this->assertResponse($response);
     $this->assertModel($user, $data);
+    $this->assertObjectHasAttribute('roles', $data);
     $this->assertEmpty($data->roles);
   }
 
@@ -93,6 +94,10 @@ class UserRoleIntegrationTest extends TestCase {
     }
     $response = $this->call('DELETE', '/api/users/'. $user->id);
     $this->assertResponse($response);
+    $assigned = DB::table('assigned_roles')->get();
+    $this->assertEquals(0, count($assigned));
+    $users = DB::table('users')->get();
+    $this->assertEquals(0, count($users));
   }
 
 }

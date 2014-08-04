@@ -33,9 +33,7 @@ class UserController extends \BaseController {
     public function store()
     {
         // @todo: Access check
-        return Magma::store('User', [
-            //'confirmation_code' => md5( uniqid(mt_rand(), true) )
-        ], function ($user) {
+        return Magma::store('User', [], function ($user) {
             $this->updateUserImage($user);
         });
     }
@@ -60,7 +58,7 @@ class UserController extends \BaseController {
     {
         // @todo: Access check
         return Magma::destroy('User', $id, function ($user) {
-            DB::delete('delete from assigned_roles where user_id = ?', array($user->id));
+           // DB::delete('delete from assigned_roles where user_id = ?', array($user->id));
         });
     }
 

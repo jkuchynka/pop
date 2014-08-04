@@ -32,7 +32,13 @@ class UserSeeder extends Seeder {
       $user->created_at = $user->updated_at = time();
       $user->confirmed = 1;
       $user->updateUniques();
-      $user->saveRoles($data['roles']);
+      if ($data['roles']) {
+        $r_ids = [];
+        foreach ($data['roles'] as $role) {
+          $r_ids[] = $role['id'];
+        }
+        $user->roles()->sync($r_ids);
+      }
     }
   }
 

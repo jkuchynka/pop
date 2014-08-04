@@ -15,13 +15,13 @@ class CabinetSetupUploadsTable extends Migration {
         Schema::create('uploads', function($table)
         {
             $table->increments('id');
-            $table->string('upload_type');
+            $table->string('upload_type')->nullable();
             $table->string('filename');
             $table->string('path');
             $table->integer('size');
             $table->string('extension');
             $table->string('mimetype');
-            $table->integer('user_id')->unsigned()->index();
+            $table->integer('user_id')->unsigned()->index()->refrences('id')->on('users');
             $table->integer('parent_id')->unsigned()->index(); // If this is a child file, it'll be referenced here.
             $table->softDeletes();
             $table->timestamps();
