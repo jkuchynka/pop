@@ -8,10 +8,16 @@ class MessageController extends \BaseController {
   
     public function contact()
     {
+        $all = Input::all();
         $data = [
             'msg' => Input::get('message'),
             'input' => Input::all()
         ];
+        foreach (['message', 'subject', 'email', 'name'] as $key) {
+            if (empty($all[$key])) {
+                return $this->responseError("Missing required field: $key");
+            }
+        }
         // Email to user
         Mail::send('emails.contact.contact-user', $data, function ($message) {
         $subject = 'App Contact: ' . Input::get('subject');
