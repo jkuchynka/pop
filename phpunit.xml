@@ -14,14 +14,17 @@
         <testsuite name="Application Test Suite">
             <directory>./app/tests/</directory>
         </testsuite>
+	<testsuite name="Auth">
+	    <file>./app/tests/Pop/integration/AuthIntegrationTest.php</file>
+	</testsuite>
         <testsuite name="User">
-            <file>./app/tests/integration/UserIntegrationTest.php</file>
+            <file>./app/tests/Pop/integration/UserIntegrationTest.php</file>
         </testsuite>
         <testsuite name="Role">
-            <file>./app/tests/integration/RoleIntegrationTest.php</file>
+            <file>./app/tests/Pop/integration/RoleIntegrationTest.php</file>
         </testsuite>
         <testsuite name="UserRole">
-            <file>./app/tests/integration/UserRoleIntegrationTest.php</file>
+            <file>./app/tests/Pop/integration/UserRoleIntegrationTest.php</file>
         </testsuite>
     </testsuites>
 </phpunit>

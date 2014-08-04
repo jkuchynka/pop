@@ -150,9 +150,9 @@ class UserIntegrationTest extends TestCase {
 
 	public function testConfirmUserWithInvalidConfirmationCode()
 	{
-		$user = Woodling::saved('User', array(
+		$user = Woodling::saved('User', [
 			'confirmed' => 0
-		));
+		]);
 		$response = $this->call('PUT', '/api/users/confirm', [
 			'code' => '9999'
 		]);

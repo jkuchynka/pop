@@ -2,22 +2,22 @@
 	"name": "jbizzay/pop",
 	"description": "Pop app",
 	"keywords": ["laravel", "angular"],
-  "authors": [
-    {
-      "name": "Jason Kuchynka",
-      "email": "jason.kuchynka@gmail.com",
-      "homepage": "http://popwords.net",
-      "role": "Developer"
-    }
-  ],
+  	"authors": [
+    	{
+      		"name": "Jason Kuchynka",
+      		"email": "jason.kuchynka@gmail.com",
+      		"homepage": "http://popwords.net",
+      		"role": "Developer"
+    	}
+  	],
 	"require": {
 		"laravel/framework": "4.1.*",
-    "laravelbook/ardent": "dev-master",
-    "zizaco/confide": "dev-master",
-    "zizaco/entrust": "dev-master",
-    "summerstreet/woodling": "dev-master",
-    "andrew13/cabinet": "dev-master",
-    "orchestra/imagine": "dev-master"
+    	"laravelbook/ardent": "dev-master as 2.4.0",
+    	"zizaco/confide": "3.2.*",
+    	"zizaco/entrust": "dev-master",
+    	"andrew13/cabinet": "dev-master",
+    	"summerstreet/woodling": "dev-master",
+    	"orchestra/imagine": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
@@ -27,7 +27,7 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php",
-      "app/libraries"
+      		"app/libraries"
 		]
 	},
 	"scripts": {

@@ -2,6 +2,7 @@
 
 use Exception;
 use Upload;
+use Input;
 
 class UploadController extends \BaseController {
 

@@ -1,7 +1,8 @@
 <?php
 
-use Zizaco\Confide\ConfideUser;
 use Zizaco\Entrust\HasRole;
+use Zizaco\Confide\ConfideUser;
+use LaravelBook\Ardent\Ardent;
 
 class User extends ConfideUser {
 	use HasRole;
@@ -11,6 +12,18 @@ class User extends ConfideUser {
 	public $forceEntityHydrationFromInput = true;
 
 	public $autoPurgeRedundantAttributes = true;
+
+	public static $assertions = [
+		'equals' => [
+			'id', 'username', 'email'
+		],
+		'not_set' => [
+			'password', 'password_confirmation', 'confirmation_code'
+		],
+		'not_empty' => [
+			'created_at', 'updated_at'
+		]
+	];
 
 	/**
 	 * Properties that can be filled through Input or mass-assigned
@@ -23,6 +36,16 @@ class User extends ConfideUser {
 	];
 
 	/**
+	 * The attributes excluded from the model's JSON form.
+	 */
+	protected $hidden = ['password', 'password_confirmation', 'confirmation_code', 'remember_token'];
+
+	public static $relationsData = [
+		'image' => [self::HAS_ONE, 'Upload'],
+		'roles' => [self::BELONGS_TO_MANY, 'Role', 'table' => 'assigned_roles']
+	];
+
+	/**
 	 * Ardent's validation rules
 	 */
  	public static $rules = [
@@ -32,36 +55,17 @@ class User extends ConfideUser {
     	'password_confirmation' => 'min:4',
 	];
 
-
 	/**
 	 * The database table used by the model.
 	 */
 	protected $table = 'users';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 */
-	protected $hidden = ['password', 'password_confirmation', 'confirmation_code'];
-
-	public function assertions()
-	{
-		return [
-			'equals' => [
-				'id', 'username', 'email'
-			],
-			'not_set' => [
-				'password', 'password_confirmation', 'confirmation_code'
-			],
-			'not_empty' => [
-				'created_at', 'updated_at'
-			]
-		];
-	}
-
+/*
 	public function image()
 	{
 		return $this->hasOne('Upload', 'user_id', 'id')->where('uploads.upload_type', 'userimage');
 	}
+*/
 
 	/**
 	 * Get the unique identifier for the user.
@@ -87,21 +91,29 @@ class User extends ConfideUser {
 		return $this->email;
 	}
 
-	/**
-	 * Save roles for this user
-	 * @param array $roles Role IDs
-	 */
-	public function saveRoles($roles) 
+/*
+	public function beforeSave($forced = true)
 	{
-		if ( ! empty($roles)) {
-			$save = [];
-			foreach ($roles as $role) {
-				$save[] = $role['id'];
-			}
-			$this->roles()->sync($save);
-		} else {
-			$this->roles()->detach();
-		}
+		echo ' in test: '. $GLOBALS['PHPUNIT_TEST'] .', before save '. PHP_EOL;
+		parent::beforeSave($forced);
 	}
+
+
+	public static function boot()
+	{
+		parent::boot();
+
+		static::saving(function ($content) {
+			
+      		// beforeSave() not always getting called?
+      		// set confirmation code for new users
+      		if ( ! $content->id && ! $content->confirmation_code) {
+      			$content->confirmation_code = md5( uniqid(mt_rand(), true) );
+      		}
+      		return true;
+    	});
+
+	}
+	*/
 
 }

@@ -19,7 +19,6 @@ class RoleIntegrationTest extends TestCase {
 		$roles = Woodling::savedList('Role', 5);
 		$response = $this->call('GET', '/api/roles/'. $roles[2]->id);
 		$data = $this->assertResponse($response);
-		//$this->assertRole($roles[2], $data);
 		$this->assertModel($roles[2], $data);
 	}
 
@@ -42,9 +41,9 @@ class RoleIntegrationTest extends TestCase {
 	public function testStoreExistingRoleReturnsError()
 	{
 		$role = Woodling::saved('Role');
-		$response = $this->call('POST', '/api/roles', array(
+		$response = $this->call('POST', '/api/roles', [
 			'name' => $role->name
-		));
+		]);
 		$data = $this->assertResponse($response, true);
 		$this->assertContains('taken', $data->errors[0]);
 	}
@@ -52,9 +51,9 @@ class RoleIntegrationTest extends TestCase {
 	public function testUpdateRole()
 	{
 		$role = Woodling::saved('Role');
-		$response = $this->call('PUT', '/api/roles/'. $role->id, array(
+		$response = $this->call('PUT', '/api/roles/'. $role->id, [
 			'name' => 'foobar'
-		));
+		]);
 		$role->name = 'foobar';
 		$data = $this->assertResponse($response);
 		$this->assertModel($role, $data);
@@ -63,9 +62,9 @@ class RoleIntegrationTest extends TestCase {
 	public function testUpdateExistingRoleReturnsError()
 	{
 		$roles = Woodling::savedList('Role', 3);
-		$response = $this->call('PUT', '/api/roles/'. $roles[2]->id, array(
+		$response = $this->call('PUT', '/api/roles/'. $roles[2]->id, [
 			'name' => $roles[1]->name
-		));
+		]);
 		$data = $this->assertResponse($response, true);
 		$this->assertContains('taken', $data->errors[0]);
 	}

@@ -18,7 +18,7 @@ Route::group(['prefix' => 'api'], function()
     'only' => ['index', 'store', 'show', 'update', 'destroy']
   ]);
 
-  Route::resource('upload', 'Pop\UploadController', [
+  Route::resource('uploads', 'Pop\UploadController', [
     'only' => ['index', 'store', 'show']
   ]);
 
