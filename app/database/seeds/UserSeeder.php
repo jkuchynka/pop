@@ -2,44 +2,44 @@
 
 class UserSeeder extends Seeder {
 
-  public function run()
-  {
-    $roles = Role::all();
-    // Create users
-    $users = array(
-      'admin' => array(
-        'email' => 'jason.kuchynka@gmail.com',
-        'roles' => $roles->toArray()
-      ),
-      'jason' => array(
-        'email' => 'jason.kuchynka+jason@gmail.com',
-        'roles' => array()
-      ),
-      'test1' => array(
-        'email' => 'jason.kuchynka+test1@gmail.com',
-        'roles' => array()
-      ),
-      'test2' => array(
-        'email' => 'jason.kuchynka+test2@gmail.com',
-        'roles' => array()
-      )
-    );
-    foreach ($users as $username => $data) {
-      $user = new User;
-      $user->username = $username;
-      $user->email = $data['email'];
-      $user->password = $user->password_confirmation = 'password';
-      $user->created_at = $user->updated_at = time();
-      $user->confirmed = 1;
-      $user->updateUniques();
-      if ($data['roles']) {
-        $r_ids = [];
-        foreach ($data['roles'] as $role) {
-          $r_ids[] = $role['id'];
+    public function run()
+    {
+        $roles = Role::all();
+        // Create users
+        $users = [
+            'admin' => [
+                'email' => 'jason.kuchynka@gmail.com',
+                'roles' => $roles->toArray()
+            ],
+            'jason' => [
+                'email' => 'jason.kuchynka+jason@gmail.com',
+                'roles' => []
+            ],
+            'test1' => [
+                'email' => 'jason.kuchynka+test1@gmail.com',
+                'roles' => []
+            ],
+            'test2' => [
+                'email' => 'jason.kuchynka+test2@gmail.com',
+                'roles' => []
+            ]
+        ];
+        foreach ($users as $username => $data) {
+            $user = new User;
+            $user->username = $username;
+            $user->email = $data['email'];
+            $user->password = $user->password_confirmation = 'password';
+            $user->created_at = $user->updated_at = time();
+            $user->confirmed = 1;
+            $user->updateUniques();
+            if ($data['roles']) {
+                $r_ids = [];
+                foreach ($data['roles'] as $role) {
+                    $r_ids[] = $role['id'];
+                }
+                $user->roles()->sync($r_ids);
+            }
         }
-        $user->roles()->sync($r_ids);
-      }
     }
-  }
 
 }

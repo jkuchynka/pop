@@ -57,9 +57,7 @@ class UserController extends \BaseController {
     public function destroy($id)
     {
         // @todo: Access check
-        return Magma::destroy('User', $id, function ($user) {
-           // DB::delete('delete from assigned_roles where user_id = ?', array($user->id));
-        });
+        return Magma::destroy('User', $id);
     }
 
     /**

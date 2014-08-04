@@ -2,21 +2,21 @@
 
 class RolePermissionSeeder extends Seeder {
 
-  public function run()
-  {
-    // Seed roles & permissions
-    $roles = array(
-      'admin' => array(),
-      'manager' => array(),
-      'editor' => array(),
-      'writer' => array(),
-      'contributor' => array(),
-    );
-    foreach ($roles as $name => $perms) {
-      $role = new Role;
-      $role->name = $name;
-      $role->save();
+    public function run()
+    {
+        // Seed roles & permissions
+        $roles = [
+            'admin' => [],
+            'manager' => [],
+            'editor' => [],
+            'writer' => [],
+            'contributor' => [],
+        ];
+        foreach ($roles as $name => $perms) {
+            $role = new Role;
+            $role->name = $name;
+            $role->save();
+        }
     }
-  }
 
 }

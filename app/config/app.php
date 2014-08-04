@@ -107,12 +107,12 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 
-    'Zizaco\Confide\ConfideServiceProvider',
-    'Zizaco\Entrust\EntrustServiceProvider',
-    'Andrew13\Cabinet\CabinetServiceProvider',
-    'Orchestra\Imagine\ImagineServiceProvider',
+	    'Zizaco\Confide\ConfideServiceProvider',
+	    'Zizaco\Entrust\EntrustServiceProvider',
+	    'Andrew13\Cabinet\CabinetServiceProvider',
+	    'Orchestra\Imagine\ImagineServiceProvider',
 
-    'Jbizzay\Magma\MagmaServiceProvider'
+	    'Jbizzay\Magma\MagmaServiceProvider'
 
 	),
 
@@ -180,13 +180,13 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
 
-    'Confide' => 'Zizaco\Confide\ConfideFacade',
-    'Entrust' => 'Zizaco\Entrust\EntrustFacade',
-    'Cabinet' => 'Andrew13\Cabinet\CabinetFacade',
-    'Imagine' => 'Orchestra\Imagine\Facade',
-    'Image' => 'App\Libraries\Facades\Image',
+	    'Confide' 		  => 'Zizaco\Confide\ConfideFacade',
+	    'Entrust' 		  => 'Zizaco\Entrust\EntrustFacade',
+	    'Cabinet' 		  => 'Andrew13\Cabinet\CabinetFacade',
+	    'Imagine' 		  => 'Orchestra\Imagine\Facade',
+	    'Image' 		  => 'App\Libraries\Facades\Image',
 
-    'Magma' => 'Jbizzay\Magma\MagmaFacade',
+	    'Magma' 		  => 'Jbizzay\Magma\MagmaFacade',
 
 	),
 
