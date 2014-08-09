@@ -1,5 +1,5 @@
 angular.module('app')
 
-.controller('HomeCtrl', function ($scope) {
-  console.log('home controller');
+.controller('HomeCtrl', function ($scope, $rootScope) {
+	$rootScope.pageTitle('Welcome');
 });

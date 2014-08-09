@@ -86,11 +86,17 @@ angular.module('app', [
     }
     return classes;
   };
+  $rootScope.title = '';
+  $rootScope.pageTitle = function (title) {
+    $rootScope.title = title;
+    return $rootScope.title;
+  };
   // Load up the currently logged in user from the server
   AuthService.loadCurrentUser().then(function (user) {
     console.log('Current user', user);
   });
   $rootScope.$on('$locationChangeStart', function (evt, next, current) {
     $rootScope.toggleNav();
+    $rootScope.pageTitle('');
   });
 });

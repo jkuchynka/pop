@@ -5,7 +5,7 @@ html(lang='en', ng-app='app')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
 
-    title Pop
+    title(ng-bind="title + ' | Pop'")
 
     base(href='/')
 
@@ -29,7 +29,9 @@ html(lang='en', ng-app='app')
               li
                 a(href="", ng-click="toggleNav('left')")
                   i.fa.fa-2x.fa-bars
-              li(header-crumbs)
+              // li(header-crumbs)
+
+          h1.page-title(ng-bind="title")
 
           div(user-menu)
 
