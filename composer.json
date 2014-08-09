@@ -17,7 +17,8 @@
     	"zizaco/entrust": "dev-master",
     	"andrew13/cabinet": "dev-master",
     	"summerstreet/woodling": "dev-master",
-    	"orchestra/imagine": "dev-master"
+    	"orchestra/imagine": "dev-master",
+    	"anahkiasen/underscore-php" : "dev-master"
 	},
 	"autoload": {
 		"classmap": [
