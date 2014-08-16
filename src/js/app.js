@@ -23,11 +23,11 @@ angular.module('app', [
     })
     .when('/contact', {
       controller: 'ContactCtrl',
-      templateUrl: '/views/contact.html'
+      templateUrl: '/views/forms/contact-form.html'
     })
     .when('/login', {
       controller: 'LoginCtrl',
-      templateUrl: '/views/login.html'
+      templateUrl: '/views/forms/login-form.html'
     })
     .when('/user/new', {
       controller: 'FormUserCtrl',

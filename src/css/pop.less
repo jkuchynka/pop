@@ -33,11 +33,15 @@ a:hover {
   text-align: center;
   width: 100%; 
   position: absolute;
-  margin: 10px 0 0 0;
+  margin: 8px 0 0 0;
   font-size: 30px;
   top: 0;
   left: 0;
   padding-right: 60px;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px #666666;
 }
 
 .contextual-links {
@@ -214,6 +218,20 @@ a:hover {
 
 .view {
   position: relative;
+  padding: 30px 0;
+}
+
+.logo, .navbar-inverse .navbar-nav > li > a.logo {
+  img {
+    width: 32px;
+    height: 32px;
+    position: relative;
+    top: -3px;
+  }
+  font-size: 16px;
+  color: #fff;
+  font-weight: bold;
+  padding-top: 16px;
 }
 
 .form-edit-user {
@@ -221,4 +239,11 @@ a:hover {
     display: block;
     margin-bottom: 12px;
   }
+}
+
+.form {
+  max-width: 660px;
+  padding: 30px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.1);
 }
