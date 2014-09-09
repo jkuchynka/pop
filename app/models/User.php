@@ -13,9 +13,13 @@ class User extends ConfideUser {
 
 	public $autoPurgeRedundantAttributes = true;
 
+	/**
+	 * Set the assertions to run on model attributes
+	 * when run with unit tests and assertModel()
+	 */
 	public static $assertions = [
 		'equals' => [
-			'id', 'username', 'email'
+			'id', 'username', 'email', 'status'
 		],
 		'not_set' => [
 			'password', 'password_confirmation', 'confirmation_code'
@@ -32,7 +36,8 @@ class User extends ConfideUser {
 		'username',
 		'email',
 		'password',
-		'password_confirmation'
+		'password_confirmation',
+		'status'
 	];
 
 	/**
@@ -40,13 +45,16 @@ class User extends ConfideUser {
 	 */
 	protected $hidden = ['password', 'password_confirmation', 'confirmation_code', 'remember_token'];
 
+	/**
+	 * Define relations for Ardent
+	 */
 	public static $relationsData = [
 		'image' => [self::HAS_ONE, 'Upload'],
 		'roles' => [self::BELONGS_TO_MANY, 'Role', 'table' => 'assigned_roles']
 	];
 
 	/**
-	 * Ardent's validation rules
+	 * Define validation rules for Ardent
 	 */
  	public static $rules = [
 	  	'username' => 'required|alpha_dash|unique:users',
@@ -56,16 +64,47 @@ class User extends ConfideUser {
 	];
 
 	/**
+	 * Define access rules for Magma
+	 */
+	public static $accessRules = [
+		'create' => [
+			'display_name' => 'Create Users',
+			'roles' => ['admin']
+		],
+		'read' => [
+			'display_name' => 'Read Users',
+			'roles' => '*'
+		],
+		'update' => [
+			'display_name' => 'Update Users',
+			'roles' => ['admin', 'owner']
+		],
+		'delete' => [
+			'display_name' => 'Delete Users',
+			'roles' => ['admin', 'owner']
+		]
+	];
+
+	/**
+	 * Define field level access rules for Magma
+	 */
+	public static $accessRulesFields = [
+		'status' => [
+			'read' => [
+				'display_name' => 'Read User Status',
+				'roles' => ['admin']
+			],
+			'update' => [
+				'display_name' => 'Update User Status',
+				'roles' => ['admin']
+			]
+		]
+	];
+
+	/**
 	 * The database table used by the model.
 	 */
 	protected $table = 'users';
-
-/*
-	public function image()
-	{
-		return $this->hasOne('Upload', 'user_id', 'id')->where('uploads.upload_type', 'userimage');
-	}
-*/
 
 	/**
 	 * Get the unique identifier for the user.
@@ -90,30 +129,5 @@ class User extends ConfideUser {
 	{
 		return $this->email;
 	}
-
-/*
-	public function beforeSave($forced = true)
-	{
-		echo ' in test: '. $GLOBALS['PHPUNIT_TEST'] .', before save '. PHP_EOL;
-		parent::beforeSave($forced);
-	}
-
-
-	public static function boot()
-	{
-		parent::boot();
-
-		static::saving(function ($content) {
-			
-      		// beforeSave() not always getting called?
-      		// set confirmation code for new users
-      		if ( ! $content->id && ! $content->confirmation_code) {
-      			$content->confirmation_code = md5( uniqid(mt_rand(), true) );
-      		}
-      		return true;
-    	});
-
-	}
-	*/
 
 }
