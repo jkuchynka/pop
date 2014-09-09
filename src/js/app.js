@@ -51,6 +51,10 @@ angular.module('app', [
       controller: 'AdminCtrl',
       templateUrl: '/views/admin/dashboard.html'
     })
+    .when('/admin/permissions', {
+      controller: 'AdminPermissionsCtrl',
+      templateUrl: '/views/admin/permissions.html'
+    })
     .when('/admin/users', {
       controller: 'AdminUsersCtrl',
       templateUrl: '/views/admin/users.html'

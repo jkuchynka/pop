@@ -7,7 +7,7 @@ class MessageIntegrationTest extends TestCase {
 		$response = $this->call('POST', '/api/contact', [
 			'message' => 'test 123'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 400);
 		$this->assertContains('required', $data->errors[0]);
 	}
 

@@ -27,11 +27,11 @@ class UserRoleIntegrationTest extends TestCase {
       DB::insert('insert into assigned_roles (role_id, user_id) values (?, ?)',
         [$role->id, $user->id]);
     }
-    // Call get users, with magma query
-    $response = $this->call('GET', '/api/users?with[]=roles,image');
+    // Call get user with magma query
+    $response = $this->call('GET', '/api/users/'. $user->id .'?with[]=roles,image');
     $data = $this->assertResponse($response);
-    $this->assertModel($user, $data[0]);
-    $this->assertUserHasRoles($data[0], $roles);
+    $this->assertModel($user, $data);
+    $this->assertUserHasRoles($data, $roles);
   }
 
   public function testGetUserRecordRoles()

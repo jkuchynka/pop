@@ -28,7 +28,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     public function setUp()
     {
         parent::setUp();
+        // Set test name in globals
         $GLOBALS['PHPUNIT_TEST'] = $this->getName();
+        // Set skip magma permission
+        $GLOBALS['MAGMA_SKIP_ACCESS'] = true;
         $models = array();
         $files = File::glob(app_path() .'/models/*.php');
         foreach ($files as $file) {
@@ -81,22 +84,40 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
      * @param  boolean $fail
      * @return array $data
      */
-    protected function assertResponse($response, $fail = false)
+    protected function assertResponse($response, $statusCode = 200)
     {
-        // Is correct http status?
-        if ($fail) {
-            $this->assertContains('40', (string) $response->getStatusCode(), "Response: ". $response->getContent());  
-        } else {
-            $this->assertEquals(200, $response->getStatusCode(), "Response: ". $response->getContent());
-        }
-        // Response is json?
+        // Check status code
+        $this->assertEquals( (integer) $statusCode, $response->getStatusCode(), "Response: ". $response->getContent());
+        
+        // Response should be json
         $data = json_decode($response->getContent());
-        $this->assertNotEmpty($data, "Response was not JSON");
-        // Fail responses should contain error(s)
-        if ($fail) {
-            $this->assertTrue( ! empty($data->errors) || ! empty($data->error), "Fail response should contain error(s). Response: ". print_r($data, 1));
+        $this->assertNotEmpty($data, "Response was not JSON: ". $response->getContent());
+
+        // If fail response
+        if (strpos('40', (string) $response->getStatusCode())) {
+            // Error responses should contain error(s)
+            $this->assertTrue( ! empty($data->errors) || ! empty($data->error), "Error response should contain error(s). Response: ". print_r($data, 1));
         }
+
         return $data;
+    }
+
+    public function createAdminUser()
+    {
+        // Create admin user
+        $user = new User([
+            'email' => 'admin@mail.net',
+            'username' => 'admin',
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
+        $user->save();
+        return $user;
+    }
+
+    public function loginUser($user)
+    {
+        return Auth::login($user);
     }
 
 }

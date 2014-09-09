@@ -25,7 +25,7 @@ class RoleIntegrationTest extends TestCase {
 	public function testShowNonExistentRoleReturnsError()
 	{
 		$response = $this->call('GET', '/api/roles/999');
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('found', $data->errors[0]);
 	}
 
@@ -44,7 +44,7 @@ class RoleIntegrationTest extends TestCase {
 		$response = $this->call('POST', '/api/roles', [
 			'name' => $role->name
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('taken', $data->errors[0]);
 	}
 
@@ -65,7 +65,7 @@ class RoleIntegrationTest extends TestCase {
 		$response = $this->call('PUT', '/api/roles/'. $roles[2]->id, [
 			'name' => $roles[1]->name
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('taken', $data->errors[0]);
 	}
 

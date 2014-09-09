@@ -47,7 +47,7 @@ class AuthController extends \BaseController {
     public function show($id)
     {
         if ($user = Confide::user()) {
-            return Magma::find('User', $user->id);
+            return Magma::read('User', $user->id);
         }
         return [
             'id' => null,

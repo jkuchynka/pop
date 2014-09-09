@@ -1,0 +1,27 @@
+
+table#admin-permissions-table.table.table-bordered.table-striped.table-condensed(ng-table="table")
+
+  thead
+    tr
+      th Name
+      th Key
+      th(ng-repeat="role in roles") {{ role.name }}
+
+  tbody(ng-repeat="group in $groups")
+
+    tr.ng-table-group
+      td(colspan="{{ columns }}")
+        a(href="", ng-click="group.$hideRows = !group.$hideRows")
+          span.glyphicon(ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }")
+            strong(style="padding: 0 15px") {{ group.value }}
+
+    tr(ng-hide="group.$hideRows", ng-repeat="permission in group.data")
+
+      td.username(sortable="'name'", filter="{ name: 'text' }")
+        |{{ permission.display_name }}
+
+      td.email(sortable="'name'", filter="{ name: 'text' }")
+        |{{ permission.name }}
+
+      td.center(ng-repeat="role in roles", ng-class="role-{{ role.name }}")
+        input(type="checkbox", ng-model="permission.selectedRoles[role.name]" ng-value="role.name" ng-true-value="{{ role.name }}")

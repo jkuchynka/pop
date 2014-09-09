@@ -26,5 +26,8 @@
         <testsuite name="UserRole">
             <file>./app/tests/Pop/integration/UserRoleIntegrationTest.php</file>
         </testsuite>
+        <testsuite name="Permission">
+            <file>./app/tests/Pop/integration/PermissionIntegrationTest.php</file>
+        </testsuite>
     </testsuites>
 </phpunit>

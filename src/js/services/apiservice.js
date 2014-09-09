@@ -8,9 +8,12 @@ angular.module('app')
 
   var users = Restangular.all('users');
 
+  var permissions = Restangular.all('permissions');
+
   return {
     Users: users,
     Roles: roles,
-    Contact: contact
+    Contact: contact,
+    Permissions: permissions
   };
 });

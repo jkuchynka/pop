@@ -69,7 +69,7 @@ class User extends ConfideUser {
 	public static $accessRules = [
 		'create' => [
 			'display_name' => 'Create Users',
-			'roles' => ['admin']
+			'roles' => ['admin', 'manager']
 		],
 		'read' => [
 			'display_name' => 'Read Users',
@@ -77,11 +77,11 @@ class User extends ConfideUser {
 		],
 		'update' => [
 			'display_name' => 'Update Users',
-			'roles' => ['admin', 'owner']
+			'roles' => ['admin', 'manager', 'owner']
 		],
 		'delete' => [
 			'display_name' => 'Delete Users',
-			'roles' => ['admin', 'owner']
+			'roles' => ['admin', 'manager', 'owner']
 		]
 	];
 
@@ -92,11 +92,11 @@ class User extends ConfideUser {
 		'status' => [
 			'read' => [
 				'display_name' => 'Read User Status',
-				'roles' => ['admin']
+				'roles' => ['admin', 'manager']
 			],
 			'update' => [
 				'display_name' => 'Update User Status',
-				'roles' => ['admin']
+				'roles' => ['admin', 'manager']
 			]
 		]
 	];

@@ -1,5 +1,6 @@
 <?php
 
+use Jbizzay\Magma\MagmaAccess;
 
 /**
  * Api calls to the laravel app
@@ -12,6 +13,10 @@ Route::group(['prefix' => 'api'], function()
     // Pop routes
     Route::resource('auth', 'Pop\AuthController', [
         'only' => ['store', 'show', 'destroy']
+    ]);
+
+    Route::resource('permissions', 'Pop\PermissionController', [
+        'only' => ['index', 'update']
     ]);
 
     Route::resource('roles', 'Pop\RoleController', [

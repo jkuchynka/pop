@@ -35,7 +35,7 @@ class UserIntegrationTest extends TestCase {
 			'password' => 'alpha',
 			'password_confirmation' => 'beta'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('password', $data->errors[0]);
 	}
 
@@ -48,8 +48,34 @@ class UserIntegrationTest extends TestCase {
 			'password' => 'password',
 			'password_confirmation' => 'password'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('taken', $data->errors[0]);
+	}
+
+	public function testStoreNewUserAdmin()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$admin = $this->createAdminUser();
+		$this->loginUser($admin);
+		$newUser = Woodling::retrieve('User');
+		$params = $newUser->toArray();
+		$params['password'] = 'password';
+		$params['password_confirmation'] = 'password';
+		$response = $this->call('POST', '/api/users', $params);
+		$data = $this->assertResponse($response);
+	}
+
+	public function testStoreNewUserUnAuthorized()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$user = Woodling::saved('User');
+		$this->loginUser($user);
+		$newUser = Woodling::retrieve('User');
+		$params = $newUser->toArray();
+		$params['password'] = 'password';
+		$params['password_confirmation'] = 'password';
+		$response = $this->call('POST', '/api/users', $params);
+		$data = $this->assertResponse($response, 401);
 	}
 
 	public function testShowReturnsUserRecord()
@@ -63,7 +89,7 @@ class UserIntegrationTest extends TestCase {
 	public function testShowNonExistantUserReturnsError()
 	{
 		$response = $this->call('GET', '/api/users/99999');
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('found', $data->errors[0]);
 	}
 
@@ -99,7 +125,7 @@ class UserIntegrationTest extends TestCase {
 		$response = $this->call('PUT', '/api/users/9999', [
 			'email' => 'foobar@mail.net'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('found', $data->errors[0]);
 	}
 
@@ -110,7 +136,7 @@ class UserIntegrationTest extends TestCase {
 			'email' => $users[0]->email,
 			'username' => $users[1]->username
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('taken', $data->errors[0]);
 	}
 
@@ -121,13 +147,91 @@ class UserIntegrationTest extends TestCase {
 			'email' => $users[1]->email,
 			'username' => $users[0]->username
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 403);
 		$this->assertContains('taken', $data->errors[0]);
+	}
+
+	public function testUpdateUserUnAuthorized()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$user = Woodling::saved('User');
+		$response = $this->call('PUT', '/api/users/'. $user->id, [
+			'email' => 'someotheremail@mail.net'
+		]);
+		$data = $this->assertResponse($response, 401);
+	}
+
+	public function testUpdateUserAsAdmin()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$admin = $this->createAdminUser();
+		$this->loginUser($admin);
+		$user = Woodling::saved('User');
+		$user->email = 'someotheremail@mail.net';
+		$user->status = 0;
+		$params = $user->toArray();
+		$response = $this->call('PUT', '/api/users/'. $user->id, $params);
+		$data = $this->assertResponse($response);
+		$this->assertModel($user, $data);
+	}
+
+	public function testUpdateUserAsOwnerDenyStatus()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$user = Woodling::saved('User');
+		$this->loginUser($user);
+		// Shouldn't be able to change own status
+		$user->status = 0;
+		$params = $user->toArray();
+		$response = $this->call('PUT', '/api/users/'. $user->id, $params);
+		$data = $this->assertResponse($response, 401);
+	}
+
+	public function testUpdateUserAsOtherUserDeny()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$user = Woodling::saved('User');
+		$user2 = Woodling::saved('User');
+		$this->loginUser($user);
+		$params = $user2->toArray();
+		$response = $this->call('PUT', '/api/users/'. $user2->id, $params);
+		$data = $this->assertResponse($response, 401);
 	}
 
 	public function testDeleteUserReturnsSuccess()
 	{
 		$user = Woodling::saved('User');
+		$response = $this->call('DELETE', '/api/users/'. $user->id);
+		$data = $this->assertResponse($response);
+		$id = DB::table('users')->where('id', $user->id)->pluck('id');
+		$this->assertEmpty($id);
+	}
+
+	public function testDeleteUserUnAuthorized()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$user = Woodling::saved('User');
+		$response = $this->call('DELETE', '/api/users/'. $user->id);
+		$data = $this->assertResponse($response, 401);
+	}
+
+	public function testDeleteUserAccessedByAdmin()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$admin = $this->createAdminUser();
+		$this->loginUser($admin);
+		$user = Woodling::saved('User');
+		$response = $this->call('DELETE', '/api/users/'. $user->id);
+		$data = $this->assertResponse($response);
+		$id = DB::table('users')->where('id', $user->id)->pluck('id');
+		$this->assertEmpty($id);
+	}
+
+	public function testDeleteUserCanDeleteOwnAccount()
+	{
+		$GLOBALS['MAGMA_SKIP_ACCESS'] = false;
+		$user = Woodling::saved('User');
+		$this->loginUser($user);
 		$response = $this->call('DELETE', '/api/users/'. $user->id);
 		$data = $this->assertResponse($response);
 		$id = DB::table('users')->where('id', $user->id)->pluck('id');
@@ -156,7 +260,7 @@ class UserIntegrationTest extends TestCase {
 		$response = $this->call('PUT', '/api/users/confirm', [
 			'code' => '9999'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 400);
 		$this->assertContains('code', $data->errors[0]);
 		$confirmed = DB::table('users')->where('id', $user->id)->pluck('confirmed');
 		$this->assertEquals(0, $confirmed);
@@ -189,7 +293,7 @@ class UserIntegrationTest extends TestCase {
 		$response = $this->call('POST', '/api/users/forgot', [
 			'email' => 'foobar@mail.net'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 400);
 		$this->assertContains('email', $data->errors[0]);
 	}
 
@@ -205,7 +309,7 @@ class UserIntegrationTest extends TestCase {
 			'password' => 'newpassword',
 			'password_confirmation' => 'newpassword'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 400);
 		$this->assertContains('reset', $data->errors[0]);
 	}
 
@@ -222,7 +326,7 @@ class UserIntegrationTest extends TestCase {
 			'password' => 'newpassword',
 			'password_confirmation' => 'foobar'
 		]);
-		$data = $this->assertResponse($response, true);
+		$data = $this->assertResponse($response, 400);
 		$this->assertContains('match', $data->errors[0]);
 	}
 

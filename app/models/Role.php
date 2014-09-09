@@ -21,6 +21,13 @@ class Role extends EntrustRole
         'name'
     ];
 
+    public static $relationsData = [
+        'users' => [self::BELONGS_TO_MANY, 'User', 'table' => 'assigned_roles'],
+        // Not really using the permissions table, so this will be removed when
+        // we remove Entrust
+        'perms' => [self::BELONGS_TO_MANY, 'Permission', 'table' => 'permission_role']
+    ];
+
     public static $rules = [
         'name' => 'required|between:4,128|unique:roles'
     ];

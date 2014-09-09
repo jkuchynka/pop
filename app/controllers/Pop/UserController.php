@@ -24,7 +24,7 @@ class UserController extends \BaseController {
     public function show($id)
     {
         // @todo: Access check
-        return Magma::find('User', $id);
+        return Magma::read('User', $id);
     }
 
     /**
@@ -33,7 +33,7 @@ class UserController extends \BaseController {
     public function store()
     {
         // @todo: Access check
-        return Magma::store('User', [], function ($user) {
+        return Magma::create('User', [], function ($user) {
             $this->updateUserImage($user);
         });
     }
@@ -57,7 +57,7 @@ class UserController extends \BaseController {
     public function destroy($id)
     {
         // @todo: Access check
-        return Magma::destroy('User', $id);
+        return Magma::delete('User', $id);
     }
 
     /**

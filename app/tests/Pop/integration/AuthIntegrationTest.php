@@ -33,7 +33,7 @@ class AuthIntegrationTest extends TestCase {
             'email' => 'foo@bar.net',
             'password' => 'failme'
         ]);
-        $this->assertResponse($response, true);
+        $this->assertResponse($response, 400);
     }
 
     public function testGetCurrentLoggedInUserReturnsUserObject()
