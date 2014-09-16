@@ -1,6 +1,6 @@
 angular.module('app', [
     'ngResource', 'ngRoute', 'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
-    'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select'
+    'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select2'
 ])
 
 .config(function (growlProvider) {
@@ -9,10 +9,6 @@ angular.module('app', [
 
 .config(function (RestangularProvider) {
     RestangularProvider.setBaseUrl('/api');
-})
-
-.config(function(uiSelectConfig) {
-    uiSelectConfig.theme = 'bootstrap';
 })
 
 .config(function ($locationProvider) {
