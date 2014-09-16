@@ -1,25 +1,25 @@
 
 div.subnav-wrapper
-  ul.nav.nav-pills.nav-stacked
-    li.header
-      p.navbar-text
-        |{{ user.username }}
-        img.user-image(ng-src="/image/thumb{{ user.image.path }}{{ user.image.filename }}" ng-if="user.image.path")
-        img.user-image(ng-src="/image/thumb/img/default-userimage.png" ng-if="!user.image.path")
-    li
-      a(href="#/user/{{ user.id }}/edit") Edit Profile
-    li
-      a(href="/logout", title="Logout")
-        |Logout &nbsp;
-        i.fa.fa-lg.fa-sign-out
+    ul.nav.nav-pills.nav-stacked
+        li.header
+            p.navbar-text
+                |{{ user.username }}
+                img.user-image(ng-src="/image/thumb{{ user.image.path }}{{ user.image.filename }}" ng-if="user.image.path")
+                img.user-image(ng-src="/image/thumb/public/assets/images/default-userimage.png" ng-if="!user.image.path")
+        li
+            a(href="#/user/{{ user.id }}/edit") Edit Profile
+        li
+            a(href="/logout", title="Logout")
+                |Logout &nbsp;
+                i.fa.fa-lg.fa-sign-out
 
-  ul.nav.nav-pills.nav-stacked(ng-if="isAdmin")
-    li.header
-      p.navbar-text 
-        a(href="#/admin") ADMINISTER POP
-    li
-      a(href="#/admin/permissions") Permissions
-    li
-      a(href="#/admin/roles") Roles
-    li
-      a(href="#/admin/users") Users
+    ul.nav.nav-pills.nav-stacked(ng-if="isAdmin")
+        li.header
+            p.navbar-text 
+                a(href="#/admin") ADMINISTER POP
+        li
+            a(href="#/admin/permissions") Permissions
+        li
+            a(href="#/admin/roles") Roles
+        li
+            a(href="#/admin/users") Users

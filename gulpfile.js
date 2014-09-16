@@ -85,7 +85,9 @@ gulp.task('inject', ['index'], function () {
     
     // Get all the files from bower packages and
     // put them in assets
-    var bower = gulp.src(bowerfiles())
+    var bower = gulp.src(bowerfiles(), {
+            base: './bower_components'
+        })
         .pipe(gulp.dest(config.destAssets + 'bower_components/'));
 
 

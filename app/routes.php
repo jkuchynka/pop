@@ -63,6 +63,14 @@ Route::any('{all}', function() {
         return Response::json([
             'error' => 'Unknown route: '. Request::path()
         ], 400);
+    }   
+    // If route is an asset request (.js, .css, etc...)
+    // It should be returned straight from the server instead of hitting here
+    // Return an error response
+    if (Request::is('*.*')) {
+        return Response::json([
+            'error' => 'Not found'
+        ], 400);
     }
     // Return the built index.html file from public/
     $index = file_get_contents(__DIR__ .'/../public/index.html');
