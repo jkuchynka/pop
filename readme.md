@@ -71,8 +71,18 @@ $ npm install
 
 $ gulp
 
+Add your machine name to the local environment in bootstrap/start.php
+
+$ mkdir app/config/local
+
+$ cp app/config/database.php app/config/local/database.php
+
+Edit your database settings in database.php, create your database
+
 $ php artisan migrate
 
 $ php artisan db:seed
+
+Either setup your webserver to point to public/ or use:
 
 $ php artisan serve --port=8000
