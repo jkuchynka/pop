@@ -9,6 +9,7 @@
 # ...except these whitelisted files and folders
 
 !.gitignore
+!.editorconfig
 !*.sublime-project
 !artisan
 !bower.json
