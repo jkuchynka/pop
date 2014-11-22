@@ -7,6 +7,7 @@
   "devDependencies": {
     "gulp": "latest",
     "gulp-util": "latest",
+    "gulp-changed": "latest",
     "gulp-concat": "latest",
     "gulp-uglify": "latest",
     "gulp-autoprefixer": "latest",

@@ -11,14 +11,15 @@
     	}
   	],
 	"require": {
-		"laravel/framework": "4.1.*",
+		"laravel/framework": "4.2.*",
     	"laravelbook/ardent": "dev-master as 2.4.0",
     	"zizaco/confide": "3.2.*",
     	"zizaco/entrust": "dev-master",
     	"andrew13/cabinet": "dev-master",
     	"summerstreet/woodling": "dev-master",
     	"orchestra/imagine": "dev-master",
-    	"anahkiasen/underscore-php" : "dev-master"
+    	"anahkiasen/underscore-php" : "dev-master",
+	"jbizzay/magma": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

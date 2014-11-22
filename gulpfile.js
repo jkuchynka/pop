@@ -1,18 +1,14 @@
 
-/**
- * Gulp config
- *
- * Returning from a task makes that task synchronous
- * if something else depends on it.
- */
-
-
 // Require packages
 var
     es          = require('event-stream'),
     bowerfiles  = require('main-bower-files'),
     gulp        = require('gulp'),
     autoprefixer= require('gulp-autoprefixer'),
+    changed     = require('gulp-changed'),
+    expect      = require('gulp-expect-file'),
+    ignore      = require('gulp-ignore'),
+    imagemin    = require('gulp-imagemin'),
     inject      = require('gulp-inject'),
     jade        = require('gulp-jade'),
     less        = require('gulp-less'),
@@ -54,6 +50,7 @@ var onError = function (err) {
   console.log(err.message);
 };
 
+// Clean out built assets
 gulp.task('clean', function () {
   return del([
     config.dest + '**/*',
@@ -105,6 +102,7 @@ gulp.task('templates', function () {
     .pipe(gulp.dest(config.dest + 'assets/views/'));
 });
 
+// Watch for changes and re-run tasks
 gulp.task('watch', function () {
   gulp.start('default', function () {
     //server.listen(config.lrPort, function (err) {
@@ -119,8 +117,7 @@ gulp.task('watch', function () {
         config.src + 'img/**/*.{png,svg,gif,jpg}',
         config.src + 'index.jade'
       ], ['default']);
-    //})
-  });
+    });
 });
 
 gulp.task('default', ['copy', 'templates', 'inject']);
