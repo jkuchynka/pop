@@ -8,7 +8,7 @@ angular.module('app')
 
     $scope.roles = [];
     $scope.filteredRoles = [];
-  
+
     $scope.checkboxes = {
         checked: false,
         items: {}
@@ -25,7 +25,7 @@ angular.module('app')
             data;
 
         $scope.filteredRoles = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
-      
+
         // Reset total
         params.total(data.length);
         $defer.resolve($scope.filteredRoles);
@@ -56,5 +56,5 @@ angular.module('app')
                 $scope.filterTableData($defer, params);
             }
         }
-    })
+    });
 });

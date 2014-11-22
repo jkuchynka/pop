@@ -36,7 +36,7 @@ angular.module('app')
                     $modalInstance.dismiss('cancel');
                 };
             }
-        })
+        });
     };
 
     $scope.getTableData = function ($defer, params) {
@@ -50,7 +50,7 @@ angular.module('app')
             data;
 
         $scope.tableUsers = data.slice((params.page() - 1) * params.count(), params.page() * params.count());
-      
+
         // Reset total
         params.total(data.length);
         $defer.resolve($scope.tableUsers);
@@ -105,10 +105,10 @@ angular.module('app')
             checked   +=  ($scope.checkboxes.items[item.id]) || 0;
             unchecked += (!$scope.checkboxes.items[item.id]) || 0;
         });
-        if ((unchecked == 0) || (checked == 0)) {
+        if ((unchecked === 0) || (checked === 0)) {
             $scope.checkboxes.checked = (checked == total);
         }
         // grayed checkbox
-        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked != 0 && unchecked != 0));
+        angular.element(document.getElementById("select_all")).prop("indeterminate", (checked !== 0 && unchecked !== 0));
     }, true);
 });

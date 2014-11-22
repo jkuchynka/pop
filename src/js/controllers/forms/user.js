@@ -18,7 +18,6 @@ angular.module('app')
                 }, function (response) {
                     growl.addErrorMessage(response.data.errors[0]);
                 });
-            ;
         } else {
             $rootScope.pageTitle('Add user');
         }
