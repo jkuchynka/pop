@@ -3,7 +3,7 @@ angular.module('app')
 .directive('navMenuRight', function (AuthService, $location, $rootScope) {
   return {
     restrict: 'A',
-    templateUrl: '/views/navmenu-right.html',
+    templateUrl: '/assets/views/navmenu-right.html',
     transclude: true,
     link: function (scope, element, attrs) {
 

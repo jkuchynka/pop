@@ -3,7 +3,7 @@ angular.module('app')
 .directive('userMenu', function (AuthService) {
   return {
     restrict: 'A',
-    templateUrl: '/views/usermenu.html',
+    templateUrl: '/assets/views/usermenu.html',
     scope: true,
     link: function (scope, element, attrs) {
       // When initializing the app or when current user changes (login/logout)

@@ -12,23 +12,16 @@
     "gulp-autoprefixer": "latest",
     "gulp-jade": "latest",
     "gulp-rev": "latest",
-    "gulp-ngmin": "latest",
     "gulp-inject": "latest",
     "gulp-ignore": "latest",
-    "gulp-bower-files": "latest",
-    "browser-sync": "latest",
-    "gulp-usemin": "latest",
-    "gulp-rimraf": "latest",
-    "bower": "latest",
-    "npm": "latest",
+    "main-bower-files": "latest",
+    "del": "latest",
     "terminal-notifier": "latest",
     "wordwrap": "latest",
     "gulp-plumber": "latest",
     "gulp-less": "latest",
     "event-stream": "latest",
-    "gulp-livereload": "~1.2.0",
-    "gulp-watch": "~0.5.3",
-    "tiny-lr": "0.0.5"
+    "gulp-watch": "~0.5.3"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

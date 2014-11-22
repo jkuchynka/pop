@@ -3,7 +3,7 @@ angular.module('app')
 .directive('navMenu', function (AuthService, $location) {
   return {
     restrict: 'A',
-    templateUrl: '/views/navmenu.html',
+    templateUrl: '/assets/views/navmenu.html',
     transclude: true,
     link: function (scope, element, attrs) {
       // When initializing the app or when current user changes (login/logout)

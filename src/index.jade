@@ -48,9 +48,5 @@ html(lang='en', ng-app='app')
     // inject:js
     // endinject
 
-    script. angular.module('app').constant('CSRF_TOKEN', 'INJECT_CSRF_TOKEN');
-
-    if includeBrowserSync
-      script(src='//10.0.0.11:3000/socket.io/socket.io.js')
-      script. var ___socket___ = io.connect('http://10.0.0.11:3000');
-      script(src='//10.0.0.11:3001/client/browser-sync-client.0.6.2.js')
+    script
+        |angular.module('app').constant('CSRF_TOKEN', 'INJECT_CSRF_TOKEN');

@@ -16,7 +16,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.1.1",
+    "jquery": "latest",
     "angular": "latest",
     "angular-resource": "latest",
     "angular-route": "latest",
@@ -32,27 +32,13 @@
     "restangular": "~1.4.0",
     "angular-bootstrap": "latest",
     "lodash": "~2.4.1",
-    "select2": ">=3.4.0 <=3.5.0",
-    "angular-ui-select2": "~0.0.5"
+    "angular-ui-select": "~0.8.3"
   },
   "overrides": {
     "es5-shim": {
       "main": [
         "./es5-shim.js"
       ]
-    },
-    "fontawesome": {
-      "main": [
-        "./css/font-awesome.css",
-        "./fonts/FontAwesome.otf",
-        "./fonts/fontawesome-webfont.eot",
-        "./fonts/fontawesome-webfont.svg",
-        "./fonts/fontawesome-webfont.ttf",
-        "./fonts/fontawesome-webfont.woff"
-      ]
     }
-  },
-  "resolutions": {
-    "angular": "1.2.21"
   }
 }

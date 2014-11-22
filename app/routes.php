@@ -59,7 +59,9 @@ Route::get('logout', function () {
  */
 Route::any('{all}', function() {
     // If route starts with api and the route wasn't matched, return an error response
-    if (Request::is('api/*')) {
+    // If route starts with assets (front-end request) and the route wasn't matched, return an error response
+    // @todo: Return error response for html, font, css etc... so we don't return index.html
+    if (Request::is('api/*') || Request::is('assets/*')) {
         return Response::json([
             'error' => 'Unknown route: '. Request::path()
         ], 400);

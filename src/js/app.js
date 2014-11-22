@@ -1,6 +1,8 @@
+'use strict';
+
 angular.module('app', [
   'ngResource', 'ngRoute', 'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
-  'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select2'
+  'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select'
 ])
 
 .config(function (growlProvider) {
@@ -15,53 +17,53 @@ angular.module('app', [
   $routeProvider
     .when('/', {
       controller: 'HomeCtrl',
-      templateUrl: '/views/home.html'
+      templateUrl: '/assets/views/home.html'
     })
     .when('/about', {
       controller: 'AboutCtrl',
-      templateUrl: '/views/about.html'
+      templateUrl: '/assets/views/about.html'
     })
     .when('/contact', {
       controller: 'ContactCtrl',
-      templateUrl: '/views/forms/contact-form.html'
+      templateUrl: '/assets/views/forms/contact-form.html'
     })
     .when('/login', {
       controller: 'LoginCtrl',
-      templateUrl: '/views/forms/login-form.html'
+      templateUrl: '/assets/views/forms/login-form.html'
     })
     .when('/user/new', {
       controller: 'FormUserCtrl',
-      templateUrl: '/views/forms/user-form.html',
+      templateUrl: '/assets/views/forms/user-form.html',
       resolve: {
         mode: function () { return 'create'; }
       }
     })
     .when('/user/:username', {
       controller: 'UserCtrl',
-      templateUrl: '/views/user.html'
+      templateUrl: '/assets/views/user.html'
     })
     .when('/user/:userid/edit', {
       controller: 'FormUserCtrl',
-      templateUrl: '/views/forms/user-form.html',
+      templateUrl: '/assets/views/forms/user-form.html',
       resolve: {
         mode: function () { return 'edit'; }
       }
     })
     .when('/admin', {
       controller: 'AdminCtrl',
-      templateUrl: '/views/admin/dashboard.html'
+      templateUrl: '/assets/views/admin/dashboard.html'
     })
     .when('/admin/permissions', {
       controller: 'AdminPermissionsCtrl',
-      templateUrl: '/views/admin/permissions.html'
+      templateUrl: '/assets/views/admin/permissions.html'
     })
     .when('/admin/users', {
       controller: 'AdminUsersCtrl',
-      templateUrl: '/views/admin/users.html'
+      templateUrl: '/assets/views/admin/users.html'
     })
     .when('/admin/roles', {
       controller: 'AdminRolesCtrl',
-      templateUrl: '/views/admin/roles.html'
+      templateUrl: '/assets/views/admin/roles.html'
     })
     .otherwise({
       redirectTo: '/'
