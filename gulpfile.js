@@ -1,7 +1,6 @@
 
 // Require packages
 var
-    es          = require('event-stream'),
     bowerfiles  = require('main-bower-files'),
     gulp        = require('gulp'),
     autoprefixer= require('gulp-autoprefixer'),
@@ -16,6 +15,7 @@ var
     watch       = require('gulp-watch'),
     del         = require('del'),
     debug       = require('gulp-debug'),
+    notify      = require('gulp-notify'),
     path        = require('path');
 
 // Setup config
@@ -57,6 +57,9 @@ var config = {
     jade: {
         locals: {},
         pretty: true
+    },
+    plumber: {
+        errorHandler: notify.onError('Error: <%= error.message %>')
     }
 };
 
@@ -81,7 +84,7 @@ gulp.task('clean', function () {
 gulp.task('copy', function () {
     // Copy static files (.htaccess, favicon, index.php, robots.txt, etc...)
     return gulp.src(config.src + 'copy/**/*', { dot: true })
-        .pipe(plumber())
+        .pipe(plumber(config.plumber))
         .pipe(watching ? watch(config.src + 'copy/**/*') : gutil.noop())
         .pipe(changed(config.dest))
         .pipe(pipeDebug('copy'))
@@ -90,7 +93,7 @@ gulp.task('copy', function () {
 
 gulp.task('images', function () {
     return gulp.src(config.src + 'img/**/*.{png,svg,gif,jpg}')
-        .pipe(plumber())
+        .pipe(plumber(config.plumber))
         .pipe(watching ? watch(config.src + 'img/**/*') : gutil.noop())
         .pipe(changed(config.destAssets + 'images/'))
         .pipe(pipeDebug('images'))
@@ -101,14 +104,14 @@ gulp.task('images', function () {
 
 gulp.task('bowerfiles', function () {
     return gulp.src(bowerfiles(), { base: './bower_components' })
-        .pipe(plumber())
+        .pipe(plumber(config.plumber))
         .pipe(pipeDebug('bowerfiles'))
         .pipe(gulp.dest(config.destAssets + 'bower_components/'));
 });
 
 gulp.task('scripts', function () {
     return gulp.src([config.src + 'js/app.js', config.src + 'js/**/*.js'])
-        .pipe(plumber())
+        .pipe(plumber(config.plumber))
         // Using gulp-watch here will only rebuild changed files
         // Set config.debugTask.scripts to true to see it in action
         .pipe(watching ? watch(config.src + 'js/**/*.js') : gutil.noop())
@@ -119,7 +122,7 @@ gulp.task('scripts', function () {
 gulp.task('styles', function () {
     var dest = config.destAssets + 'css/';
     return gulp.src(config.src + 'css/app.less')
-        .pipe(plumber())
+        .pipe(plumber(config.plumber))
         .pipe(watching ? watch(config.src + 'css/**/*.less') : gutil.noop())
         .pipe(pipeDebug('styles'))
         .pipe(less({
@@ -131,17 +134,16 @@ gulp.task('styles', function () {
 
 gulp.task('templates', function () {
     return gulp.src(config.src + 'views/**/*.jade')
-        .pipe(plumber())
-        .pipe( watching ? watch(config.src + 'views/**/*.jade') : gutil.noop())
+        .pipe(plumber(config.plumber))
+        .pipe(watching ? watch(config.src + 'views/**/*.jade') : gutil.noop())
         .pipe(pipeDebug('templates'))
         .pipe(jade(config.jade))
         .pipe(gulp.dest(config.destAssets + 'views/'));
 });
 
 gulp.task('index', ['copy', 'images', 'bowerfiles', 'scripts', 'styles', 'templates'], function () {
-    console.log('in index');
     return gulp.src(config.src + 'index.jade')
-        .pipe(plumber())
+        .pipe(plumber(config.plumber))
         .pipe(pipeDebug('index'))
         .pipe(jade(config.jade))
         .pipe(inject(
@@ -170,5 +172,6 @@ gulp.task('watch', function () {
         gulp.start('scripts');
         gulp.start('styles');
         gulp.start('templates');
+        notify('App built and watching, get to coding!');
     });
 });
