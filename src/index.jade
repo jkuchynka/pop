@@ -49,5 +49,5 @@ html(lang='en', ng-app='app')
         // inject:js
         // endinject
 
-    script
-        |angular.module('app').constant('CSRF_TOKEN', 'INJECT_CSRF_TOKEN');
+        script(type="text/javascript").
+            angular.module('app').constant('CSRF_TOKEN', 'INJECT_CSRF_TOKEN');

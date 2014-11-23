@@ -1,30 +1,29 @@
 {
-  "name": "Pop",
-  "version": "0.1.0",
-  "description": "Pop app",
-  "dependencies": {},
-  "repository": {},
-  "devDependencies": {
-    "gulp": "latest",
-    "gulp-util": "latest",
-    "gulp-changed": "latest",
-    "gulp-concat": "latest",
-    "gulp-uglify": "latest",
-    "gulp-autoprefixer": "latest",
-    "gulp-jade": "latest",
-    "gulp-rev": "latest",
-    "gulp-inject": "latest",
-    "gulp-ignore": "latest",
-    "main-bower-files": "latest",
-    "del": "latest",
-    "terminal-notifier": "latest",
-    "wordwrap": "latest",
-    "gulp-plumber": "latest",
-    "gulp-less": "latest",
-    "event-stream": "latest",
-    "gulp-watch": "~0.5.3"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  }
+    "name": "Pop",
+    "version": "0.1.0",
+    "description": "Pop app",
+    "dependencies": {},
+    "repository": {},
+    "devDependencies": {
+        "gulp": "latest",
+        "del": "latest",
+        "event-stream": "latest",
+        "gulp-autoprefixer": "latest",
+        "gulp-changed": "latest",
+        "gulp-concat": "latest",
+        "gulp-debug": "^1.0.1",
+        "gulp-imagemin": "latest",
+        "gulp-inject": "latest",
+        "gulp-jade": "latest",
+        "gulp-less": "latest",
+        "gulp-rev": "latest",
+        "gulp-uglify": "latest",
+        "gulp-util": "latest",
+        "gulp-watch": "~0.5.3",
+        "main-bower-files": "latest",
+        "terminal-notifier": "latest"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    }
 }
