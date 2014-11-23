@@ -10,6 +10,7 @@ var
     inject      = require('gulp-inject'),
     jade        = require('gulp-jade'),
     less        = require('gulp-less'),
+    plumber     = require('gulp-plumber'),
     rev         = require('gulp-rev'),
     gutil       = require('gulp-util'),
     watch       = require('gulp-watch'),
@@ -21,17 +22,16 @@ var
 var config = {
 
     // Set to true to debug specific tasks
-    debug: true,
+    debug: false,
     // Set a task to true to debug it
     debugTask: {
-        'copy:static': false,
-        'copy:images': false,
-        'inject:bowerfiles': false,
-        'inject:scripts': false,
-        'inject:styles': false,
-        'inject:index': false,
-        'inject:watchindex': true,
-        'templates:views': false
+        'copy': false,
+        'images': false,
+        'bowerfiles': false,
+        'scripts': false,
+        'styles': true,
+        'index': false,
+        'templates': true
     },
     // Where to find source files
     src: 'src/',
@@ -80,68 +80,95 @@ gulp.task('clean', function () {
 
 gulp.task('copy', function () {
     // Copy static files (.htaccess, favicon, index.php, robots.txt, etc...)
-    gulp.src(config.src + 'copy/**/*', { dot: true })
+    return gulp.src(config.src + 'copy/**/*', { dot: true })
+        .pipe(plumber())
+        .pipe(watching ? watch(config.src + 'copy/**/*') : gutil.noop())
         .pipe(changed(config.dest))
-        .pipe(pipeDebug('copy:static'))
+        .pipe(pipeDebug('copy'))
         .pipe(gulp.dest(config.dest));
-    // Copy images
+});
+
+gulp.task('images', function () {
     return gulp.src(config.src + 'img/**/*.{png,svg,gif,jpg}')
+        .pipe(plumber())
+        .pipe(watching ? watch(config.src + 'img/**/*') : gutil.noop())
         .pipe(changed(config.destAssets + 'images/'))
-        .pipe(pipeDebug('copy:images'))
+        .pipe(pipeDebug('images'))
         // Optimize images
         .pipe(imagemin())
         .pipe(gulp.dest(config.destAssets + 'images/'));
 });
 
-gulp.task('inject', function () {
-    var bfiles = gulp.src(bowerfiles(), { base: './bower_components' })
-        .pipe(pipeDebug('inject:bowerfiles'))
+gulp.task('bowerfiles', function () {
+    return gulp.src(bowerfiles(), { base: './bower_components' })
+        .pipe(plumber())
+        .pipe(pipeDebug('bowerfiles'))
         .pipe(gulp.dest(config.destAssets + 'bower_components/'));
+});
 
-    var scriptsSrc = [config.src + 'js/app.js', config.src + 'js/**/*.js'];
-    var scripts = gulp.src(scriptsSrc)
-        .pipe(pipeDebug('inject:scripts'))
+gulp.task('scripts', function () {
+    return gulp.src([config.src + 'js/app.js', config.src + 'js/**/*.js'])
+        .pipe(plumber())
+        // Using gulp-watch here will only rebuild changed files
+        // Set config.debugTask.scripts to true to see it in action
+        .pipe(watching ? watch(config.src + 'js/**/*.js') : gutil.noop())
+        .pipe(pipeDebug('scripts'))
         .pipe(gulp.dest(config.destAssets + 'js/'));
+});
 
-    var styles = gulp.src(config.src + 'css/app.less')
-        .pipe(pipeDebug('inject:styles'))
+gulp.task('styles', function () {
+    var dest = config.destAssets + 'css/';
+    return gulp.src(config.src + 'css/app.less')
+        .pipe(plumber())
+        .pipe(watching ? watch(config.src + 'css/**/*.less') : gutil.noop())
+        .pipe(pipeDebug('styles'))
         .pipe(less({
             paths: [path.join(__dirname, 'less', 'includes')]
         }))
         .pipe(autoprefixer('last 1 version'))
-        .pipe(gulp.dest(config.destAssets + 'css/'));
-
-    return gulp.src(config.src + 'index.jade')
-        .pipe(pipeDebug('inject:index'))
-        .pipe(jade(config.jade))
-        .pipe(inject( bfiles, config.injectVendor ))
-        .pipe(inject( es.merge(styles, scripts), config.inject ))
-        .pipe(gulp.dest('public'));
+        .pipe(gulp.dest(dest));
 });
 
 gulp.task('templates', function () {
     return gulp.src(config.src + 'views/**/*.jade')
-        .pipe(pipeDebug('templates:views'))
+        .pipe(plumber())
+        .pipe( watching ? watch(config.src + 'views/**/*.jade') : gutil.noop())
+        .pipe(pipeDebug('templates'))
         .pipe(jade(config.jade))
         .pipe(gulp.dest(config.destAssets + 'views/'));
 });
 
-// Watch for changes and re-run tasks
-gulp.task('watch', function () {
-  gulp.start('default', function () {
-    //server.listen(config.lrPort, function (err) {
-      //if (err) {
-        //return console.log(err);
-      //}
-      watch([
-        config.src + 'js/**/*.js',
-        config.src + 'css/**/*.less',
-        config.src + 'views/**/*.jade',
-        config.src + 'copy/**/*',
-        config.src + 'img/**/*.{png,svg,gif,jpg}',
-        config.src + 'index.jade'
-      ], ['default']);
-    });
+gulp.task('index', ['copy', 'images', 'bowerfiles', 'scripts', 'styles', 'templates'], function () {
+    console.log('in index');
+    return gulp.src(config.src + 'index.jade')
+        .pipe(plumber())
+        .pipe(pipeDebug('index'))
+        .pipe(jade(config.jade))
+        .pipe(inject(
+            gulp.src([config.destAssets + 'bower_components/**/*'], { read: false }),
+            config.injectVendor
+        ))
+        .pipe(inject(
+            gulp.src([config.destAssets + 'js/**/*', config.destAssets + 'css/**/*'], { read: false }),
+            config.inject
+        ))
+        .pipe(gulp.dest('public'));
 });
 
-gulp.task('default', ['copy', 'templates', 'inject']);
+// Default build task
+gulp.task('default', ['index']);
+
+// Use watch task to run default task and trigger watching
+var watching = false;
+gulp.task('watch', function () {
+    gulp.start('default', function () {
+        // Set watching flag
+        watching = true;
+        // Re-start watch tasks
+        gulp.start('copy');
+        gulp.start('images');
+        gulp.start('scripts');
+        gulp.start('styles');
+        gulp.start('templates');
+    });
+});
