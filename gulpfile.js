@@ -5,6 +5,7 @@ var
     gulp        = require('gulp'),
     autoprefixer= require('gulp-autoprefixer'),
     changed     = require('gulp-changed'),
+    concat      = require('gulp-concat'),
     imagemin    = require('gulp-imagemin'),
     inject      = require('gulp-inject'),
     jade        = require('gulp-jade'),
@@ -16,7 +17,12 @@ var
     del         = require('del'),
     debug       = require('gulp-debug'),
     notify      = require('gulp-notify'),
-    path        = require('path');
+    path        = require('path'),
+    filter      = require('gulp-filter'),
+    flatten     = require('gulp-flatten'),
+    es          = require('event-stream'),
+    browserSync = require('browser-sync'),
+    reload      = browserSync.reload;
 
 // Setup config
 var config = {
@@ -31,7 +37,7 @@ var config = {
         'scripts': false,
         'styles': true,
         'index': false,
-        'templates': true
+        'templates': false
     },
     // Where to find source files
     src: 'src/',
@@ -71,6 +77,12 @@ var pipeDebug = function (title) {
     }
 };
 
+gulp.task('browser-sync', function () {
+    browserSync({
+        proxy: 'pop.localhost'
+    });
+});
+
 // Clean out built assets
 gulp.task('clean', function () {
     return del([
@@ -88,7 +100,8 @@ gulp.task('copy', function () {
         .pipe(watching ? watch(config.src + 'copy/**/*') : gutil.noop())
         .pipe(changed(config.dest))
         .pipe(pipeDebug('copy'))
-        .pipe(gulp.dest(config.dest));
+        .pipe(gulp.dest(config.dest))
+        .pipe(reloading ? reload({ stream: true }) : gutil.noop());
 });
 
 gulp.task('images', function () {
@@ -99,37 +112,8 @@ gulp.task('images', function () {
         .pipe(pipeDebug('images'))
         // Optimize images
         .pipe(imagemin())
-        .pipe(gulp.dest(config.destAssets + 'images/'));
-});
-
-gulp.task('bowerfiles', function () {
-    return gulp.src(bowerfiles(), { base: './bower_components' })
-        .pipe(plumber(config.plumber))
-        .pipe(pipeDebug('bowerfiles'))
-        .pipe(gulp.dest(config.destAssets + 'bower_components/'));
-});
-
-gulp.task('scripts', function () {
-    return gulp.src([config.src + 'js/app.js', config.src + 'js/**/*.js'])
-        .pipe(plumber(config.plumber))
-        // Using gulp-watch here will only rebuild changed files
-        // Set config.debugTask.scripts to true to see it in action
-        .pipe(watching ? watch(config.src + 'js/**/*.js') : gutil.noop())
-        .pipe(pipeDebug('scripts'))
-        .pipe(gulp.dest(config.destAssets + 'js/'));
-});
-
-gulp.task('styles', function () {
-    var dest = config.destAssets + 'css/';
-    return gulp.src(config.src + 'css/app.less')
-        .pipe(plumber(config.plumber))
-        .pipe(watching ? watch(config.src + 'css/**/*.less') : gutil.noop())
-        .pipe(pipeDebug('styles'))
-        .pipe(less({
-            paths: [path.join(__dirname, 'less', 'includes')]
-        }))
-        .pipe(autoprefixer('last 1 version'))
-        .pipe(gulp.dest(dest));
+        .pipe(gulp.dest(config.destAssets + 'images/'))
+        .pipe(reloading ? reload({ stream: true }) : gutil.noop());
 });
 
 gulp.task('templates', function () {
@@ -138,40 +122,123 @@ gulp.task('templates', function () {
         .pipe(watching ? watch(config.src + 'views/**/*.jade') : gutil.noop())
         .pipe(pipeDebug('templates'))
         .pipe(jade(config.jade))
-        .pipe(gulp.dest(config.destAssets + 'views/'));
+        .pipe(gulp.dest(config.destAssets + 'views/'))
+        .pipe(reloading ? reload({ stream: true }) : gutil.noop());
 });
 
-gulp.task('index', ['copy', 'images', 'bowerfiles', 'scripts', 'styles', 'templates'], function () {
+// Default build task
+gulp.task('default', function () {
+
+    gulp.start('copy');
+    gulp.start('images');
+    gulp.start('templates');
+
+    var vendor = gulp.src(bowerfiles(), { base: './bower_components' })
+        .pipe(plumber(config.plumber))
+        .pipe(pipeDebug('bowerfiles'))
+        .pipe(gulp.dest(config.destAssets + 'bower_components/'));
+
+    var js = gulp.src([config.src + 'js/app.js', config.src + 'js/**/*.js'])
+        .pipe(plumber(config.plumber))
+        .pipe(watching ? watch(config.src + 'js/**/*.js') : gutil.noop())
+        .pipe(pipeDebug('scripts'))
+        .pipe(gulp.dest(config.destAssets + 'js/'))
+        .pipe(reloading ? reload({ stream: true }) : gutil.noop());
+
+    var css = gulp.src(config.src + 'css/app.less')
+        .pipe(plumber(config.plumber))
+        .pipe(watching ? watch(config.src + 'css/**/*.less', function (files) {
+            return gulp.src(config.src + 'css/app.less')
+                .pipe(plumber(config.plumber))
+                .pipe(pipeDebug('styles'))
+                .pipe(less({
+                    paths: [path.join(__dirname, 'less', 'includes')]
+                }))
+                .pipe(autoprefixer('last 1 version'))
+                .pipe(gulp.dest(config.destAssets + 'css/'))
+                .pipe(reload({ stream: true }));
+        }) : gutil.noop())
+        .pipe(pipeDebug('styles'))
+        .pipe(less({
+            paths: [path.join(__dirname, 'less', 'includes')]
+        }))
+        .pipe(autoprefixer('last 1 version'))
+        .pipe(gulp.dest(config.destAssets + 'css/'));
+
     return gulp.src(config.src + 'index.jade')
         .pipe(plumber(config.plumber))
         .pipe(pipeDebug('index'))
         .pipe(jade(config.jade))
         .pipe(inject(
-            gulp.src([config.destAssets + 'bower_components/**/*'], { read: false }),
-            config.injectVendor
+            vendor, config.injectVendor
         ))
-        .pipe(inject(
-            gulp.src([config.destAssets + 'js/**/*', config.destAssets + 'css/**/*'], { read: false }),
-            config.inject
-        ))
+        .pipe(inject(es.merge(js, css), config.inject))
         .pipe(gulp.dest('public'));
 });
 
-// Default build task
-gulp.task('default', ['index']);
+// Build for non-development environments (staging, production)
+// Does the same as default and watch, except:
+// Doesn't watch
+// Concats css/js into 1 file each
+// Minimizes css/js
+// Revisions css/js
+// @todo: Templates (public/assets/views) folder is currently
+// set to expires: -1 in nginx (so doesn't cache). Maybe figure out
+// a better way to do this.
+gulp.task('build', function () {
+    gulp.start('copy');
+    gulp.start('images');
+    gulp.start('templates');
+
+    var css = gulp.src(config.src + 'css/app.less')
+        .pipe(less({
+            paths: [path.join(__dirname, 'less', 'includes')]
+        }))
+        .pipe(autoprefixer('last 1 version'))
+        .pipe(concat('pop.css'))
+        .pipe(rev())
+        .pipe(gulp.dest(config.destAssets + 'css/'));
+
+    var js = gulp.src([config.src + 'js/app.js', config.src + 'js/**/*.js'])
+        .pipe(concat('pop.js'))
+        .pipe(rev())
+        .pipe(gulp.dest(config.destAssets + 'js/'));
+
+    var vendorJs = gulp.src(bowerfiles(), { base: './bower_components' })
+        .pipe(filter('**/*.js'))
+        .pipe(concat('vendor.js'))
+        .pipe(rev())
+        .pipe(gulp.dest(config.destAssets + 'js/'));
+
+    var vendorCss = gulp.src(bowerfiles(), { base: './bower_components' })
+        .pipe(filter('**/*.css'))
+        .pipe(concat('vendor.css'))
+        .pipe(rev())
+        .pipe(gulp.dest(config.destAssets + 'css/'));
+
+    gulp.src(bowerfiles(), { base: './bower_components' })
+        .pipe(filter(['**/*.eot', '**/*.woff', '**/*.svg', '**/*.ttf']))
+        .pipe(flatten())
+        .pipe(gulp.dest(config.destAssets + 'fonts/'));
+
+    return gulp.src(config.src + 'index.jade')
+        .pipe(jade(config.jade))
+        .pipe(inject(es.merge(vendorJs, vendorCss), config.injectVendor))
+        .pipe(inject(es.merge(css, js), config.inject))
+        .pipe(gulp.dest('public'));
+});
 
 // Use watch task to run default task and trigger watching
-var watching = false;
+var watching = false,
+    reloading = false;
 gulp.task('watch', function () {
+    gulp.start('browser-sync');
     gulp.start('default', function () {
         // Set watching flag
         watching = true;
+        // Set reloading flag
+        reloading = true;
         // Re-start watch tasks
-        gulp.start('copy');
-        gulp.start('images');
-        gulp.start('scripts');
-        gulp.start('styles');
-        gulp.start('templates');
-        notify('App built and watching, get to coding!');
+        gulp.start('default');
     });
 });
