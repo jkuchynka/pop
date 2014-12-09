@@ -112,7 +112,8 @@ return array(
 	    'Andrew13\Cabinet\CabinetServiceProvider',
 	    'Orchestra\Imagine\ImagineServiceProvider',
 
-	    'Jbizzay\Magma\MagmaServiceProvider'
+	    'Jbizzay\Magma\MagmaServiceProvider',
+        'App\Libraries\Providers\MailServiceProvider',
 
 	),
 
