@@ -1,6 +1,6 @@
 angular.module('app')
 
-.directive('userMenu', function (AuthService) {
+.directive('userMenu', function (Api, $rootScope) {
     return {
         restrict: 'A',
         templateUrl: '/assets/views/usermenu.html',
@@ -8,12 +8,14 @@ angular.module('app')
         link: function (scope, element, attrs) {
             // When initializing the app or when current user changes (login/logout)
             // Update the user scope
-            scope.user = {};
+            //scope.user = $rootScope.user;
             scope.isAdmin = false;
-            scope.$watch(AuthService.getCurrentUser, function () {
-                scope.user = AuthService.getCurrentUser();
-                scope.isAdmin = AuthService.userCanAccess('admin');
+            /*
+            scope.$watch(Api.getCurrentUser, function () {
+                scope.user = Api.getCurrentUser();
+                //scope.isAdmin = Api.userCanAccess('admin');
             });
+*/
         }
     };
 });

@@ -9,7 +9,7 @@ use User;
 use Jbizzay\Magma\Magma;
 
 class AuthController extends \BaseController {
-  
+
     /**
      * Attempt to log a user in
      */
@@ -17,7 +17,7 @@ class AuthController extends \BaseController {
     {
         $input = [
             'email'    => Input::get('email'), // May be the username too
-            'username' => Input::get('email'), // so we have to pass both
+            'username' => Input::get('username'), // so we have to pass both
             'password' => Input::get('password'),
             'remember' => Input::get('remember'),
         ];
@@ -61,6 +61,7 @@ class AuthController extends \BaseController {
     public function destroy()
     {
         Confide::logout();
+        \Session::flush();
         return ['success' => 'OK'];
     }
 

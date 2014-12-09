@@ -1,6 +1,6 @@
 angular.module('app')
 
-.directive('navMenuRight', function (AuthService, $location, $rootScope) {
+.directive('navMenuRight', function (Api, $location, $rootScope) {
     return {
         restrict: 'A',
         templateUrl: '/assets/views/navmenu-right.html',
@@ -9,12 +9,14 @@ angular.module('app')
 
             // When initializing the app or when current user changes (login/logout)
             // Update the user scope
-            scope.user = {};
+  //          scope.user = {};
             scope.isAdmin = false;
+            /*
             scope.$watch(AuthService.getCurrentUser, function () {
                 scope.user = AuthService.getCurrentUser();
                 scope.isAdmin = AuthService.userCanAccess('admin');
             }, true);
+*/
 
             scope.showMenu = 'main';
 

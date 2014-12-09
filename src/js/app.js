@@ -1,7 +1,8 @@
 
 angular.module('app', [
     'ngResource', 'ngRoute', 'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
-    'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select'
+    'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select',
+    'FormErrors'
 ])
 
 .config(function (growlProvider) {
@@ -31,8 +32,30 @@ angular.module('app', [
             templateUrl: '/assets/views/forms/contact-form.html'
         })
         .when('/login', {
-            controller: 'LoginCtrl',
-            templateUrl: '/assets/views/forms/login-form.html'
+            controller: 'UsersLoginController',
+            templateUrl: '/assets/views/users/users-login.html'
+        })
+        .when('/register', {
+            controller: 'UsersRegisterController',
+            templateUrl: '/assets/views/users/users-register.html'
+        })
+        .when('/users/confirm/:confirmcode', {
+            controller: 'UsersConfirmController',
+            templateUrl: '/assets/views/users/users-set-password.html',
+            resolve: {
+                mode: function () { return 'confirm'; }
+            }
+        })
+        .when('/user/reset/:resetcode', {
+            controller: 'ConfirmCtrl',
+            templateUrl: '/assets/views/forms/set-password-form.html',
+            resolve: {
+                mode: function () { return 'reset'; }
+            }
+        })
+        .when('/user/reset', {
+            controller: 'UserResetCtrl',
+            templateUrl: '/assets/views/user/user-reset.html'
         })
         .when('/user/new', {
             controller: 'FormUserCtrl',
@@ -73,7 +96,7 @@ angular.module('app', [
         });
 })
 
-.run(function ($rootScope, AuthService) {
+.run(function ($rootScope, Api) {
     $rootScope.showNav = false;
     $rootScope.toggleNav = function (pos) {
         if ( ! pos) {
@@ -101,9 +124,19 @@ angular.module('app', [
         return $rootScope.title;
     };
     // Load up the currently logged in user from the server
-    AuthService.loadCurrentUser().then(function (user) {
-        console.log('Current user', user);
-    });
+    $rootScope.getCurrentUser = function () {
+        Api.getCurrentUser(true).then(function (user) {
+            console.log('Current user', user);
+            $rootScope.user = user;
+        });
+    };
+    $rootScope.getCurrentUser();
+/*
+    $rootScope.$watch(Api.getCurrentUser, function (oldVal, newVal) {
+        console.log('rootScope user changed', oldVal, newVal);
+        $rootScope.user = newVal;
+    }, true);
+*/
     $rootScope.$on('$locationChangeStart', function (evt, next, current) {
         $rootScope.toggleNav();
         $rootScope.pageTitle('');

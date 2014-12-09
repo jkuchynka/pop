@@ -14,8 +14,11 @@ class Mailer extends IllMailer {
 
             // Split out allowed to addresses
             $allowed = $this->parseAllowed($message->getTo());
+
+            // Set allowed main to addresses
+            $message->setTo($allowed);
             // Don't send main message if no main addresses to send to
-            //if ($allowed) {
+            if ($allowed) {
 
                 // Set allowed cc addresses
                 $message->setCc( $this->parseAllowed($message->getCc()) );
@@ -24,7 +27,7 @@ class Mailer extends IllMailer {
                 $message->setBcc( $this->parseAllowed($message->getBcc()) );
 
                 $ret = $this->swift->send($message, $this->failedRecipients);
-            //}
+            }
 
             if ($this->pretending && isset($this->logger)) {
                 $this->logMessage($pretendMessage);

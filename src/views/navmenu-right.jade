@@ -9,13 +9,13 @@ div.subnav-wrapper
         li
             a(href="#/user/{{ user.id }}/edit") Edit Profile
         li
-            a(href="/logout", title="Logout")
+            a(href="/logout", target="_self", title="Logout")
                 |Logout &nbsp;
                 i.fa.fa-lg.fa-sign-out
 
     ul.nav.nav-pills.nav-stacked(ng-if="isAdmin")
         li.header
-            p.navbar-text 
+            p.navbar-text
                 a(href="#/admin") ADMINISTER POP
         li
             a(href="#/admin/permissions") Permissions

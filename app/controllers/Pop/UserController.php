@@ -92,8 +92,14 @@ class UserController extends \BaseController {
      */
     public function putConfirm()
     {
-        if (Confide::confirm(Input::get('code'))) {
-            return ['success' => 'OK'];
+        $code = Input::get('code');
+        $user = User::where('confirmation_code', $code)->first();
+        if ($user && Confide::confirm($code)) {
+            $user->confirmed = true;
+            $user->updateUniques();
+            \Session::forget('guest');
+            \Auth::login($user);
+            return $user;
         } else {
             return $this->responseError("Wrong confirmation code");
         }

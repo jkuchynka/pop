@@ -1,44 +1,45 @@
 {
-    "name": "Pop",
-    "version": "0.1.0",
-    "authors": [
-        "Jason Kuchynka <jason.kuchynka@gmail.com>"
-    ],
-    "description": "Pop app",
-    "main": "js/app.js",
-    "license": "MIT",
-    "private": true,
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "jquery": "latest",
-        "angular": "latest",
-        "angular-resource": "latest",
-        "angular-route": "latest",
-        "angular-animate": "latest",
-        "angular-sanitize": "latest",
-        "bootstrap": "latest",
-        "fontawesome": "latest",
-        "ng-table": "latest",
-        "angular-growl": "~0.4.0",
-        "angular-checklist-model": "~0.1.3",
-        "es5-shim": "latest",
-        "ng-file-upload": "latest",
-        "restangular": "~1.4.0",
-        "angular-bootstrap": "latest",
-        "lodash": "~2.4.1",
-        "angular-ui-select": "~0.8.3"
-    },
-    "overrides": {
-        "es5-shim": {
-            "main": [
-                "./es5-shim.js"
-            ]
-        }
+  "name": "Pop",
+  "version": "0.1.0",
+  "authors": [
+    "Jason Kuchynka <jason.kuchynka@gmail.com>"
+  ],
+  "description": "Pop app",
+  "main": "js/app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "latest",
+    "angular-resource": "latest",
+    "angular-route": "latest",
+    "angular-animate": "latest",
+    "angular-sanitize": "latest",
+    "bootstrap": "latest",
+    "fontawesome": "latest",
+    "ng-table": "latest",
+    "angular-growl": "~0.4.0",
+    "angular-checklist-model": "~0.1.3",
+    "es5-shim": "latest",
+    "ng-file-upload": "latest",
+    "restangular": "~1.4.0",
+    "angular-bootstrap": "latest",
+    "lodash": "~2.4.1",
+    "angular-ui-select": "~0.8.3",
+    "angular-form-errors-directive": "~1.5.4"
+  },
+  "overrides": {
+    "es5-shim": {
+      "main": [
+        "./es5-shim.js"
+      ]
     }
+  }
 }

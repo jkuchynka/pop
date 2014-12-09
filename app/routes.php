@@ -8,6 +8,13 @@ use Jbizzay\Magma\MagmaAccess;
 Route::group(['prefix' => 'api'], function()
 {
 
+    Route::get('test', function () {
+        Mail::send('emails.auth.reminder', array('token' => 123), function ($message) {
+            $message->to('jkuchynka@surgeforward.com', 'Jason Kuchynka')->subject('yo!');
+            $message->to('jason.kuchynka@gmail.com', 'Jason Kuchynka')->subject('yo!');
+        });
+    });
+
     Route::post('contact', 'Pop\MessageController@contact');
 
     // Pop routes
@@ -65,7 +72,7 @@ Route::any('{all}', function() {
         return Response::json([
             'error' => 'Unknown route: '. Request::path()
         ], 400);
-    }   
+    }
     // If route is an asset request (.js, .css, etc...)
     // It should be returned straight from the server instead of hitting here
     // Return an error response
