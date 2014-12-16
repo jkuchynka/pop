@@ -13,7 +13,9 @@ angular.module('app')
     $scope.user = {};
 
     $scope.errorMessages = {
-        validAvailable: 'is already taken.'
+        validAvailable: 'is already taken.',
+        pattern: 'must be at least 7 characters long and contain at least one capitalized letter.',
+        validEquals: "doesn't match New Password."
     };
 
     $scope.submit = function () {

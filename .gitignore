@@ -38,3 +38,4 @@ Thumbs.db
 public/
 node_modules
 bower_components
+app/config/local

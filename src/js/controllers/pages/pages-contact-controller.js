@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('ContactCtrl', function ($scope, $rootScope, Api, growl) {
+.controller('PagesContactController', function ($scope, $rootScope, Api, growl) {
   	$scope.contact = {};
   	$rootScope.pageTitle('Contact Us');
 

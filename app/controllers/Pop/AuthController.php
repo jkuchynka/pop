@@ -16,10 +16,10 @@ class AuthController extends \BaseController {
     public function store()
     {
         $input = [
-            'email'    => Input::get('email'), // May be the username too
+            'email'    => Input::get('username'), // May be the username too
             'username' => Input::get('username'), // so we have to pass both
             'password' => Input::get('password'),
-            'remember' => Input::get('remember'),
+           // 'remember' => Input::get('remember'),
         ];
 
         if (Confide::logAttempt($input, Config::get('confide::signup_confirm'))) {

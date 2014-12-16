@@ -7,7 +7,7 @@
 
         <h1>Welcome to Pop!</h1>
 
-        <p>Hello {$user->username} !</p>
+        <p>Hello {{ $user->username }} !</p>
 
         <p>Please access the link below to confirm your account.</p>
 

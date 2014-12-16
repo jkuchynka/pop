@@ -24,12 +24,12 @@ angular.module('app', [
             templateUrl: '/assets/views/home.html'
         })
         .when('/about', {
-            controller: 'AboutCtrl',
-            templateUrl: '/assets/views/about.html'
+            controller: 'PagesAboutController',
+            templateUrl: '/assets/views/pages/pages-about.html'
         })
         .when('/contact', {
-            controller: 'ContactCtrl',
-            templateUrl: '/assets/views/forms/contact-form.html'
+            controller: 'PagesContactController',
+            templateUrl: '/assets/views/pages/pages-contact.html'
         })
         .when('/login', {
             controller: 'UsersLoginController',
@@ -125,18 +125,14 @@ angular.module('app', [
     };
     // Load up the currently logged in user from the server
     $rootScope.getCurrentUser = function () {
-        Api.getCurrentUser(true).then(function (user) {
+        var promise = Api.getCurrentUser(true);
+        promise.then(function (user) {
             console.log('Current user', user);
             $rootScope.user = user;
         });
+        return promise;
     };
     $rootScope.getCurrentUser();
-/*
-    $rootScope.$watch(Api.getCurrentUser, function (oldVal, newVal) {
-        console.log('rootScope user changed', oldVal, newVal);
-        $rootScope.user = newVal;
-    }, true);
-*/
     $rootScope.$on('$locationChangeStart', function (evt, next, current) {
         $rootScope.toggleNav();
         $rootScope.pageTitle('');

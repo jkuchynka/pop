@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('UsersConfirmController', function ($scope, $location, $rootScope, $routeParams, Api, mode) {
+.controller('UsersConfirmController', function ($scope, $location, $rootScope, $routeParams, growl, Api, mode) {
 
     $scope.mode = 'init';
     $scope.user = {};
@@ -21,7 +21,13 @@ angular.module('app')
             }
             $rootScope.pageTitle('Confirm Account');
             Api.Users.customPUT({ code: $routeParams.confirmcode }, 'confirm').then(function (user) {
-                $scope.user = user;
+                // User is successfully confirmed, and should be logged in
+                // They should have set their password on register page
+                // Set the current user and redirect
+                $rootScope.getCurrentUser().then(function (user) {
+                    growl.addSuccessMessage("Your account has been confirmed. Welcome to Pop!");
+                    $location.path('/');
+                });
             }, function (response) {
                 $scope.mode = 'expired';
             });

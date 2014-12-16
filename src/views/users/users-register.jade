@@ -17,12 +17,12 @@ form.form(name="registerForm", role="form", novalidate, ng-submit="submit()", ng
         input.form-control#email(type="email", name="email", required, valid-available="email", placeholder="email@example.org", ng-model="user.email")
 
     .form-group
-        label.control-label(for="password") Password *
-        input.form-control#password(type="password", name="password", required, placeholder="password", ng-model="user.password")
+        label.control-label(for="password") Password * (min 7 characters with 1 capitalized letter)
+        input.form-control#password(type="password", name="password", placeholder="password", ng-model="user.password", ng-minlength="7", ng-pattern="/(?=.*?[A-Z]){7,}/", required)
 
     .form-group
         label.control-label(for="password_confirmation") Confirm Password *
-        input.form-control#password_confirmation(type="password", name="password_confirmation", required, placeholder="password", ng-model="user.password_confirmation")
+        input.form-control#password_confirmation(type="password", name="password_confirmation", placeholder="password", nice-name="Confirm Password", ng-model="user.password_confirmation", valid-equals="{{ user.password }}", required)
 
 
     button.btn.btn-primary(type="submit") Register
