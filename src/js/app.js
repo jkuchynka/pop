@@ -17,6 +17,25 @@ angular.module('app', [
     $locationProvider.html5Mode(true);
 })
 
+.config(function ($httpProvider) {
+    $httpProvider.interceptors.push(function ($q) {
+        return {
+            request: function (config) {
+                pop.spin(true);
+                return config;
+            },
+            response: function (response) {
+                pop.spin(false);
+                return response;
+            },
+            responseError: function (rejection) {
+                pop.spin(false);
+                return $q.reject(rejection);
+            }
+        };
+    });
+})
+
 .config(function ($routeProvider) {
     $routeProvider
         .when('/', {
@@ -46,16 +65,19 @@ angular.module('app', [
                 mode: function () { return 'confirm'; }
             }
         })
-        .when('/user/reset/:resetcode', {
+        .when('/users/reset/:resetcode', {
             controller: 'ConfirmCtrl',
             templateUrl: '/assets/views/forms/set-password-form.html',
             resolve: {
                 mode: function () { return 'reset'; }
             }
         })
-        .when('/user/reset', {
-            controller: 'UserResetCtrl',
-            templateUrl: '/assets/views/user/user-reset.html'
+        .when('/users/reset', {
+            controller: 'UsersResetController',
+            templateUrl: '/assets/views/users/users-reset.html'
+        })
+        .when('/users/reset/success', {
+            templateUrl: '/assets/views/users/users-reset-success.html'
         })
         .when('/user/new', {
             controller: 'FormUserCtrl',
