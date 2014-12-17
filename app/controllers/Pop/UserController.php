@@ -105,6 +105,20 @@ class UserController extends \BaseController {
         }
     }
 
+    /**
+     * Determine if valid reset token
+     */
+    public function getResetToken()
+    {
+        $exists = DB::table('password_reminders')
+            ->where('token', Input::get('token'))
+            ->pluck('email');
+        if ($exists) {
+            return ['success' => 'OK'];
+        }
+        return $this->responseError("Invalid reset token.");
+    }
+
 
     /**
      * Attempt to send change password link to the given email

@@ -6,6 +6,8 @@ angular.module('app')
 
     var contact = Restangular.all('contact');
 
+    var forgot = Restangular.all('users/forgot');
+
     var permissions = Restangular.all('permissions');
 
     var roles = Restangular.all('roles');
@@ -30,6 +32,7 @@ angular.module('app')
 
     return {
         Auth: auth,
+        Forgot: forgot,
         Users: users,
         Roles: roles,
         Contact: contact,

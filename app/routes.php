@@ -37,6 +37,7 @@ Route::group(['prefix' => 'api'], function()
     Route::group(['prefix' => 'users'], function () {
         Route::put('confirm', 'Pop\UserController@putConfirm');
         Route::post('forgot', 'Pop\UserController@postForgot');
+        Route::get('reset/token', 'Pop\UserController@getResetToken');
         Route::post('reset', 'Pop\UserController@postReset');
         Route::post('image/{id}', 'Pop\UserController@postImage');
     });

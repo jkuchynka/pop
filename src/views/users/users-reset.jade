@@ -1,0 +1,16 @@
+
+form.form(name="resetForm", role="form", novalidate, ng-submit="submit()")
+
+    .alert.alert-danger(ng-show="showErrors && resetForm.$invalid")
+        p
+            b Please correct the following errors:
+        ul.list-unstyled(ng-repeat="error in errors")
+            li {{ error }}
+        .list-unstyled(form-errors)
+
+    .form-group
+
+        label(for="email") Email *
+        input.form-control#email(type="email", name="email", placeholder="email@example.org", ng-model="reset.email", required)
+
+    button.btn.btn-primary(type="submit") Reset password

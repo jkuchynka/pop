@@ -9,12 +9,15 @@ form.form(name="loginForm", role="form", novalidate, ng-submit="submit()", ng-cl
         .list-unstyled(form-errors)
 
     .form-group
-        label.control-label(for="username") Username *
+        label.control-label(for="username") Username or Email *
         input.form-control#username(type="text", name="username", ng-model="user.username", placeholder="username", required)
 
     .form-group
         label.control-label(for="password") Password *
         input.form-control#password(type="password", name="password", ng-model="user.password", placeholder="password", required)
+
+    .form-group
+        a(href="/users/reset") Forgot password?
 
     button.btn.btn-primary(type="submit") Login
 

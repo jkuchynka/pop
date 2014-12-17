@@ -58,27 +58,38 @@ angular.module('app', [
             controller: 'UsersRegisterController',
             templateUrl: '/assets/views/users/users-register.html'
         })
+
         .when('/users/confirm/:confirmcode', {
             controller: 'UsersConfirmController',
-            templateUrl: '/assets/views/users/users-set-password.html',
-            resolve: {
-                mode: function () { return 'confirm'; }
-            }
+            template: ''
         })
-        .when('/users/reset/:resetcode', {
-            controller: 'ConfirmCtrl',
-            templateUrl: '/assets/views/forms/set-password-form.html',
-            resolve: {
-                mode: function () { return 'reset'; }
-            }
+        .when('/users/reset/invalid', {
+            controller: function ($rootScope) {
+                $rootScope.pageTitle('Invalid Link');
+            },
+            templateUrl: '/assets/views/users/reset/users-reset-invalid.html'
+        })
+        .when('/users/reset/success', {
+            controller: function ($rootScope) {
+                $rootScope.pageTitle('Reset Password');
+            },
+            templateUrl: '/assets/views/users/reset/users-reset-success.html'
         })
         .when('/users/reset', {
             controller: 'UsersResetController',
             templateUrl: '/assets/views/users/users-reset.html'
         })
-        .when('/users/reset/success', {
-            templateUrl: '/assets/views/users/users-reset-success.html'
+        .when('/users/password/success', {
+            controller: function ($rootScope) {
+                $rootScope.pageTitle('Reset Password');
+            },
+            templateUrl: '/assets/views/users/password/users-password-success.html'
         })
+        .when('/users/reset/:token', {
+            controller: 'UsersPasswordController',
+            templateUrl: '/assets/views/users/users-password.html'
+        })
+
         .when('/user/new', {
             controller: 'FormUserCtrl',
             templateUrl: '/assets/views/forms/user-form.html',
