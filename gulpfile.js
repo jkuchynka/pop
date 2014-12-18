@@ -117,6 +117,11 @@ gulp.task('images', function () {
 });
 
 gulp.task('templates', function () {
+    gulp.src(config.src + 'views/**/*.html')
+        .pipe(plumber(config.plumber))
+        .pipe(watching ? watch(config.src + 'views/**/*.html') : gutil.noop())
+        .pipe(gulp.dest(config.destAssets + 'views/'))
+        .pipe(reloading ? reload({ stream: true }) : gutil.noop());
     return gulp.src(config.src + 'views/**/*.jade')
         .pipe(plumber(config.plumber))
         .pipe(watching ? watch(config.src + 'views/**/*.jade') : gutil.noop())
