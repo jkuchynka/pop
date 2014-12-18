@@ -4,10 +4,10 @@ div.subnav-wrapper
         li.header
             p.navbar-text
                 |{{ user.username }}
-                img.user-image(ng-src="/image/thumb{{ user.image.path }}{{ user.image.filename }}" ng-if="user.image.path")
-                img.user-image(ng-src="/image/thumb/public/assets/images/default-userimage.png" ng-if="!user.image.path")
+                img.user-image(ng-src="/image/small/{{ user.image.filename }}" ng-if="user.image")
+                img.user-image(ng-src="/assets/images/default-userimage.png" ng-if="!user.image")
         li
-            a(href="#/user/{{ user.id }}/edit") Edit Profile
+            a(ng-href="/users/{{ user.username }}/edit") Edit Profile
         li
             a(href="/logout", target="_self", title="Logout")
                 |Logout &nbsp;

@@ -97,13 +97,13 @@ angular.module('app', [
                 mode: function () { return 'create'; }
             }
         })
-        .when('/user/:username', {
-            controller: 'UserCtrl',
-            templateUrl: '/assets/views/user.html'
+        .when('/users/:username', {
+            controller: 'UsersProfileController',
+            templateUrl: '/assets/views/users/users-profile.html'
         })
-        .when('/user/:userid/edit', {
-            controller: 'FormUserCtrl',
-            templateUrl: '/assets/views/forms/user-form.html',
+        .when('/users/:username/edit', {
+            controller: 'UsersEditController',
+            templateUrl: '/assets/views/users/users-edit.html',
             resolve: {
                 mode: function () { return 'edit'; }
             }

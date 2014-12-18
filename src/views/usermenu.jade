@@ -1,7 +1,7 @@
 
 div.nav.navbar-nav.navbar-right(ng-if="user.id")
     p.navbar-text Yo, &nbsp;
-        a.profile-link(ng-href="/user/{{ user.username }}", ng-bind="user.username")
+        a.profile-link(ng-href="/users/{{ user.username }}", ng-bind="user.username")
         | &nbsp; !
 
     a.navbar-toggle-slideout(href="#", ng-click="toggleNav('right')")

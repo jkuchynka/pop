@@ -1,6 +1,6 @@
 angular.module('app')
 
-.controller('UserCtrl', function ($scope, $rootScope, $routeParams, growl, Restangular) {
+.controller('UsersProfileController', function ($scope, $rootScope, $routeParams, growl, Restangular) {
   	$scope.user = {};
 
   	Restangular.all('users').getList({ 'where[]': 'username,' + $routeParams.username, 'with[]': ['image', 'roles'] }).then(function (users) {

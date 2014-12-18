@@ -1,20 +1,19 @@
 angular.module('app')
 
-.controller('FormUserCtrl', function ($location, $scope, $rootScope, $http, $modal, $routeParams, $timeout, $upload, growl, mode, AuthService,Restangular, Api) {
+.controller('UsersEditController', function ($location, $scope, $rootScope, $http, $modal, $routeParams, $timeout, $upload, growl, mode, Restangular, Api) {
 
     var init = function () {
         $scope.roles = Api.Roles.getList().$object;
         if (mode == 'edit') {
-            Restangular
-                .one('users', $routeParams.userid)
-                .get({ 'with[]': ['image', 'roles'] })
-                .then(function (user) {
-                    $scope.user = user;
-                    $rootScope.pageTitle('Edit user: ' + user.username);
-                    _.each(user.roles, function (value) {
+            Api.Users.getList({
+                'where[]': 'username,' + $routeParams.username,
+                'with[]': ['image', 'roles'] }).then(function (users) {
+                    console.log('editing user: ', users);
+                    $scope.user = users[0];
+                    $rootScope.pageTitle('Edit user: ' + $scope.user.username);
+                    _.each($scope.user.roles, function (value) {
                         $scope.selectedRoles.push(value.id);
                     });
-                    console.log('Editing user', $scope.user);
                 }, function (response) {
                     growl.addErrorMessage(response.data.errors[0]);
                 });
@@ -40,7 +39,7 @@ angular.module('app')
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/users/image/" + $scope.user.id,
+                    url: "/api/uploads",
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
@@ -69,7 +68,7 @@ angular.module('app')
                 .put()
                 .then(function (response) {
                     growl.addSuccessMessage('Success! Your profile has been updated.');
-                    AuthService.loadCurrentUser();
+                    //AuthService.loadCurrentUser();
                     $location.path('/user/' + $scope.user.username);
                 }, function (response) {
                     growl.addErrorMessage("Error updating profile: " + response.data.errors[0]);
@@ -91,12 +90,12 @@ angular.module('app')
 
     var setPageTitle = function () {
         if ($scope.mode == 'edit') {
-            console.log('pagetitle', AuthService.getCurrentUser().id, $scope.user.id);
-            if (AuthService.getCurrentUser().id == $scope.user.id) {
+            //console.log('pagetitle', AuthService.getCurrentUser().id, $scope.user.id);
+           /* if (AuthService.getCurrentUser().id == $scope.user.id) {
                 $rootScope.pageTitle('Edit Your Profile');
             } else {
                 $rootScope.pageTitle('Edit User: ' + $scope.user.username);
-            }
+            }*/
         }
     };
 

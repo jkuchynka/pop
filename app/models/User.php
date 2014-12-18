@@ -49,7 +49,7 @@ class User extends ConfideUser {
      * Define relations for Ardent
      */
     public static $relationsData = [
-        'image' => [self::HAS_ONE, 'Upload'],
+        'image' => [self::BELONGS_TO, 'Upload', 'foreignKey' => 'image'],
         'roles' => [self::BELONGS_TO_MANY, 'Role', 'table' => 'assigned_roles']
     ];
 

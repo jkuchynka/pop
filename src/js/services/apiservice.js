@@ -22,7 +22,7 @@ angular.module('app')
         if ( ! currUserDefer || refresh) {
             currUserDefer = $q.defer();
 
-            auth.get('current', { 'with[]': ['roles.perms']}).then(function (user) {
+            auth.get('current', { 'with[]': ['roles.perms', 'image']}).then(function (user) {
                 currUserDefer.resolve(user);
             });
         }

@@ -182,7 +182,6 @@ return array(
 
         'Confide'         => 'Zizaco\Confide\ConfideFacade',
         'Entrust'         => 'Zizaco\Entrust\EntrustFacade',
-        'Cabinet'         => 'Andrew13\Cabinet\CabinetFacade',
         'Image'           => 'Intervention\Image\Facades\Image',
 
         'Magma'           => 'Jbizzay\Magma\MagmaFacade',

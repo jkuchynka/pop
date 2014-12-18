@@ -47,7 +47,7 @@ class UserController extends \BaseController {
         // Magma handles syncing relations like roles, but handle
         // user images in success callback
         return Magma::update('User', $id, [], function ($user) {
-            $this->updateUserImage($user);
+            //$this->updateUserImage($user);
         });
     }
 

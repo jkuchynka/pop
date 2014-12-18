@@ -1,9 +1,0 @@
-
-.container
-
-    img.user-image(ng-src="/image/medium{{ user.image.path }}{{ user.image.filename }}" ng-if="user.image.path")
-    img.user-image(ng-src="/image/medium/public/assets/images/default-userimage.png" ng-if="!user.image.path")
-
-    h2 {{ user.username }}
-
-    pre {{ user | json }}
