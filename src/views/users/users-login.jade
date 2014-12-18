@@ -1,23 +1,27 @@
 
-form.form(name="loginForm", role="form", novalidate, ng-submit="submit()", ng-class="{ 'show-errors': showErrors }")
+.container
 
-    .alert.alert-danger(ng-show="showErrors")
-        p
-            b Please correct the following errors:
-        ul.list-unstyled(ng-repeat="error in errors")
-            li {{ error }}
-        .list-unstyled(form-errors)
+    .well
 
-    .form-group
-        label.control-label(for="username") Username or Email *
-        input.form-control#username(type="text", name="username", ng-model="user.username", placeholder="username", required)
+        form.form(name="loginForm", role="form", novalidate, ng-submit="submit()", ng-class="{ 'show-errors': showErrors }")
 
-    .form-group
-        label.control-label(for="password") Password *
-        input.form-control#password(type="password", name="password", ng-model="user.password", placeholder="password", required)
+            .alert.alert-danger(ng-show="showErrors")
+                p
+                    b Please correct the following errors:
+                ul.list-unstyled(ng-repeat="error in errors")
+                    li {{ error }}
+                .list-unstyled(form-errors)
 
-    .form-group
-        a(href="/users/reset") Forgot password?
+            .form-group
+                label.control-label(for="username") Username or Email *
+                input.form-control#username(type="text", name="username", ng-model="user.username", placeholder="username", required)
 
-    button.btn.btn-primary(type="submit") Login
+            .form-group
+                label.control-label(for="password") Password *
+                input.form-control#password(type="password", name="password", ng-model="user.password", placeholder="password", required)
+
+            .form-group
+                a(href="/users/reset") Forgot password?
+
+            button.btn.btn-primary(type="submit") Login
 

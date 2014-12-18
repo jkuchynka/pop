@@ -1,32 +1,42 @@
-@import 'variables.less';
 
-html {
-    height: 100%;
-}
+@import "variables.less";
 
 body {
-    background: @background-color url(../images/popbg.png) top center no-repeat;
-    color: @text-color;
-    font-family: Lato, sans-serif;
-    min-height: 100%;
-    height: 100%;
-    padding-top: 50px;
-    > .container-fluid {
-        background: none;
-        min-height: 100%;
+    margin-top: 65px;
+}
+
+
+.navbar-default {
+    .navbar-header {
         position: relative;
-        z-index: 1;
-        padding-bottom: 20px;
+        z-index: 99999;
     }
 }
 
-a {
-    color: #72A1C2;
+.navbar-toggle-slideout {
+    float: left;
+    padding: 9.5px 15px;
+    font-size: 19px;
+    line-height: 21px;
+    height: 40px;
 }
 
-a:hover {
-    color: #72A1C2;
-    text-decoration: underline;
+.navbar-right {
+    position: relative;
+    z-index: 99999;
+    .navbar-toggle-slideout {
+        float: right;
+    }
+    .navbar-text {
+        height: 40px;
+        line-height: 21px;
+        margin: 0;
+        padding: 9.5px 15px
+    }
+    a.profile-link {
+        font-weight: bold;
+        color: #EBEBEB;
+    }
 }
 
 .page-title {
@@ -34,15 +44,16 @@ a:hover {
     text-align: center;
     width: 100%;
     position: absolute;
-    margin: 8px 0 0 0;
-    font-size: 30px;
+    margin: 0;
+    font-size: 22px;
+    height: 40px;
+    line-height: 40px;
     top: 0;
     left: 0;
-    padding-right: 60px;
 }
 
 .text-shadow {
-    text-shadow: 2px 2px #666666;
+    text-shadow: @text-shadow;
 }
 
 .contextual-links {
@@ -58,8 +69,6 @@ a:hover {
 }
 
 .navbar-inverse {
-    background: @background-color url(../images/popbg.png) top center no-repeat;
-    border: none;
     z-index: 999;
 }
 
@@ -76,9 +85,6 @@ a:hover {
     margin-left: 250px;
 }
 
-.view {
-    color: #f9f9f9;
-}
 .growl-container {
     width: 250px;
     position: fixed;
@@ -95,6 +101,7 @@ a:hover {
     }
 }
 
+/*
 .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
     border: 1px solid #777;
 }
@@ -112,6 +119,7 @@ a:hover {
         width: 100px;
     }
 }
+*/
 
 .btn-header {
     float: right;
@@ -131,31 +139,13 @@ a:hover {
     }
 }
 
-.navbar-default {
-    height: 50px;
-    .navbar-nav {
-        > li > a {
-            padding-top: 12px;
-            padding-bottom: 0;
-        }
-        > li > .navbar-brand {
-            padding-top: 15px;
-            padding-left: 25px;
-        }
-    }
-    .navbar-header {
-        position: relative;
-        z-index: 100;
-    }
-}
-
 .subnav {
     height: 100%;
     width: @subnav-width;
     position: fixed;
     top: 0;
     color: #f9f9f9;
-    z-index: 999;
+    z-index: 9999;
     background: rgba(0, 0, 0, 0.98);
     .navbar-text {
         float: none;
@@ -185,14 +175,15 @@ a:hover {
     .header {
         font-weight: bold;
         background: #222;
-        height: 50px;
-        line-height: 50px;
+        height: 40px;
+        line-height: 40px;
         .navbar-text {
             margin-top: 0;
         }
     }
     .user-image {
         float: right;
+        max-height: 40px;
     }
 }
 
@@ -232,7 +223,6 @@ a:hover {
 
 .view {
     position: relative;
-    padding: 30px 0;
 }
 
 .logo, .navbar-inverse .navbar-nav > li > a.logo {
@@ -253,17 +243,6 @@ a:hover {
         display: block;
         margin-bottom: 12px;
     }
-}
-
-.form, .well {
-    max-width: 660px;
-    padding: 30px;
-    margin: 0 auto;
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.well {
-    border: none;
 }
 
 .show-errors .ng-invalid {

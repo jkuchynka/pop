@@ -15,9 +15,8 @@
         "laravelbook/ardent": "dev-master as 2.4.0",
         "zizaco/confide": "3.2.*",
         "zizaco/entrust": "dev-master",
-        "andrew13/cabinet": "dev-master",
         "summerstreet/woodling": "dev-master",
-        "orchestra/imagine": "dev-master",
+        "intervention/imagecache": "2.*",
         "anahkiasen/underscore-php" : "dev-master",
         "jbizzay/magma": "dev-master"
     },

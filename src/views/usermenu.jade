@@ -1,12 +1,11 @@
 
-ul.nav.navbar-nav.navbar-right(ng-if="user.id")
-    li
-        span.navbar-text Yo, &nbsp;
-            a(ng-href="/user/{{ user.username }}", ng-bind="user.username")
-                | !
-    li
-        a(href="", ng-click="toggleNav('right')")
-            i.fa.fa-2x.fa-bars
+div.nav.navbar-nav.navbar-right(ng-if="user.id")
+    p.navbar-text Yo, &nbsp;
+        a.profile-link(ng-href="/user/{{ user.username }}", ng-bind="user.username")
+        | &nbsp; !
+
+    a.navbar-toggle-slideout(href="#", ng-click="toggleNav('right')")
+        i.fa.fa-bars
 
 ul.nav.navbar-nav.navbar-right(ng-if="!user.id")
     li

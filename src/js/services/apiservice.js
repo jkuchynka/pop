@@ -1,6 +1,6 @@
 angular.module('app')
 
-.factory('Api', function ($resource, Restangular, $q) {
+.factory('Api', function (Restangular, $q) {
 
     var auth = Restangular.all('auth');
 

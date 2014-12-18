@@ -1,8 +1,8 @@
 
 angular.module('app', [
-    'ngResource', 'ngRoute', 'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
+    'ngRoute', 'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
     'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select',
-    'FormErrors'
+    'FormErrors', 'ui.router'
 ])
 
 .config(function (growlProvider) {
@@ -39,8 +39,8 @@ angular.module('app', [
 .config(function ($routeProvider) {
     $routeProvider
         .when('/', {
-            controller: 'HomeCtrl',
-            templateUrl: '/assets/views/home.html'
+            controller: 'PagesHomeController',
+            templateUrl: '/assets/views/pages/pages-home.html'
         })
         .when('/about', {
             controller: 'PagesAboutController',
