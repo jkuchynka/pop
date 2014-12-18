@@ -46,6 +46,12 @@ angular.module('app', [
             controller: 'PagesAboutController',
             templateUrl: '/assets/views/pages/pages-about.html'
         })
+        .when('/bootstrap-components', {
+            controller: function ($rootScope) {
+                $rootScope.pageTitle('Bootstrap Components');
+            },
+            templateUrl: '/assets/views/pages/pages-bootstrap-components.html'
+        })
         .when('/contact', {
             controller: 'PagesContactController',
             templateUrl: '/assets/views/pages/pages-contact.html'
@@ -171,6 +177,7 @@ angular.module('app', [
         $rootScope.pageTitle('');
     });
     // Set slideout nav width to sit just outside container
+    // min-width is set in css
     $rootScope.navStyle = function () {
         var width = ($window.innerWidth - 1170) / 2;
         return {
