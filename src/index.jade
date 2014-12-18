@@ -38,8 +38,8 @@ html(lang='en', ng-app='app')
 
         div.view(ng-view)
 
-        div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'")
-        div.subnav.subnav-right.ng-hide(nav-menu-right, ng-show="showNav == 'right'")
+        div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'", ng-style="navStyle()")
+        div.subnav.subnav-right.ng-hide(nav-menu-right, ng-show="showNav == 'right'", ng-style="navStyle()")
 
         // inject:vendor:js
         // endinject

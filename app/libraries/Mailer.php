@@ -10,6 +10,7 @@ class Mailer extends IllMailer {
         // Allow for pretending on a case by case basis
         // If send to emails match an allow pattern, let it through
         if (\Config::get('mail.allowed_patterns')) {
+
             $pretendMessage = clone $message;
 
             // Split out allowed to addresses
@@ -33,7 +34,7 @@ class Mailer extends IllMailer {
                 $this->logMessage($pretendMessage);
             }
 
-            return $ret;
+            return 1;
         };
 
         if ( ! $this->pretending)

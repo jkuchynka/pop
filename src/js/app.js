@@ -129,7 +129,7 @@ angular.module('app', [
         });
 })
 
-.run(function ($rootScope, Api) {
+.run(function ($rootScope, $window, Api) {
     $rootScope.showNav = false;
     $rootScope.toggleNav = function (pos) {
         if ( ! pos) {
@@ -170,4 +170,11 @@ angular.module('app', [
         $rootScope.toggleNav();
         $rootScope.pageTitle('');
     });
+    // Set slideout nav width to sit just outside container
+    $rootScope.navStyle = function () {
+        var width = ($window.innerWidth - 1170) / 2;
+        return {
+            width: width + 'px'
+        };
+    };
 });

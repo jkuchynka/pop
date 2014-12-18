@@ -4,10 +4,18 @@ angular.module('app')
 
     $rootScope.pageTitle('Contact Us');
 
+    $scope.showErrors = false;
+    $scope.errors = [];
+
     $scope.submit = function () {
-        Api.Contact.post($scope.contact).then(function (response) {
-            $scope.contact = {};
-            growl.addSuccessMessage("Thanks for contacting us. We'll be in touch shortly!");
-        });
+        if ($scope.contactForm.$valid) {
+            $scope.showErrors = false;
+            Api.Contact.post($scope.contact).then(function (response) {
+                $scope.contact = {};
+                growl.addSuccessMessage("Thanks for contacting us. We'll be in touch shortly!");
+            });
+        } else {
+            $scope.showErrors = true;
+        }
     };
 });

@@ -1,3 +1,12 @@
 
-p Github: &nbsp;
-    a(href='https://github.com/jbizzay/pop') https://github.com/jbizzay/pop
+.container
+
+    p Here's some useful links related to Pop development, such as documentation, libraries and articles
+
+    div(ng-repeat="section in links")
+
+        h3(ng-bind="section[0]")
+
+        ul
+            li(ng-repeat="link in section[1]") {{ link[0] }} &nbsp;
+                a(ng-href="{{ link[1] }}", target="_blank") {{ link[1] }}
