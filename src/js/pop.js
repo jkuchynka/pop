@@ -16,6 +16,6 @@ window.pop = {
             $('#spinner').hide();
             pop.spinner.stop();
         }
-    },
+    }
 
 };
