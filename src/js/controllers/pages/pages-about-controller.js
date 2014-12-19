@@ -16,8 +16,10 @@ angular.module('app')
                 ['Bootstrap', 'http://getbootstrap.com/'],
                 ['Bootswatch Themes', 'http://bootswatch.com/'],
                 ['Bootswatch Bower Install', 'https://github.com/dbtek/bootswatch-dist'],
+                ['Angular UI Bootstrap', 'http://angular-ui.github.io/bootstrap/'],
                 ['Angular Form Errors', 'https://github.com/CWSpear/angular-form-errors-directive'],
-                ['Jade', 'http://jade-lang.com/']
+                ['Jade', 'http://jade-lang.com/'],
+                ['Jade Converter', 'http://html2jade.org/']
             ]
         ],
         ['Laravel / PHP',

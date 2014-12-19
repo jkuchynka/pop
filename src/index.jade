@@ -20,6 +20,8 @@ html(lang='en', ng-app='app')
 
     body(ng-class="bodyClass()")
 
+        div#top
+
         div.growl-container(growl)
 
         div#spinner(style="display: none")
@@ -40,6 +42,17 @@ html(lang='en', ng-app='app')
 
         div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'", ng-style="navStyle()")
         div.subnav.subnav-right.ng-hide(nav-menu-right, ng-show="showNav == 'right'", ng-style="navStyle()")
+
+        footer
+            div.container
+                div.row
+                    div.col-lg-12.navbar-default
+
+                        p
+                            a(href="#top", ng-click="scrollTop()") Back to top
+                        p Pop Starter App
+                        p
+                            a(href="https://github.com/jbizzay/pop/") https://github.com/jbizzay/pop/
 
         // inject:vendor:js
         // endinject

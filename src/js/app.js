@@ -46,11 +46,15 @@ angular.module('app', [
             controller: 'PagesAboutController',
             templateUrl: '/assets/views/pages/pages-about.html'
         })
+        .when('/angularui-components', {
+            controller: 'PagesComponentsAngularController',
+            templateUrl: '/assets/views/pages/components/pages-components-angular.html'
+        })
         .when('/bootstrap-components', {
             controller: function ($rootScope) {
                 $rootScope.pageTitle('Bootstrap Components');
             },
-            templateUrl: '/assets/views/pages/pages-bootstrap-components.html'
+            templateUrl: '/assets/views/pages/components/pages-components-bootstrap.html'
         })
         .when('/contact', {
             controller: 'PagesContactController',
@@ -135,7 +139,7 @@ angular.module('app', [
         });
 })
 
-.run(function ($rootScope, $window, Api) {
+.run(function ($rootScope, $window, $anchorScroll, $location, Api) {
     $rootScope.showNav = false;
     $rootScope.toggleNav = function (pos) {
         if ( ! pos) {
@@ -183,5 +187,10 @@ angular.module('app', [
         return {
             width: width + 'px'
         };
+    };
+    // Scroll to top
+    $rootScope.scrollTop = function () {
+       // $location.hash('top');
+        $anchorScroll();
     };
 });

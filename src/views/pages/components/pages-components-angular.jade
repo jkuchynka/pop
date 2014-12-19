@@ -1,0 +1,494 @@
+
+.container
+
+    div.row
+        div.col-lg-12
+
+            div.page-header
+
+                h1 Angular UI Components
+                p.lead Preview
+
+    div.row
+        div.col-lg-12
+
+            div.btn-group.open
+                a.btn.btn-primary(href="#") Jump to:
+                a.btn.btn-primary.dropdown-toggle(href="#", data-toggle="dropdown", aria-expanded="true")
+                    span.caret
+                ul.dropdown-menu
+                    li
+                        a(href="#accordion") Accordion
+                    li
+                        a(href="#alert") Alert
+                    li
+                        a(href="#buttons") Buttons
+                    li
+                        a(href="#carousel") Carousel
+                    li
+                        a(href="#collapse") Collapse
+                    li
+                        a(href="#datepicker") Datepicker
+                    li
+                        a(href="#dropdown") Dropdown
+                    li
+                        a(href="#modal") Modal
+                    li
+                        a(href="#pagination") Pagination
+                    li
+                        a(href="#popover") Popover
+                    li
+                        a(href="#progressbar") Progressbar
+                    li
+                        a(href="#rating") Rating
+                    li
+                        a(href="#tabs") Tabs
+                    li
+                        a(href="#timepicker") Timepicker
+                    li
+                        a(href="#tooltip") Tooltip
+                    li
+                        a(href="#typeahead") Typeahead
+
+    div.row(ng-controller="PagesComponentsAngularAccordionController")
+        div.col-lg-12
+
+            div.page-header
+                h1#accordion Accordion
+
+            p
+                button.btn.btn-default.btn-sm(ng-click="status.open = !status.open") Toggle last panel
+                button.btn.btn-default.btn-sm(ng-click="status.isFirstDisabled = ! status.isFirstDisabled") Enable / Disable first panel
+
+            div.checkbox
+                label
+                    input(type="checkbox", ng-model="oneAtATime")
+                    | Open only one at a time
+
+            accordion(close-others="oneAtATime")
+                accordion-group(heading="Static Header, initially expanded", is-open="status.isFirstOpen", is-disabled="status.isFirstDisabled") This content is straight in the template.
+
+                accordion-group(heading="{{group.title}}", ng-repeat="group in groups") {{group.content}}
+
+                accordion-group(heading="Dynamic Body Content")
+                    p The body of the accordion group grows to fit the contents
+                    button.btn.btn-default.btn-sm(ng-click="addItem()") Add Item
+
+                    div(ng-repeat="item in items") {{item}}
+
+                accordion-group(is-open="status.open")
+                    accordion-heading I can have markup, too!
+                        i.pull-right.fa(ng-class="{'fa-chevron-down': status.open, 'fa-chevron-right': !status.open}")
+
+                    |This is just some content to illustrate fancy headings.
+
+    div.row(ng-controller="PagesComponentsAngularAlertController")
+        div.col-lg-12
+
+            div.page-header
+                h1#alert Alert
+
+            alert(ng-repeat="alert in alerts", type="{{alert.type}}", close="closeAlert($index)") {{alert.msg}}
+            button.btn.btn-default(ng-click="addAlert()") Add Alert
+
+    div.row(ng-controller="PagesComponentsAngularButtonsController")
+        div.col-lg-12
+
+            div.page-header
+                h1#buttons Buttons
+
+            h4 Single toggle
+            pre {{singleModel}}
+            button.btn.btn-primary(type='button', ng-model='singleModel', btn-checkbox='', btn-checkbox-true='1', btn-checkbox-false='0')
+                | Single Toggle
+            h4 Checkbox
+            pre {{checkModel}}
+            .btn-group
+                label.btn.btn-primary(ng-model='checkModel.left', btn-checkbox='') Left
+                label.btn.btn-primary(ng-model='checkModel.middle', btn-checkbox='') Middle
+                label.btn.btn-primary(ng-model='checkModel.right', btn-checkbox='') Right
+            h4 Radio & Uncheckable Radio
+            pre {{radioModel || 'null'}}
+            .btn-group
+                label.btn.btn-primary(ng-model='radioModel', btn-radio='"Left"') Left
+                label.btn.btn-primary(ng-model='radioModel', btn-radio='"Middle"') Middle
+                label.btn.btn-primary(ng-model='radioModel', btn-radio='"Right"') Right
+            .btn-group
+                label.btn.btn-success(ng-model='radioModel', btn-radio='"Left"', uncheckable='') Left
+                label.btn.btn-success(ng-model='radioModel', btn-radio='"Middle"', uncheckable='') Middle
+                label.btn.btn-success(ng-model='radioModel', btn-radio='"Right"', uncheckable='') Right
+
+    div.row(ng-controller="PagesComponentsAngularCarouselController")
+        div.col-lg-12
+
+            div.page-header
+                h1#carousel Carousel
+
+            div(style='height: 305px')
+                carousel(interval='myInterval', disable-ng-animate)
+                    slide(ng-repeat='slide in slides', active='slide.active')
+                        img(ng-src='{{slide.image}}', style='margin:auto;')
+                        .carousel-caption
+                            h4 Slide {{$index}}
+                            p {{slide.text}}
+            .row
+                .col-md-6
+                    button.btn.btn-info(type='button', ng-click='addSlide()') Add Slide
+                .col-md-6
+                    | Interval, in milliseconds:
+                    input.form-control(type='number', ng-model='myInterval')
+                    br
+                    | Enter a negative number or 0 to stop the interval.
+
+    div.row(ng-controller="PagesComponentsAngularCollapseController")
+        div.col-lg-12
+
+            div.page-header
+                h1#collapse Collapse
+
+            button.btn.btn-default(ng-click='isCollapsed = !isCollapsed') Toggle collapse
+            hr
+            div(collapse='isCollapsed')
+              .well.well-lg Some content
+
+    div.row(ng-controller="PagesComponentsAngularDatepickerController")
+        div.col-lg-12
+
+            div.page-header
+                h1#datepicker Datepicker
+
+            pre Selected date is: &nbsp;
+                em {{ dt | date:'fullDate' }}
+            h4 Inline
+            div(style='display:inline-block; min-height:290px;')
+                datepicker.well.well-sm(ng-model='dt', min-date='minDate', show-weeks='true')
+            h4 Popup
+            .row
+                .col-md-6
+                    div.input-group
+                        input.form-control(type='text', datepicker-popup='{{ format }}', ng-model='dt', is-open='opened', min-date='minDate', max-date='"2015-06-22"', datepicker-options='dateOptions', date-disabled='disabled(date, mode)', ng-required='true', close-text='Close')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='open($event)')
+                                i.glyphicon.glyphicon-calendar
+            .row
+                .col-md-6
+                    label Format:
+                    select.form-control(ng-model='format', ng-options='f for f in formats')
+                        option
+            hr
+            button.btn.btn-sm.btn-info(type='button', ng-click='today()') Today
+            button.btn.btn-sm.btn-default(type='button', ng-click='dt = "2009-08-24"') 2009-08-24
+            button.btn.btn-sm.btn-danger(type='button', ng-click='clear()') Clear
+            button.btn.btn-sm.btn-default(type='button', ng-click='toggleMin()', tooltip='After today restriction') Min date
+
+    div.row(ng-controller="PagesComponentsAngularDropdownController")
+        div.col-lg-12
+
+            div.page-header
+                h1#dropdown Dropdown
+
+            span.dropdown(dropdown='', on-toggle='toggled(open)')
+                a.dropdown-toggle(href='', dropdown-toggle='')
+                    | Click me for a dropdown, yo!
+                ul.dropdown-menu
+                    li(ng-repeat='choice in items')
+                        a(href='') {{choice}}
+
+            // Single button
+            .btn-group(dropdown='', is-open='status.isopen')
+                button.btn.btn-primary.dropdown-toggle(type='button', dropdown-toggle='', ng-disabled='disabled')
+                    | Button dropdown
+                    span.caret
+                ul.dropdown-menu(role='menu')
+                    li
+                        a(href='#') Action
+                    li
+                        a(href='#') Another action
+                    li
+                        a(href='#') Something else here
+                    li.divider
+                    li
+                        a(href='#') Separated link
+
+            // Split button
+            .btn-group(dropdown='')
+                button.btn.btn-danger(type='button') Action
+                button.btn.btn-danger.dropdown-toggle(type='button', dropdown-toggle='')
+                    span.caret
+                    span.sr-only Split button!
+                ul.dropdown-menu(role='menu')
+                    li
+                        a(href='#') Action
+                    li
+                        a(href='#') Another action
+                    li
+                        a(href='#') Something else here
+                    li.divider
+                    li
+                        a(href='#') Separated link
+
+            hr
+            p
+                button.btn.btn-default.btn-sm(type='button', ng-click='toggleDropdown($event)') Toggle button dropdown
+                button.btn.btn-warning.btn-sm(type='button', ng-click='disabled = !disabled') Enable/Disable
+
+    div.row(ng-controller="PagesComponentsAngularModalController")
+        div.col-lg-12
+
+            div.page-header
+                h1#modal Modal
+
+            script(type="text/ng-template", id="myModalContent.html").
+                <div class="modal-header">
+                    <h3 class="modal-title">I'm a modal!</h3>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li ng-repeat="item in items">
+                            <a ng-click="selected.item = item">{{ item }}</a>
+                        </li>
+                    </ul>
+                    Selected: <b>{{ selected.item }}</b>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" ng-click="ok()">OK</button>
+                    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+
+            button.btn.btn-default(ng-click='open()') Open me!
+            button.btn.btn-default(ng-click='open("lg")') Large modal
+            button.btn.btn-default(ng-click='open("sm")') Small modal
+            div(ng-show='selected') Selection from a modal: {{ selected }}
+
+    div.row(ng-controller="PagesComponentsAngularPaginationController")
+        div.col-lg-12
+
+            div.page-header
+                h1#pagination Pagination
+
+            h4 Default
+            pagination(total-items='totalItems', ng-model='currentPage', ng-change='pageChanged()')
+            pagination.pagination-sm(boundary-links='true', total-items='totalItems', ng-model='currentPage', previous-text='‹', next-text='›', first-text='«', last-text='»')
+            pagination(direction-links='false', boundary-links='true', total-items='totalItems', ng-model='currentPage')
+            pagination(direction-links='false', total-items='totalItems', ng-model='currentPage', num-pages='smallnumPages')
+            pre The selected page no: {{currentPage}}
+            button.btn.btn-info(ng-click='setPage(3)') Set current page to: 3
+            hr
+            h4 Pager
+            pager(total-items='totalItems', ng-model='currentPage')
+            hr
+            h4 Limit the maximum visible buttons
+            pagination.pagination-sm(total-items='bigTotalItems', ng-model='bigCurrentPage', max-size='maxSize', boundary-links='true')
+            pagination.pagination-sm(total-items='bigTotalItems', ng-model='bigCurrentPage', max-size='maxSize', boundary-links='true', rotate='false', num-pages='numPages')
+            pre Page: {{bigCurrentPage}} / {{numPages}}
+
+    div.row(ng-controller="PagesComponentsAngularPopoverController")
+        div.col-lg-12
+
+            div.page-header
+                h1#popover Popover
+
+            h4 Dynamic
+            .form-group
+                label Popup Text:
+                input.form-control(type='text', ng-model='dynamicPopover')
+            .form-group
+                label Popup Title:
+                input.form-control(type='text', ng-model='dynamicPopoverTitle')
+            button.btn.btn-default(popover='{{dynamicPopover}}', popover-title='{{dynamicPopoverTitle}}') Dynamic Popover
+            hr
+            h4 Positional
+            button.btn.btn-default(popover-placement='top', popover='On the Top!') Top
+            button.btn.btn-default(popover-placement='left', popover='On the Left!') Left
+            button.btn.btn-default(popover-placement='right', popover='On the Right!') Right
+            button.btn.btn-default(popover-placement='bottom', popover='On the Bottom!') Bottom
+            hr
+            h4 Triggers
+            p
+                button.btn.btn-default(popover='I appeared on mouse enter!', popover-trigger='mouseenter') Mouseenter
+            input.form-control(type='text', value='Click me!', popover='I appeared on focus! Click away and I"ll vanish...', popover-trigger='focus')
+            hr
+            h4 Other
+            button.btn.btn-default(popover-animation='true', popover='I fade in and out!') fading
+            button.btn.btn-default(popover='I have a title!', popover-title='The title.') title
+
+    div.row(ng-controller="PagesComponentsAngularProgressbarController")
+        div.col-lg-12
+
+            div.page-header
+                h1#progressbar Progressbar
+
+            h3 Static
+            .row
+                .col-sm-4
+                    progressbar(value='55')
+                .col-sm-4
+                    progressbar.progress-striped(value='22', type='warning') 22%
+                .col-sm-4
+                    progressbar.progress-striped.active(max='200', value='166', type='danger')
+                        i 166 / 200
+            hr
+            h3
+                | Dynamic
+                button.btn.btn-sm.btn-primary(type='button', ng-click='random()') Randomize
+            progressbar(max='max', value='dynamic')
+                span(style='color:black; white-space:nowrap;') {{dynamic}} / {{max}}
+            small
+                em No animation
+            progressbar(animate='false', value='dynamic', type='success')
+                b {{dynamic}}%
+            small
+                em Object (changes type based on value)
+            progressbar.progress-striped.active(value='dynamic', type='{{type}}')
+                | {{type}}
+                i(ng-show='showWarning') !!! Watch out !!!
+            hr
+            h3
+                | Stacked
+                button.btn.btn-sm.btn-primary(type='button', ng-click='randomStacked()') Randomize
+            progress
+                bar(ng-repeat='bar in stacked track by $index', value='bar.value', type='{{bar.type}}')
+                    span(ng-hide='bar.value < 5') {{bar.value}}%
+
+    div.row(ng-controller="PagesComponentsAngularRatingController")
+        div.col-lg-12
+
+            div.page-header
+                h1#rating Rating
+
+            h4 Default
+            rating(ng-model='rate', max='max', readonly='isReadonly', on-hover='hoveringOver(value)', on-leave='overStar = null')
+            span.label(ng-class='{"label-warning": percent<30, "label-info": percent>=30 && percent<70, "label-success": percent>=70}', ng-show='overStar && !isReadonly') {{percent}}%
+            pre(style='margin:15px 0;').
+                Rate: <b>{{rate}}</b> - Readonly is: <i>{{isReadonly}}</i> - Hovering over: <b>{{overStar || "none"}}</b>
+            button.btn.btn-sm.btn-danger(ng-click='rate = 0', ng-disabled='isReadonly') Clear
+            button.btn.btn-sm.btn-default(ng-click='isReadonly = ! isReadonly') Toggle Readonly
+            hr
+            h4 Custom icons
+            div(ng-init='x = 5')
+                rating(ng-model='x', max='15', state-on='"glyphicon-ok-sign"', state-off='"glyphicon-ok-circle"')
+                b
+                    | (
+                    i Rate:
+                    | {{x}})
+            div(ng-init='y = 2')
+                rating(ng-model='y', rating-states='ratingStates')
+                b
+                    | (
+                    i Rate:
+                    | {{y}})
+
+    div.row(ng-controller="PagesComponentsAngularTabsController")
+        div.col-lg-12
+
+            div.page-header
+                h1#tabs Tabs
+
+            p Select a tab by setting active binding to true:
+            p
+                button.btn.btn-default.btn-sm(ng-click='tabs[0].active = true') Select second tab
+                button.btn.btn-default.btn-sm(ng-click='tabs[1].active = true') Select third tab
+            p
+                button.btn.btn-default.btn-sm(ng-click='tabs[1].disabled = ! tabs[1].disabled') Enable / Disable third tab
+            hr
+            tabset
+                tab(heading='Static title') Static content
+                tab(ng-repeat='tab in tabs', heading='{{tab.title}}', active='tab.active', disabled='tab.disabled')
+                    | {{tab.content}}
+                tab(select='alertMe()')
+                    tab-heading
+                        i.glyphicon.glyphicon-bell
+                        | Alert!
+                    | I've got an HTML heading, and a select callback. Pretty cool!
+            hr
+            tabset(vertical='true', type='pills')
+                tab(heading='Vertical 1') Vertical content 1
+                tab(heading='Vertical 2') Vertical content 2
+            hr
+            tabset(justified='true')
+                tab(heading='Justified') Justified content
+                tab(heading='SJ') Short Labeled Justified content
+                tab(heading='Long Justified') Long Labeled Justified content
+
+    div.row(ng-controller="PagesComponentsAngularTimepickerController")
+        div.col-lg-12
+
+            div.page-header
+                h1#timepicker Timepicker
+
+            timepicker(ng-model='mytime', ng-change='changed()', hour-step='hstep', minute-step='mstep', show-meridian='ismeridian')
+            pre.alert.alert-info.
+                Time is: {{mytime | date:'shortTime' }}
+            .row
+                .col-xs-6
+                    | Hours step is:
+                    select.form-control(ng-model='hstep', ng-options='opt for opt in options.hstep')
+                .col-xs-6
+                    | Minutes step is:
+                    select.form-control(ng-model='mstep', ng-options='opt for opt in options.mstep')
+            hr
+            button.btn.btn-info(ng-click='toggleMode()') 12H / 24H
+            button.btn.btn-default(ng-click='update()') Set to 14:00
+            button.btn.btn-danger(ng-click='clear()') Clear
+
+    div.row(ng-controller="PagesComponentsAngularTooltipController")
+        div.col-lg-12
+
+            div.page-header
+                h1#tooltip Tooltip
+
+            .form-group
+                label Dynamic Tooltip Text
+                input.form-control(type='text', ng-model='dynamicTooltipText')
+            .form-group
+                label Dynamic Tooltip Popup Text
+                input.form-control(type='text', ng-model='dynamicTooltip')
+            p
+                | Pellentesque &nbsp;
+                a(href='#', tooltip='{{dynamicTooltip}}') {{dynamicTooltipText}} &nbsp;
+                | , sit amet venenatis urna cursus eget nunc scelerisque viverra mauris, in aliquam. Tincidunt lobortis feugiat vivamus at &nbsp;
+                a(href='#', tooltip-placement='left', tooltip='On the Left!') left &nbsp;
+                | eget arcu dictum varius duis at consectetur lorem. Vitae elementum curabitur &nbsp;
+                a(href='#', tooltip-placement='right', tooltip='On the Right!') right &nbsp;
+                | nunc sed velit dignissim sodales ut eu sem integer vitae. Turpis egestas &nbsp;
+                a(href='#', tooltip-placement='bottom', tooltip='On the Bottom!') bottom &nbsp;
+                | pharetra convallis posuere morbi leo urna, &nbsp;
+                a(href='#', tooltip-animation='false', tooltip="I don't fade. :-(") fading &nbsp;
+                | at elementum eu, facilisis sed odio morbi quis commodo odio. In cursus &nbsp;
+                a(href='#', tooltip-popup-delay='1000', tooltip='appears with delay') delayed &nbsp;
+                | turpis massa tincidunt dui ut.
+            p
+                | I can even contain HTML. &nbsp;
+                a(href='#', tooltip-html-unsafe='{{htmlTooltip}}') Check me out!
+            form(role='form')
+                .form-group
+                    label Or use custom triggers, like focus:
+                    input.form-control(type='text', value='Click me!', tooltip='See? Now click away...', tooltip-trigger='focus', tooltip-placement='right')
+
+    div.row(ng-controller="PagesComponentsAngularTypeaheadController")
+        div.col-lg-12
+
+            div.page-header
+                h1#typeahead Typeahead
+
+            script(type="text/ng-template", id="customTemplate.html").
+                <a>
+                    <img ng-src="http://upload.wikimedia.org/wikipedia/commons/thumb/{{match.model.flag}}" width="16">
+                    <span bind-html-unsafe="match.label | typeaheadHighlight:query"></span>
+                </a>
+            h4 Static arrays
+            pre.
+                Model: {{selected | json}}
+            input.form-control(type='text', ng-model='selected', typeahead='state for state in states | filter:$viewValue | limitTo:8')
+            h4 Asynchronous results
+            pre.
+                Model: {{asyncSelected | json}}
+            input.form-control(type='text', ng-model='asyncSelected', placeholder='Locations loaded via $http', typeahead='address for address in getLocation($viewValue)', typeahead-loading='loadingLocations')
+            i.glyphicon.glyphicon-refresh(ng-show='loadingLocations')
+            h4 Custom templates for results
+            pre.
+                Model: {{customSelected | json}}
+            input.form-control(type='text', ng-model='customSelected', placeholder='Custom template', typeahead='state as state.name for state in statesWithFlags | filter:{name:$viewValue}', typeahead-template-url='customTemplate.html')
+
+
+
