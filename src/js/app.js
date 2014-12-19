@@ -7,6 +7,8 @@ angular.module('app', [
 
 .config(function (growlProvider) {
     growlProvider.globalTimeToLive(5000);
+    growlProvider.onlyUniqueMessages(false);
+    growlProvider.globalEnableHtml(true);
 })
 
 .config(function (RestangularProvider) {
@@ -36,6 +38,12 @@ angular.module('app', [
     });
 })
 
+.config(function(uiSelectConfig) {
+    uiSelectConfig.theme = 'bootstrap';
+    //uiSelectConfig.theme = 'select2';
+    //uiSelectConfig.theme = 'selectize';
+})
+
 .config(function ($routeProvider) {
     $routeProvider
         .when('/', {
@@ -55,6 +63,10 @@ angular.module('app', [
                 $rootScope.pageTitle('Bootstrap Components');
             },
             templateUrl: '/assets/views/pages/components/pages-components-bootstrap.html'
+        })
+        .when('/components', {
+            controller: 'PagesComponentsController',
+            templateUrl: '/assets/views/pages/components/pages-components.html'
         })
         .when('/contact', {
             controller: 'PagesContactController',

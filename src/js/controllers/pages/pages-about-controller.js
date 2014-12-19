@@ -19,7 +19,8 @@ angular.module('app')
                 ['Angular UI Bootstrap', 'http://angular-ui.github.io/bootstrap/'],
                 ['Angular Form Errors', 'https://github.com/CWSpear/angular-form-errors-directive'],
                 ['Jade', 'http://jade-lang.com/'],
-                ['Jade Converter', 'http://html2jade.org/']
+                ['Jade Converter', 'http://html2jade.org/'],
+                ['Angular Growl', 'https://github.com/marcorinck/angular-growl']
             ]
         ],
         ['Laravel / PHP',
