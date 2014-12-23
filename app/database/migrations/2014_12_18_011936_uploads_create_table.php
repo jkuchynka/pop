@@ -23,7 +23,7 @@ class UploadsCreateTable extends Migration {
         });
 
         Schema::table('users', function ($table) {
-            $table->integer('image')->references('id')->on('users')->onDelete(null);
+            $table->integer('image')->nullable()->references('id')->on('users')->onDelete(null);
         });
     }
 

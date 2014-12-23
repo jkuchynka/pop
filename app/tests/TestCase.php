@@ -1,5 +1,7 @@
 <?php
 
+use Woodling\Woodling;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
     /**
@@ -31,8 +33,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         // Set test name in globals
         $GLOBALS['PHPUNIT_TEST'] = $this->getName();
         // Set skip magma permission
-        $GLOBALS['MAGMA_SKIP_ACCESS'] = true;
-        $models = array();
+        //$GLOBALS['MAGMA_SKIP_ACCESS'] = true;
+        $models = [];
         $files = File::glob(app_path() .'/models/*.php');
         foreach ($files as $file) {
           $class = basename($file, '.php');
@@ -43,6 +45,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
 
         // Migrate the database
         Artisan::call('migrate');
+
         // Set the mailer to pretend
         Mail::pretend(true);
     }
@@ -88,7 +91,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
     {
         // Check status code
         $this->assertEquals( (integer) $statusCode, $response->getStatusCode(), "Response: ". $response->getContent());
-        
+
         // Response should be json
         $data = json_decode($response->getContent());
         $this->assertNotEmpty($data, "Response was not JSON: ". $response->getContent());
@@ -100,6 +103,32 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase {
         }
 
         return $data;
+    }
+
+    public function helperCreateUserAndLogin($roleName = null)
+    {
+        // If role doesn't exist, create it
+        if ($roleName && ! $roleId = DB::table('roles')->where('name', $roleName)->pluck('id')) {
+            $role = new Role();
+            $role->name = $roleName;
+            $role->save();
+            $roleId = $role->id;
+        }
+        // Create test user
+        $user = Woodling::saved('User');
+        if ($roleName) {
+            $user->roles()->sync([$roleId]);
+        }
+        Auth::login($user);
+        return $user;
+    }
+
+    public function helperAttachUserRoles($user, $roles)
+    {
+        foreach ($roles as $role) {
+            DB::insert('insert into assigned_roles (role_id, user_id) values (?, ?)',
+                [$role->id, $user->id]);
+        }
     }
 
     public function createAdminUser()

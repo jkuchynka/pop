@@ -11,7 +11,6 @@ class PermissionIntegrationTest extends TestCase {
 	{
 		// Should get crud permissions for each model
 		$perms = MagmaAccess::getAccessRules();
-		print_r($perms);
 	}
 
 }

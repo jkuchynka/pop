@@ -7,19 +7,13 @@ use LaravelBook\Ardent\Ardent;
 class User extends ConfideUser {
     use HasRole;
 
-    public $autoHydrateEntityFromInput = true;
-
-    public $forceEntityHydrationFromInput = true;
-
-    public $autoPurgeRedundantAttributes = true;
-
     /**
      * Set the assertions to run on model attributes
      * when run with unit tests and assertModel()
      */
     public static $assertions = [
         'equals' => [
-            'id', 'username', 'email', 'status'
+            'id', 'username', 'email'
         ],
         'not_set' => [
             'password', 'password_confirmation', 'confirmation_code'
@@ -49,7 +43,8 @@ class User extends ConfideUser {
      * Define relations for Ardent
      */
     public static $relationsData = [
-        'image' => [self::BELONGS_TO, 'Upload', 'foreignKey' => 'image'],
+        //'image' => [self::BELONGS_TO, 'Upload', 'foreignKey' => 'image'],
+        'image' => [self::HAS_ONE, 'Upload'],
         'roles' => [self::BELONGS_TO_MANY, 'Role', 'table' => 'assigned_roles']
     ];
 
@@ -69,7 +64,7 @@ class User extends ConfideUser {
     public static $accessRules = [
         'create' => [
             'display_name' => 'Create Users',
-            'roles' => '*'
+            'roles' => ['unauthed', 'admin']
         ],
         'read' => [
             'display_name' => 'Read Users',
@@ -82,21 +77,32 @@ class User extends ConfideUser {
         'delete' => [
             'display_name' => 'Delete Users',
             'roles' => ['admin', 'manager', 'owner']
-        ]
-    ];
-
-    /**
-     * Define field level access rules for Magma
-     */
-    public static $accessRulesFields = [
-        'status' => [
-            'read' => [
-                'display_name' => 'Read User Status',
-                'roles' => ['admin', 'manager']
+        ],
+        // Define field level access rules for Magma
+        'fields' => [
+            'status' => [
+                'read' => [
+                    'display_name' => 'Read User Status',
+                    'roles' => ['admin', 'manager']
+                ],
+                'update' => [
+                    'display_name' => 'Update User Status',
+                    'roles' => ['admin', 'manager']
+                ]
             ],
-            'update' => [
-                'display_name' => 'Update User Status',
-                'roles' => ['admin', 'manager']
+            'roles' => [
+                'create' => [
+                    'display_name' => 'Create User Roles',
+                    'roles' => 'admin'
+                ],
+                'read' => [
+                    'display_name' => 'Read User Roles',
+                    'roles' => ['owner', 'admin']
+                ],
+                'update' => [
+                    'display_name' => 'Update User Roles',
+                    'roles' => ['admin']
+                ]
             ]
         ]
     ];

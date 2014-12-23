@@ -8,7 +8,7 @@ class AuthIntegrationTest extends TestCase {
     {
         $user = Woodling::saved('User');
         $response = $this->call('POST', '/api/auth', [
-            'email' => $user->email,
+            'username' => $user->email,
             'password' => 'password'
         ]);
         $data = $this->assertResponse($response);
@@ -20,7 +20,7 @@ class AuthIntegrationTest extends TestCase {
     {
         $user = Woodling::saved('User');
         $response = $this->call('POST', '/api/auth', [
-            'email' => $user->username,
+            'username' => $user->username,
             'password' => 'password'
         ]);
         $data = $this->assertResponse($response);
@@ -30,7 +30,7 @@ class AuthIntegrationTest extends TestCase {
     public function testLoginFailureReturnsFailResponse()
     {
         $response = $this->call('POST', '/api/auth', [
-            'email' => 'foo@bar.net',
+            'username' => 'foo@bar.net',
             'password' => 'failme'
         ]);
         $this->assertResponse($response, 400);
@@ -40,7 +40,7 @@ class AuthIntegrationTest extends TestCase {
     {
         $user = Woodling::saved('User');
         $response = $this->call('POST', '/api/auth', [
-            'email' => $user->email,
+            'username' => $user->email,
             'password' => 'password'
         ]);
         $response = $this->call('GET', '/api/auth/current');
@@ -52,7 +52,7 @@ class AuthIntegrationTest extends TestCase {
     {
         $user = Woodling::saved('User');
         $response = $this->call('POST', '/api/auth', [
-            'email' => $user->email,
+            'username' => $user->email,
             'password' => 'password'
         ]);
         $response = $this->call('DELETE', '/api/auth/me');
