@@ -37,7 +37,7 @@ class User extends ConfideUser {
     /**
      * The attributes excluded from the model's JSON form.
      */
-    protected $hidden = ['password', 'password_confirmation', 'confirmation_code', 'remember_token'];
+    protected $hidden = ['password', 'password_confirmation', 'confirmed', 'confirmation_code', 'remember_token'];
 
     /**
      * Define relations for Ardent

@@ -19,6 +19,23 @@ class UserRoleIntegrationTest extends TestCase {
         }
     }
 
+    // ========== QUERY =================
+
+    // QUERY - as unauthed
+
+    public function testUnauthedQueryUsersStatusNotAllowed()
+    {
+        Woodling::savedList('User', 3);
+        $response = $this->call('GET', '/api/users');
+        $data = $this->assertResponse($response);
+        $this->assertObjectNotHasAttribute('status', $data[0]);
+        $this->assertObjectNotHasAttribute('password', $data[0]);
+        $this->assertObjectNotHasAttribute('confirmation_code', $data[0]);
+        $this->assertObjectNotHasAttribute('remember_token', $data[0]);
+        $this->assertObjectNotHasAttribute('confirmed', $data[0]);
+    }
+
+
     // =========== CREATE ==================
 
     // CREATE - as unauthed

@@ -14,9 +14,9 @@ class UserIntegrationTest extends TestCase {
         }
     }
 
-    // =========== POST ==================
+    // =========== CREATE ==================
 
-    // POST - as unauthed
+    // CREATE - as unauthed
 
     public function testUnauthPostNewUser()
     {
@@ -53,7 +53,7 @@ class UserIntegrationTest extends TestCase {
         $data = $this->assertResponse($response, 403);
     }
 
-    // POST - as authed
+    // CREATE - as authed
 
     public function testAuthedPostNewUserReturnError()
     {
@@ -67,7 +67,7 @@ class UserIntegrationTest extends TestCase {
     }
 
 
-    // POST - as admin
+    // CREATE - as admin
 
     public function testAdminPostNewUser()
     {
@@ -83,9 +83,9 @@ class UserIntegrationTest extends TestCase {
     }
 
 
-    // ======== SHOW ================
+    // ======== READ ================
 
-    // SHOW - as authed user
+    // READ - as authed user
 
     public function testAuthedShowUserWithRelations()
     {
@@ -170,6 +170,13 @@ class UserIntegrationTest extends TestCase {
         $response = $this->call('PUT', '/api/users/'. $user->id, [ 'image' => $upload->toArray() ]);
         $data = $this->assertResponse($response);
         $this->assertEquals($upload->id, $data->image['id']);
+    }
+
+    public function testAuthedUpdateUserPurge()
+    {
+        $user = $this->helperCreateUserAndLogin();
+        $response = $this->call('PUT', '/api/users/' . $user->id, [ '/api/users/' . $user->id => '']);
+        $this->assertResponse($response);
     }
 
     // UPDATE - as admin user
