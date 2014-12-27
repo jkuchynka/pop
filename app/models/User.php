@@ -13,7 +13,7 @@ class User extends ConfideUser {
      */
     public static $assertions = [
         'equals' => [
-            'id', 'username', 'email'
+            'id', 'username'
         ],
         'not_set' => [
             'password', 'password_confirmation', 'confirmation_code'
@@ -80,10 +80,16 @@ class User extends ConfideUser {
         ],
         // Define field level access rules for Magma
         'fields' => [
+            'email' => [
+                'read' => [
+                    'display_name' => 'Read User Email Address',
+                    'roles' => ['admin', 'manager', 'owner']
+                ]
+            ],
             'status' => [
                 'read' => [
                     'display_name' => 'Read User Status',
-                    'roles' => ['admin', 'manager']
+                    'roles' => ['admin', 'manager', 'owner']
                 ],
                 'update' => [
                     'display_name' => 'Update User Status',

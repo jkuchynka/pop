@@ -30,6 +30,37 @@ class UserIntegrationTest extends TestCase {
         $this->assertObjectNotHasAttribute('confirmed', $data[0]);
     }
 
+    // QUERY - as authed
+
+    public function testAuthedQueryUsersFieldsNotShownUnlessOwner()
+    {
+        Woodling::savedList('User', 3);
+        $user = $this->helperCreateUserAndLogin();
+        $response = $this->call('GET', '/api/users');
+        $data = $this->assertResponse($response);
+        foreach ($data as $retUser) {
+            if ($retUser->id == $user->id) {
+                $this->assertNotEmpty('email', $retUser);
+                $this->assertNotEmpty('status', $retUser);
+            } else {
+                $this->assertObjectNotHasAttribute('email', $retUser);
+                $this->assertObjectNotHasAttribute('status', $retUser);
+            }
+        }
+    }
+
+    // QUERY - as admin
+
+    public function testAdminQueryUsersShowAllFields()
+    {
+        Woodling::savedList('User', 3);
+        $admin = $this->helperCreateUserAndLogin('admin');
+        $response = $this->call('GET', '/api/users');
+        $data = $this->assertResponse($response);
+        $this->assertNotEmpty('status', $data[0]);
+        $this->assertNotEmpty('email', $data[0]);
+    }
+
     // =========== CREATE ==================
 
     // CREATE - as unauthed
@@ -107,24 +138,40 @@ class UserIntegrationTest extends TestCase {
     {
         $user = Woodling::saved('User');
         $response = $this->call('GET', '/api/users/' . $user->id);
-        $this->assertResponse($response);
+        $data = $this->assertResponse($response);
+        $this->assertObjectNotHasAttribute('email', $data);
+        $this->assertObjectNotHasAttribute('status', $data);
     }
 
     // READ - as authed user
 
-    public function testAuthedShowUserWithRelations()
+    public function testAuthedReadUserWithRelations()
     {
         $user = $this->helperCreateUserAndLogin();
         $response = $this->call('GET', '/api/users/'. $user->id, [
             'with[]' => 'image', 'with[]' => 'roles' ]);
-        $this->assertResponse($response);
+        $data = $this->assertResponse($response);
+        $this->assertNotEmpty('email', $data);
+        $this->assertNotEmpty('status', $data);
     }
 
-    public function testAuthedShowNonExistantUserReturnsError()
+    public function testAuthedReadwNonExistantUserReturnsError()
     {
         $user = $this->helperCreateUserAndLogin();
         $response = $this->call('GET', '/api/users/99999');
         $this->assertResponse($response, 403);
+    }
+
+    // READ - as admin
+
+    public function testAdminReadUserShowAllFields()
+    {
+        Woodling::savedList('User', 3);
+        $admin = $this->helperCreateUserAndLogin('admin');
+        $response = $this->call('GET', '/api/users');
+        $data = $this->assertResponse($response);
+        $this->assertNotEmpty('email', $data[0]->email);
+        $this->assertNotEmpty('status', $data[0]->status);
     }
 
 
@@ -200,6 +247,7 @@ class UserIntegrationTest extends TestCase {
     public function testAuthedUpdateUserPurge()
     {
         $user = $this->helperCreateUserAndLogin();
+        // Test that extra parameters in input are purged, such as some webservers add in http route
         $response = $this->call('PUT', '/api/users/' . $user->id, [ '/api/users/' . $user->id => '']);
         $this->assertResponse($response);
     }
