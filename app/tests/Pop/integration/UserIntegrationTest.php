@@ -14,6 +14,22 @@ class UserIntegrationTest extends TestCase {
         }
     }
 
+    // =========== QUERY ===================
+
+    // QUERY - as unauthed
+
+    public function testUnauthedQueryUsersFieldsNotShown()
+    {
+        Woodling::savedList('User', 3);
+        $response = $this->call('GET', '/api/users');
+        $data = $this->assertResponse($response);
+        $this->assertObjectNotHasAttribute('status', $data[0]);
+        $this->assertObjectNotHasAttribute('password', $data[0]);
+        $this->assertObjectNotHasAttribute('confirmation_code', $data[0]);
+        $this->assertObjectNotHasAttribute('remember_token', $data[0]);
+        $this->assertObjectNotHasAttribute('confirmed', $data[0]);
+    }
+
     // =========== CREATE ==================
 
     // CREATE - as unauthed
@@ -84,6 +100,15 @@ class UserIntegrationTest extends TestCase {
 
 
     // ======== READ ================
+
+    // READ - as unauthed user
+
+    public function testUnauthedReadUserReturnsObject()
+    {
+        $user = Woodling::saved('User');
+        $response = $this->call('GET', '/api/users/' . $user->id);
+        $this->assertResponse($response);
+    }
 
     // READ - as authed user
 

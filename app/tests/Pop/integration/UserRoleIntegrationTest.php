@@ -23,16 +23,50 @@ class UserRoleIntegrationTest extends TestCase {
 
     // QUERY - as unauthed
 
-    public function testUnauthedQueryUsersStatusNotAllowed()
+    public function testUnauthedQueryUsersRolesNotShown()
     {
         Woodling::savedList('User', 3);
-        $response = $this->call('GET', '/api/users');
+        $response = $this->call('GET', '/api/users', [ 'with' => 'roles' ]);
         $data = $this->assertResponse($response);
-        $this->assertObjectNotHasAttribute('status', $data[0]);
-        $this->assertObjectNotHasAttribute('password', $data[0]);
-        $this->assertObjectNotHasAttribute('confirmation_code', $data[0]);
-        $this->assertObjectNotHasAttribute('remember_token', $data[0]);
-        $this->assertObjectNotHasAttribute('confirmed', $data[0]);
+        $this->assertObjectNotHasAttribute('roles', $data[0]);
+    }
+
+    // QUERY - as authed
+
+    public function testAuthedQueryUsersRolesEmptyUnlessOwner()
+    {
+        $users = Woodling::savedList('User', 3);
+        $roles = Woodling::savedList('Role', 3);
+        foreach ($users as $user) {
+            $this->helperAttachUserRoles($user, $roles);
+        }
+        $user = $this->helperCreateUserAndLogin();
+        $this->helperAttachUserRoles($user, $roles);
+        $response = $this->call('GET', '/api/users', [ 'with' => 'roles' ]);
+        $data = $this->assertResponse($response);
+        foreach ($data as $retUser) {
+            if ($retUser->id == $user->id) {
+                $this->assertObjectHasAttribute('roles', $retUser);
+                $this->assertEquals(3, count($retUser->roles));
+            } else {
+                $this->assertObjectNotHasAttribute('roles', $retUser);
+            }
+        }
+    }
+
+    // QUERY - as admin
+
+    public function testAdminQueryUsersWithRoles()
+    {
+        $users = Woodling::savedList('User', 3);
+        $roles = Woodling::savedList('Role', 3);
+        foreach ($users as $user) {
+            $this->helperAttachUserRoles($user, $roles);
+        }
+        $user = $this->helperCreateUserAndLogin('admin');
+        $response = $this->call('GET', '/api/users', [ 'with' => 'roles' ]);
+        $data = $this->assertResponse($response);
+        $this->assertEquals(3, count($data[0]->roles));
     }
 
 
@@ -115,6 +149,18 @@ class UserRoleIntegrationTest extends TestCase {
     }
 
     // =========== UPDATE ==================
+
+    // UPDATE - as unauthed
+
+    public function testUnauthedUpdateOtherUsersRoleDenied()
+    {
+        $user = Woodling::saved('User');
+        $roles = Woodling::savedList('Role', 3);
+        $response = $this->call('PUT', '/api/users/' . $user->id, [ 'roles' => $roles ]);
+        $this->assertResponse($response, 401);
+        $ret = DB::table('assigned_roles')->where('user_id', $user->id)->get();
+        $this->assertEquals(0, count($ret));
+    }
 
     // UPDATE - as authed
 
