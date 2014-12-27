@@ -31,9 +31,10 @@
 
             .form-group
                 label(for="roles") Roles
-                select.multi-select#roles(multiple="multiple", name="roles", ui-select2="{ allowClear: true }", data-placeholder="Select Roles", ng-model="selectedRoles")
-                    option(value="")
-                    option(ng-repeat="role in roles", ng-value="role.id") {{ role.name }}
+                ui-select.form-control#roles(multiple, reset-search-input="true", ng-model="user.roles")
+                    ui-select-match(placeholder="Select roles") {{ $item.name }}
+                    ui-select-choices(repeat="role.id as role in roles | filter: $select.search")
+                        |{{ role.name }}
 
 
             button.btn.btn-primary(type="button", ng-click="save()") Save

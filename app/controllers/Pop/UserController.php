@@ -14,7 +14,6 @@ class UserController extends \BaseController {
      */
     public function index()
     {
-        // @todo: Access check
         return Magma::query('User');
     }
 
@@ -23,7 +22,6 @@ class UserController extends \BaseController {
      */
     public function show($id)
     {
-        // @todo: Access check
         return Magma::read('User', $id);
     }
 
@@ -32,10 +30,7 @@ class UserController extends \BaseController {
      */
     public function store()
     {
-        // @todo: Access check
-        return Magma::create('User', [], function ($user) {
-            $this->updateUserImage($user);
-        });
+        return Magma::create('User');
     }
 
     /**
@@ -43,12 +38,7 @@ class UserController extends \BaseController {
      */
     public function update($id)
     {
-        // @todo: Access check
-        // Magma handles syncing relations like roles, but handle
-        // user images in success callback
-        return Magma::update('User', $id, [], function ($user) {
-            //$this->updateUserImage($user);
-        });
+        return Magma::update('User', $id);
     }
 
     /**
@@ -56,35 +46,7 @@ class UserController extends \BaseController {
      */
     public function destroy($id)
     {
-        // @todo: Access check
         return Magma::delete('User', $id);
-    }
-
-    /**
-     * Set the user's profile image
-     */
-    protected function updateUserImage($user)
-    {
-        // Save user image
-        $all = Input::all();
-        if (array_key_exists('image', $all)) {
-            $image = Input::get('image');
-            if ($image['id']) {
-                // Delete previous userimages
-                \Upload::where('user_id', $user->id)
-                    ->where('upload_type', 'userimage')
-                    ->where('id', '<>', $image['id'])
-                    ->delete();
-                $upload = \Upload::find($image['id']);
-                $upload->upload_type = 'userimage';
-                $upload->update();
-            } else {
-                // Delete all userimages
-                \Upload::where('user_id', $user->id)
-                    ->where('upload_type', 'userimage')
-                    ->delete();
-            }
-        }
     }
 
     /**

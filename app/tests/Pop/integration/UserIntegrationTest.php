@@ -235,15 +235,6 @@ class UserIntegrationTest extends TestCase {
         $this->assertEquals(1, DB::table('users')->where('id', $user->id)->pluck('status'));
     }
 
-    public function testAuthedUpdateUserImageRecord()
-    {
-        $user = $this->helperCreateUserAndLogin();
-        $upload = Woodling::saved('Upload', [ 'user_id' => $user->id ]);
-        $response = $this->call('PUT', '/api/users/'. $user->id, [ 'image' => $upload->toArray() ]);
-        $data = $this->assertResponse($response);
-        $this->assertEquals($upload->id, $data->image['id']);
-    }
-
     public function testAuthedUpdateUserPurge()
     {
         $user = $this->helperCreateUserAndLogin();

@@ -18,6 +18,7 @@ angular.module('app')
                 ['Bootswatch Bower Install', 'https://github.com/dbtek/bootswatch-dist'],
                 ['Angular UI Bootstrap', 'http://angular-ui.github.io/bootstrap/'],
                 ['Angular Form Errors', 'https://github.com/CWSpear/angular-form-errors-directive'],
+                ['Angular UI Select', 'https://github.com/angular-ui/ui-select'],
                 ['Jade', 'http://jade-lang.com/'],
                 ['Jade Converter', 'http://html2jade.org/'],
                 ['Angular Growl', 'https://github.com/marcorinck/angular-growl']

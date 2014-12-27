@@ -2,6 +2,8 @@ angular.module('app')
 
 .controller('UsersEditController', function ($location, $scope, $rootScope, $http, $modal, $routeParams, $timeout, $upload, growl, mode, Restangular, Api) {
 
+    $scope.selectedRoles = [];
+
     var init = function () {
         $scope.roles = Api.Roles.getList().$object;
         if (mode == 'edit') {
@@ -10,10 +12,8 @@ angular.module('app')
                 'with[]': ['image', 'roles'] }).then(function (users) {
                     console.log('editing user: ', users);
                     $scope.user = users[0];
+                    $scope.user.roles = _.pluck($scope.user.roles, 'id');
                     $rootScope.pageTitle('Edit user: ' + $scope.user.username);
-                    _.each($scope.user.roles, function (value) {
-                        $scope.selectedRoles.push(value.id);
-                    });
                 }, function (response) {
                     growl.addErrorMessage(response.data.errors[0]);
                 });
@@ -63,12 +63,12 @@ angular.module('app')
 
     var saveUser = function () {
         if ($scope.mode == 'edit') {
-            $scope.user.roles = $scope.selectedRoles;
             $scope.user
                 .put()
                 .then(function (response) {
+                    // Update rootScope user
+                    $rootScope.getCurrentUser();
                     growl.addSuccessMessage('Success! Your profile has been updated.');
-                    //AuthService.loadCurrentUser();
                     $location.path('/user/' + $scope.user.username);
                 }, function (response) {
                     growl.addErrorMessage("Error updating profile: " + response.data.errors[0]);
