@@ -44,7 +44,7 @@ class User extends ConfideUser {
      */
     public static $relationsData = [
         //'image' => [self::BELONGS_TO, 'Upload', 'foreignKey' => 'image'],
-        'image' => [self::HAS_ONE, 'Upload'],
+        'image' => [self::HAS_ONE, 'Upload', 'otherKey' => 'image'],
         'roles' => [self::BELONGS_TO_MANY, 'Role', 'table' => 'assigned_roles']
     ];
 
