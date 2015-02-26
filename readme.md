@@ -23,13 +23,14 @@ Pop is a Laravel 4 and AngularJS SPA starter site.
 - Frontend tests
 - Add config for pop app
 - Demo site
+- Better file organization
 
 
 ## Sample Screens
 
-![Components](https://www.dropbox.com/s/babjx516akaku9p/pop-screen-components.png?dl=0)
-![Profile](https://www.dropbox.com/s/9raclfdx5to4jw8/pop-screen-profile.png?dl=0)
-![Register Form](https://www.dropbox.com/s/pxyp09nfj2u19dl/pop-screen-register.png?dl=0)
+![Components](https://dl.dropboxusercontent.com/s/babjx516akaku9p/pop-screen-components.png?dl=0)
+![Profile](https://dl.dropboxusercontent.com/s/9raclfdx5to4jw8/pop-screen-profile.png?dl=0)
+![Register Form](https://dl.dropboxusercontent.com/s/pxyp09nfj2u19dl/pop-screen-register.png?dl=0)
 
 ## Architecture
 
