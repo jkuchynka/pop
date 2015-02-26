@@ -1,8 +1,6 @@
-angular.module('app')
 
-.controller('PagesContactController', function ($scope, $rootScope, Api, growl) {
-
-    $rootScope.pageTitle('Contact Us');
+app.controller('ContactCtrl', function ($scope, $rootScope, Api, growl) {
+    $rootScope.title = 'Contact Us';
 
     $scope.showErrors = false;
     $scope.errors = [];

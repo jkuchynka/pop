@@ -10,6 +10,36 @@ body {
     min-height: 100%;
 }
 
+.small {
+    font-size: 11px;
+}
+
+.medium {
+    font-size: 14px;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.navbar-nav {
+    .user-img {
+        display: inline;
+        height: 25px;
+        margin: 0 5px;
+    }
+}
+
+img.favicon {
+    width: 16px;
+    height: 16px;
+    display: inline;
+    margin: 0 5px 0 0;
+}
+
+.nav > li > a {
+    padding-right: 25px;
+}
 
 .navbar-default {
     .navbar-header {
@@ -134,11 +164,11 @@ footer {
 
 .subnav {
     height: 100%;
-    width: @subnav-width;
+    width: 375px;
     position: fixed;
     top: 0;
     color: #f9f9f9;
-    z-index: 9999;
+    z-index: 9;
     background: rgba(0, 0, 0, 0.98);
     .navbar-text {
         float: none;
@@ -158,14 +188,12 @@ footer {
 
 .subnav-left {
     left: 0;
-    min-width: 250px;
     padding-top: 40px;
     text-align: right;
 }
 
 .subnav-right {
     right: 0;
-    min-width: 250px;
     .header {
         font-weight: bold;
         background: #222;

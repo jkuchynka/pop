@@ -29,18 +29,20 @@ html(lang='en', ng-app='app')
         div.navbar.navbar-default.navbar-fixed-top
             .container
                 .navbar-header
-                    a.navbar-toggle-slideout(href="#", ng-click="toggleNav('left')")
-                        i.fa.fa-bars
 
                     a.navbar-brand.text-shadow(href="/") POP
+
+                    a.navbar-toggle-slideout(href="#", ng-click="toggleNav('left')")
+                        i.fa.fa-bars
 
                 h1.page-title.text-shadow(ng-bind="title")
 
                 div.navbar-collapse.collapse(user-menu)
 
-        div.view(ng-view)
+        div.view-wrapper
+            div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'", ng-style="navStyle()")
+            div.view(ng-view, ui-view)
 
-        div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'", ng-style="navStyle()")
         div.subnav.subnav-right.ng-hide(nav-menu-right, ng-show="showNav == 'right'", ng-style="navStyle()")
 
         footer

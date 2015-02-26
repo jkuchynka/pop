@@ -1,0 +1,51 @@
+
+.ui-view
+
+    .container
+
+        .row
+            .col-lg-12
+                .page-header
+                    h1 Components
+                    p.lead Preview
+
+        .row
+            .col-lg-12
+                .page-header
+                    h1#growl Growl
+
+                .form-group
+                    label Message Type
+                    .btn-group
+                        label.btn.btn-success(ng-model="growl.type", btn-radio="'success'") Success
+                        label.btn.btn-info(ng-model="growl.type", btn-radio="'info'") Info
+                        label.btn.btn-warning(ng-model="growl.type", btn-radio="'warn'") Warn
+                        label.btn.btn-danger(ng-model="growl.type", btn-radio="'error'") Error
+
+                .form-group
+                    label Message text (html is allowed)
+                    input.form-control(type="text", ng-model="growl.message")
+
+                .form-group
+                    label Timeout (default is app setting, set to -1 for no timeout or some other number to override)
+                    input.form-control(type="text", ng-model="growl.timeout")
+
+                .form-group
+                    .btn-group
+                        button.btn.btn-primary(type="button", ng-click="growl.doGrowl()") Create Message
+
+
+        .row
+            .col-lg-12
+                .page-header
+                    h1#ui-select Ui Select
+
+                h4 Multiple Select
+                .form-group
+                    label Select Roles
+                    ui-select.form-control(multiple, reset-search-input="true", ng-model="user.roles")
+                        ui-select-match(placeholder="Select roles") {{ $item.label }}
+                        ui-select-choices(repeat="role in roles | filter: $select.search")
+                            |{{ role.label }}
+
+                p Selected: {{ user.roles }}

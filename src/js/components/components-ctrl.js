@@ -1,8 +1,7 @@
-angular.module('app')
 
-.controller('PagesComponentsController', function ($scope, $rootScope, growl) {
+app.controller('ComponentsCtrl', function ($scope, $rootScope, growl) {
 
-    $rootScope.pageTitle('Components');
+    $rootScope.title = 'Components';
 
     $scope.roles = [
         { id: 1, label: 'Administrator', key: 'admin' },

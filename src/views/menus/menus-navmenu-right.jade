@@ -7,7 +7,7 @@ div.subnav-wrapper
                 img.user-image(ng-src="/image/small/{{ user.image.filename }}" ng-if="user.image")
                 img.user-image(ng-src="/assets/images/default-userimage.png" ng-if="!user.image")
         li
-            a(ng-href="/users/{{ user.username }}/edit") Edit Profile
+            a(ui-sref="users.profile.edit") Edit Profile
         li
             a(href="/logout", target="_self", title="Logout")
                 |Logout &nbsp;

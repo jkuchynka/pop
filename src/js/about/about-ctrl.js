@@ -1,8 +1,7 @@
-angular.module('app')
 
-.controller('PagesAboutController', function ($scope, $rootScope) {
+app.controller('AboutCtrl', function ($scope, $rootScope) {
 
-    $rootScope.pageTitle('About Pop');
+    $rootScope.title = 'About Pop';
 
     $scope.links = [
         ['Pop',

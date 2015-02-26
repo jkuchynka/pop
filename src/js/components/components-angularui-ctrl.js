@@ -2,7 +2,7 @@ angular.module('app')
 
 .controller('PagesComponentsAngularController', function ($scope, $rootScope) {
 
-    $rootScope.pageTitle('Angular UI Components');
+    $rootScope.title = 'Angular UI Components';
 
 })
 

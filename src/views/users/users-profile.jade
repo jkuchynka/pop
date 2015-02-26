@@ -1,9 +1,11 @@
 
-.container
+.ui-view
 
-    img.user-image(ng-src="/image/medium/{{ user.image.filename }}" ng-if="user.image.path")
-    img.user-image(ng-src="/assets/images/default-userimage.png" ng-if="!user.image.path")
+    .container
 
-    h2 {{ user.username }}
+        img.user-image(ng-src="/image/medium/{{ user.image.filename }}" ng-if="user.image.path")
+        img.user-image(ng-src="/assets/images/default-userimage.png" ng-if="!user.image.path")
 
-    pre {{ user | json }}
+        h2 {{ user.username }}
+
+        pre {{ user | json }}
