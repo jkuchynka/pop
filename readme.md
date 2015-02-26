@@ -1,6 +1,6 @@
 ## Pop
 
-Pop is a Laravel 4 and AngularJS SPA starter site.
+Pop is a Laravel 4 and AngularJS SPA starter site. There's lots of good stuff sprinkled in. So feel free to poke around, clone the repo, use it to start a new project, and submit feature requests, pull requests, or just browse the code and learn more about the awesome combination that is Laravel and Angular.
 
 
 ## Features
