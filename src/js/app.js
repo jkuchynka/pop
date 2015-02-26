@@ -77,7 +77,8 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
         // and their server session expires, 401 responses
         // from the server should be caught by the app and
         // then call logout
-        Restangular.one('users', $rootScope.user.id).get({ 'with[]': ['roles.perms', 'image'] }).then(function (user) {
+        Restangular.one('auth/current').get({ 'with[]': ['roles.perms', 'image'] }).then(function (user) {
+            console.log('current user from server', user);
             if ($rootScope.user.id && user.id && ($rootScope.user.id == user.id)) {
                 //$rootScope.setUser(user);
             } else {
@@ -118,7 +119,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
                 if ((toState.auth.authed && !App.userIsAuthed()) ||
                     (!toState.auth.authed && App.userIsAuthed())) {
                     growl.addErrorMessage("You are not allowed to visit that page.");
-                    $state.go('login');
+                    $state.go('home');
                     event.preventDefault();
                 }
             }

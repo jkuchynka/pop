@@ -32,11 +32,6 @@ app.config(function ($stateProvider) {
             title: 'Profile',
             auth: {
                 authed: true
-            },
-            resolve: {
-                user: function (store) {
-                    return store.get('user');
-                }
             }
         })
         .state('users.profile.edit', {

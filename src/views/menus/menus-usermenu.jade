@@ -1,6 +1,7 @@
 
 div.nav.navbar-nav.navbar-right(ng-if="user.id")
     p.navbar-text Yo, &nbsp;
+        img.img-responsive.user-img(ng-if="user.image", ng-src="/image/small/{{ user.image.filename }}")
         a.profile-link(ui-sref="users.profile", ng-bind="user.username")
         | &nbsp; !
 
@@ -9,7 +10,7 @@ div.nav.navbar-nav.navbar-right(ng-if="user.id")
 
 ul.nav.navbar-nav.navbar-right(ng-if="!user.id")
     li
-        a(ui-sref="login") Login
+        a(ui-sref="users.login") Login
 
     li
-        a(ui-sref="register") Register
+        a(ui-sref="users.register") Register

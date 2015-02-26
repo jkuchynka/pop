@@ -1,6 +1,5 @@
 
 .ui-view
-
     .container
 
         img.user-image(ng-src="/image/medium/{{ user.image.filename }}" ng-if="user.image.path")
@@ -8,4 +7,15 @@
 
         h2 {{ user.username }}
 
-        pre {{ user | json }}
+        dl
+            dt Email:
+            dd {{ user.email }}
+
+            dt Joined:
+            dd {{ user.date_created_at | date:'shortDate' }}
+
+            dt Roles:
+            dd
+                span(ng-repeat="role in user.roles | orderBy: 'name'", style="margin-right: 10px") {{ role.name }}
+
+        a(href="/profile/edit") Edit Profile

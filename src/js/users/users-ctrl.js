@@ -1,5 +1,5 @@
 
-app.controller('UsersConfirmCtrl', function ($scope, $location, $rootScope, $routeParams, growl, Api) {
+var ConfirmCtrl = function ($scope, $location, $rootScope, $routeParams, growl, Api) {
 
     Api.getCurrentUser(true).then(function (user) {
         if (user.id) {
@@ -19,9 +19,12 @@ app.controller('UsersConfirmCtrl', function ($scope, $location, $rootScope, $rou
         });
     });
 
-});
+};
+app.controller('UsersConfirmCtrl', ConfirmCtrl);
 
-app.controller('UsersEditCtrl', function ($scope, $rootScope, $modal, $state, growl, mode, roles, store, App, Restangular) {
+var EditCtrl = function ($scope, $rootScope, $modal, $state, growl, mode, roles, store, App, Restangular) {
+
+    console.log('UsersEditCtrl');
 
     $scope.errors = [];
     $scope.showErrors = false;
@@ -59,6 +62,7 @@ app.controller('UsersEditCtrl', function ($scope, $rootScope, $modal, $state, gr
     };
 
     $scope.doSubmit = function () {
+
         $scope.showErrors = false;
         if (!$scope.userForm.$valid) {
             $scope.showErrors = true;
@@ -70,7 +74,7 @@ app.controller('UsersEditCtrl', function ($scope, $rootScope, $modal, $state, gr
                 // Update rootScope user
                 $rootScope.setUser(response);
                 growl.addSuccessMessage('Success! Your profile has been updated.');
-                $state.go('profile');
+                $state.go('users.profile');
             }, function (response) {
                 $scope.errors = response.data.errors;
                 $scope.showErrors = true;
@@ -88,9 +92,10 @@ app.controller('UsersEditCtrl', function ($scope, $rootScope, $modal, $state, gr
         }
     };
 
-});
+};
+app.controller('UsersEditCtrl', EditCtrl);
 
-app.controller('UsersLoginCtrl', function ($scope, $rootScope, $location, $state, Api, growl, store, Restangular) {
+var LoginCtrl = function ($scope, $rootScope, $location, $state, Api, growl, store, Restangular) {
 
     $scope.errors = [];
     $scope.showErrors = false;
@@ -105,7 +110,7 @@ app.controller('UsersLoginCtrl', function ($scope, $rootScope, $location, $state
                 Restangular.one('users', user.id).get({'with[]': ['roles', 'image']}).then(function (user) {
                     growl.addSuccessMessage('Welcome back, ' + user.username + ' !');
                     $rootScope.setUser(user);
-                    $state.go('profile');
+                    $state.go('users.profile');
                 });
             }, function (response) {
                 $scope.errors = response.data.errors;
@@ -116,9 +121,10 @@ app.controller('UsersLoginCtrl', function ($scope, $rootScope, $location, $state
         }
     };
 
-});
+};
+app.controller('UsersLoginCtrl', LoginCtrl);
 
-app.controller('UsersPasswordCtrl', function ($scope, $location, $routeParams, $rootScope, growl, Api) {
+var PasswordCtrl = function ($scope, $location, $routeParams, $rootScope, growl, Api) {
 
     $scope.reset = {};
 
@@ -156,17 +162,16 @@ app.controller('UsersPasswordCtrl', function ($scope, $location, $routeParams, $
         }
     };
 
-});
+};
+app.controller('UsersPasswordCtrl', PasswordCtrl);
 
-app.controller('UsersProfileCtrl', function ($scope, $rootScope, store, user) {
-    //$scope.user = store.get('user');
-    $scope.user = user;
-    console.log(user);
-    $rootScope.title = $scope.user.username + "'s Profile";
-});
+var ProfileCtrl = function ($scope, $rootScope) {
+    // Uses $rootScope user
+    $rootScope.title = $rootScope.user.username + "'s Profile";
+};
+app.controller('UsersProfileCtrl', ProfileCtrl);
 
-
-app.controller('UsersRegisterCtrl', function ($scope, $rootScope, growl, Api) {
+var RegisterCtrl = function ($scope, $rootScope, growl, Api) {
 
     $scope.showErrors = false;
     $scope.errors = [];
@@ -195,9 +200,10 @@ app.controller('UsersRegisterCtrl', function ($scope, $rootScope, growl, Api) {
         }
     };
 
-});
+};
+app.controller('UsersRegisterCtrl', RegisterCtrl);
 
-app.controller('UsersResetCtrl', function ($scope, $location, $rootScope, growl, Api) {
+var ResetCtrl = function ($scope, $location, $rootScope, growl, Api) {
 
     $scope.showErrors = false;
     $scope.errors = [];
@@ -217,13 +223,15 @@ app.controller('UsersResetCtrl', function ($scope, $location, $rootScope, growl,
         }
     };
 
-});
+};
+app.controller('UsersResetCtrl', ResetCtrl);
 
-app.controller('UsersResetInvalidCtrl', function ($scope, $rootScope) {
-    //$rootScope.pageTitle('Reset Password');
-});
+var ResetInvalidCtrl = function ($scope, $rootScope) {
 
-app.controller('UsersResetSuccessCtrl', function ($scope, $rootScope) {
-    //$rootScope.pageTitle('Reset Password');
-});
+};
+app.controller('UsersResetInvalidCtrl', ResetInvalidCtrl);
 
+var ResetSuccessCtrl = function ($scope, $rootScope) {
+
+};
+app.controller('UsersResetSuccessCtrl', ResetSuccessCtrl);
