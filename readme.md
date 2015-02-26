@@ -2,87 +2,115 @@
 
 Pop is a Laravel 4 and AngularJS SPA starter site.
 
-Use it to jumpstart a project, or just to learn some new things about Laravel and AngularJS interaction. Currently, it is biased about the external dependencies it uses and the way it is setup, so make sure you understand any limitations before using it for your app. Or, be open to customizing it to your needs.
-
 
 ## Features
 
-Admin section
+**Current:**
+- Full user system and workflow (register/login/confirm/reset/roles/profile)
+- Contact form
+- Demo pages of all front-end widgets (bootstrap, angular-bootstrap, growl, ui-select, ng-table etc...)
+- Limited Admin system
+- Popout menus
+- Form validation and error handling
+- Backend phpunit tests
+- Imagecache
 
-Manage users
 
-Manage roles
+**Planned:**
+- Permissions
+- Full extensible admin dashboard
+- Remove ardent dependency
+- Frontend tests
+- Add config for pop app
+- Demo site
 
+
+## Sample Screens
+
+![Components](https://www.dropbox.com/s/babjx516akaku9p/pop-screen-components.png?dl=0)
+![Profile](https://www.dropbox.com/s/9raclfdx5to4jw8/pop-screen-profile.png?dl=0)
+![Register Form](https://www.dropbox.com/s/pxyp09nfj2u19dl/pop-screen-register.png?dl=0)
 
 ## Architecture
 
-In this project, Angular is setup as a SPA (single page app). It handles all the routes, views, anything that happens on the client side, and interacts with the server (laravel) via REST json services. This makes for a nice separation of server and client concerns, but has a few limitations (namely SEO). See more here: http://popwords.net/issues-with-spa .
+In this project, Angular is setup as a SPA (single page app). It handles all the routes, views, anything that happens on the client side, and interacts with the server (laravel) via REST json.
 
 Here's a quick glance of 3rd party libraries used by pop:
 
 
 ### Frontend:
 
-bootstrap
-angular
-jquery
-jade
-less
+- bootstrap
+- angular
+- jquery
+- jade
+- less
 
 
 ### Backend:
 
-Laravel 4
-Ardent
-Confide
-Entrust
-Woodling
+- Laravel 4
+- Magma
+- Ardent
+- Confide
+- Entrust
+- Woodling
 
 
 ### Package management:
 
-composer
-bower
-npm
+- composer
+- bower
+- npm
 
 
 ### Testing:
 
-phpunit
+- phpunit
 
 
-### Development/Build:
+### Deployment/Build:
 
-gulp
-less
+- gulp
 
 
 ## Getting started
 
-$ git clone http://github.com/jbizzay/pop newapp
+**Setup**
 
-$ cd newapp
+    $ git clone http://github.com/jbizzay/pop newapp
 
-$ composer update
+    $ cd newapp
 
-$ bower install
+    $ composer update
 
-$ npm install
+    $ bower install
 
-$ gulp
+    $ npm install
+
+    $ gulp
 
 Add your machine name to the local environment in bootstrap/start.php
 
-$ mkdir app/config/local
+    $ mkdir app/config/local
 
-$ cp app/config/database.php app/config/local/database.php
+    $ cp app/config/database.php app/config/local/database.php
 
 Edit your database settings in database.php, create your database
 
-$ php artisan migrate
+    $ php artisan migrate
 
-$ php artisan db:seed
+    $ php artisan db:seed
 
-Either setup your webserver to point to public/ or use:
+If you want to use gulp watch, Setup your virtual host then edit the proxy setting in the browser-sync task in gulpfile.js. Then you can use
 
-$ php artisan serve --port=8000
+    $ gulp watch
+
+You will also want to make these folders writeable by your webserver: /app/storage, /public/files
+
+**Configuration**
+
+Take a look around /app/config, as there are probably some more settings you will want to change. Also, you can start out with a good theme by adding a bootswatch theme to bower.json . Superhero is used by default.
+
+
+
