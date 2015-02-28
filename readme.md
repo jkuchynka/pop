@@ -100,6 +100,8 @@ Add your machine name to the local environment in bootstrap/start.php
 Edit your database settings in database.php, create your database
 
     $ php artisan migrate
+    
+Take a look at the seeders setup in app/database/seeds. You can add roles and users here that will be created when you run:
 
     $ php artisan db:seed
 
