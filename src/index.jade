@@ -40,8 +40,8 @@ html(lang='en', ng-app='app')
                 div.navbar-collapse.collapse(user-menu)
 
         div.view-wrapper
-            div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'", ng-style="navStyle()")
-            div.view(ng-view, ui-view)
+            div.subnav.subnav-left.ng-hide(nav-menu, ng-show="showNav == 'left'")
+            div.view(ui-view)
 
         div.subnav.subnav-right.ng-hide(nav-menu-right, ng-show="showNav == 'right'", ng-style="navStyle()")
 

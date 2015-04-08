@@ -88,6 +88,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
     }
 
     $rootScope.setUser = function (user) {
+        console.log('$rootScope.setUser', user);
         user.date_created_at = App.parseDate(user.created_at);
         user.date_updated_at = App.parseDate(user.updated_at);
         user.isAdmin = App.userIsAdmin(user);
@@ -104,6 +105,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
     };
 
     $rootScope.$on('$stateChangeStart', function (event, toState) {
+        console.log('event', event, 'toState', toState);
         // Hide navs
         $rootScope.toggleNav();
 
@@ -114,6 +116,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
         }
 
         // Check user is authorized to use this route
+        /*
         if (toState.auth) {
             if (angular.isDefined(toState.auth.authed)) {
                 if ((toState.auth.authed && !App.userIsAuthed()) ||
@@ -123,7 +126,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
                     event.preventDefault();
                 }
             }
-        }
+        }*/
     });
 
     $rootScope.bodyClass = function () {
@@ -134,17 +137,13 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
         return classes;
     };
 
-    // Set slideout nav width to sit just outside container
-    // min-width is set in css
-    $rootScope.navStyle = function () {
-        var width = ($window.innerWidth - 1170) / 2;
-        return {
-            width: width + 'px'
-        };
-    };
     // Scroll to top
     $rootScope.scrollTop = function () {
        // $location.hash('top');
         $anchorScroll();
+    };
+
+    $rootScope.init = function () {
+
     };
 });
