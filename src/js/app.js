@@ -2,7 +2,7 @@
 var app = angular.module('app', [
     'ngAnimate', 'ngSanitize', 'ngTable', 'angular-growl',
     'checklist-model', 'angularFileUpload', 'restangular', 'ui.bootstrap', 'ui.select',
-    'FormErrors', 'ui.router', 'angular-storage'
+    'FormErrors', 'ui.router', 'angular-storage', 'ncy-angular-breadcrumb'
 ]);
 
 app.config(function (growlProvider, RestangularProvider, $locationProvider, $httpProvider, uiSelectConfig) {
@@ -106,6 +106,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
 
     $rootScope.$on('$stateChangeStart', function (event, toState) {
         console.log('event', event, 'toState', toState);
+
         // Hide navs
         $rootScope.toggleNav();
 

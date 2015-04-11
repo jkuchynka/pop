@@ -31,6 +31,7 @@ return array(
     */
 
     'paths' => array(
+        public_path(),
         public_path('files')
     ),
 

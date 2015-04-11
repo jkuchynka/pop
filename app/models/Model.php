@@ -14,4 +14,6 @@ class Model extends Ardent {
 
     protected $serializable;
 
+
+
 }

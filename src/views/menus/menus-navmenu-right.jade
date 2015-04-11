@@ -13,13 +13,13 @@ div.subnav-wrapper
                 |Logout &nbsp;
                 i.fa.fa-lg.fa-sign-out
 
-    ul.nav.nav-pills.nav-stacked(ng-if="isAdmin")
+    ul.nav.nav-pills.nav-stacked(ng-if="user.isAdmin")
         li.header
             p.navbar-text
-                a(href="#/admin") ADMINISTER POP
+                a(ui-sref="admin") ADMINISTER POP
         li
-            a(href="#/admin/permissions") Permissions
+            a(ui-sref="admin.permissions") Permissions
         li
-            a(href="#/admin/roles") Roles
+            a(ui-sref="admin.roles") Roles
         li
-            a(href="#/admin/users") Users
+            a(ui-sref="admin.users") Users

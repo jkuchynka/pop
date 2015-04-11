@@ -1,4 +1,4 @@
 
-app.controller('AdminDashboardCtrl', function ($scope) {
-    
+app.controller('AdminDashboardCtrl', function ($scope, $log) {
+    $log.log('AdminDashboardCtrl');
 });

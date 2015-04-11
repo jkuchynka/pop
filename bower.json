@@ -34,7 +34,8 @@
     "spinjs": "~2.0.1",
     "angular-ui-router": "~0.2.13",
     "a0-angular-storage": "~0.0.9",
-    "moment": "~2.9.0"
+    "moment": "~2.9.0",
+    "angular-breadcrumb": "~0.3.3"
   },
   "overrides": {
     "es5-shim": {
