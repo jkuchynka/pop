@@ -9,10 +9,14 @@ angular.module('app')
         },
         link: function (scope, elem, attrs, ctrl) {
             ctrl.$asyncValidators.validAvailable = function (modelValue, viewValue) {
+                if (!viewValue) {
+                    return $q.when(true);
+                }
+
                 var def = $q.defer();
 
                 if (attrs.validAvailable == 'username') {
-                    Api.Users.getList({ where: 'username,' + modelValue }).then(function (users) {
+                    Api.all('users').getList({ where: 'username,' + modelValue }).then(function (users) {
                         if (users[0]) {
                             def.reject();
                         } else {
@@ -20,7 +24,7 @@ angular.module('app')
                         }
                     });
                 } else if (attrs.validAvailable == 'email') {
-                    Api.Users.getList({ where: 'email,' + modelValue }).then(function (users) {
+                    Api.all('users').getList({ where: 'email,' + modelValue }).then(function (users) {
                         if (users[0]) {
                             def.reject();
                         } else {

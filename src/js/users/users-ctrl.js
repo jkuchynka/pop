@@ -22,79 +22,6 @@ var ConfirmCtrl = function ($scope, $location, $rootScope, $routeParams, growl, 
 };
 app.controller('UsersConfirmCtrl', ConfirmCtrl);
 
-var EditCtrl = function ($scope, $rootScope, $modal, $state, growl, mode, roles, store, App, Restangular) {
-
-    console.log('UsersEditCtrl');
-
-    $scope.errors = [];
-    $scope.showErrors = false;
-
-    $scope.roles = roles;
-    $scope.user = Restangular.copy(store.get('user'));
-    $scope.mode = mode;
-
-    $scope.selectedRoles = [];
-    $scope.user.roles = _.pluck($scope.user.roles, 'id');
-    if (mode != 'edit') {
-        $rootScope.title = 'Add user';
-    }
-
-    $scope.doDelete = function () {
-        var parentScope = $scope;
-        $modal.open({
-            template: App.modalTemplate(),
-            controller: function ($scope, $modalInstance, $rootScope) {
-                var doConfirm = function () {
-                    parentScope.user.delete().then(function () {
-                        growl.addSuccessMessage('Your account has been deleted.');
-                        $modalInstance.close();
-                        $rootScope.doLogout();
-                    });
-                };
-                $scope.title = 'Delete Account?';
-                $scope.message = 'Are you sure you want to delete your account?';
-                $scope.buttons = [
-                    { label: 'Cancel', click: $modalInstance.close, class: 'btn-warning pull-left' },
-                    { label: 'Yes', click: doConfirm, class: 'btn-danger pull-right' }
-                ];
-            }
-        });
-    };
-
-    $scope.doSubmit = function () {
-
-        $scope.showErrors = false;
-        if (!$scope.userForm.$valid) {
-            $scope.showErrors = true;
-            return;
-        }
-        if ($scope.mode == 'edit') {
-            //$scope.user.roles = $scope.selectedRoles;
-            $scope.user.put().then(function (response) {
-                // Update rootScope user
-                $rootScope.setUser(response);
-                growl.addSuccessMessage('Success! Your profile has been updated.');
-                $state.go('users.profile');
-            }, function (response) {
-                $scope.errors = response.data.errors;
-                $scope.showErrors = true;
-            });
-        }
-        if ($scope.mode == 'create') {
-            $scope.user.roles = $scope.selectedRoles;
-            Restangular.all('users').post($scope.user).then(function (user) {
-                growl.addSuccessMessage('Success! User ' + user.username + ' created.');
-                $state.go('profile');
-            }, function (response) {
-                $scope.errors = response.data.errors;
-                $scope.showErrors = true;
-            });
-        }
-    };
-
-};
-app.controller('UsersEditCtrl', EditCtrl);
-
 var LoginCtrl = function ($scope, $rootScope, $location, $state, Api, growl, store, Restangular) {
 
     $scope.errors = [];
@@ -165,38 +92,47 @@ var PasswordCtrl = function ($scope, $location, $routeParams, $rootScope, growl,
 };
 app.controller('UsersPasswordCtrl', PasswordCtrl);
 
-var ProfileCtrl = function ($scope, $rootScope) {
-    // Uses $rootScope user
-    $rootScope.title = $rootScope.user.username + "'s Profile";
+var ProfileCtrl = function ($scope, $rootScope, Api, ModalService, user) {
+    $scope.user = user;
+    $scope.setTitle = function () {
+        $rootScope.title = $scope.user.username + "'s Profile";
+    };
+    $scope.setTitle();
+    $scope.refresh = function () {
+        Api.one('auth/current').get({ 'with[]': ['roles.perms', 'image'] }).then(function (user) {
+            user.route = 'users';
+            $rootScope.setUser(user);
+            $scope.user = user;
+            $scope.setTitle();
+        });
+    };
+    $scope.doEditProfile = function () {
+        ModalService.form($scope, {
+            record: $scope.user,
+            form: {
+                recordLabel: 'Profile',
+                endpoint: 'users',
+                templateUrl: '/assets/views/users/users-form.html',
+                success: function ($modalScope) {
+                    $scope.refresh();
+                    $modalScope.doClose();
+                }
+            }
+        });
+    };
 };
 app.controller('UsersProfileCtrl', ProfileCtrl);
 
 var RegisterCtrl = function ($scope, $rootScope, growl, Api) {
 
-    $scope.showErrors = false;
-    $scope.errors = [];
-
-    $scope.mode = 'init';
-
-    $scope.user = {};
-
-    $scope.errorMessages = {
-        validAvailable: 'is already taken.',
-        pattern: 'must be at least 7 characters long and contain at least one capitalized letter.',
-        validEquals: "doesn't match New Password."
-    };
-
-    $scope.submit = function () {
-        if ($scope.registerForm.$valid) {
-            $scope.showErrors = false;
-            Api.Users.post($scope.user).then(function (user) {
-                $scope.mode = 'success';
-            }, function (response) {
-                $scope.showErrors = true;
-                $scope.errors[0] = response.data.errors[0];
-            });
-        } else {
-            $scope.showErrors = true;
+    $scope.display = 'init';
+    $scope.form = {
+        title: 'Register',
+        recordLabel: 'User',
+        endpoint: 'users',
+        templateUrl: '/assets/views/users/users-register-form.html',
+        success: function ($formScope) {
+            $scope.display = 'success';
         }
     };
 

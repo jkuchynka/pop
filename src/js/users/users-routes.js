@@ -30,23 +30,13 @@ app.config(function ($stateProvider) {
             controller: 'UsersProfileCtrl',
             templateUrl: '/assets/views/users/users-profile.html',
             title: 'Profile',
-            auth: {
-                authed: true
-            }
-        })
-        .state('users.profile.edit', {
-            url: '/edit',
-            controller: 'UsersEditCtrl',
-            templateUrl: '/assets/views/users/users-edit.html',
-            title: 'Edit Profile',
-            auth: {
-                authed: true
-            },
             resolve: {
-                mode: function () { return 'edit'; },
-                roles: function (Restangular) {
-                    return Restangular.all('roles').getList();
+                user: function (store) {
+                    return store.get('user');
                 }
+            },
+            auth: {
+                authed: true
             }
         })
         .state('users.confirm', {

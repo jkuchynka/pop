@@ -1,5 +1,5 @@
 
-var AdminUsersCtrl = function ($scope, $filter, $log, $modal, $state, growl, App, ModalService, Api) {
+var AdminUsersCtrl = function ($scope, $rootScope, $log, growl, App, ModalService, Api, store) {
 
     $scope.refresh = function () {
         $scope.data = null;
@@ -61,6 +61,11 @@ var AdminUsersCtrl = function ($scope, $filter, $log, $modal, $state, growl, App
                 // so just update users data and reload ngTable
                 // Errors should be handled and displayed in the form
                 success: function ($scope) {
+                    // If user updated themselves, update rootscope user
+                    var user = store.get('user');
+                    if (user.id == $scope.record.id) {
+                        $rootScope.setUser($scope.record);
+                    }
                     parentScope.refresh();
                     $scope.doClose();
                 }

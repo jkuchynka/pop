@@ -1,36 +1,11 @@
 
-.container
+.container-fluid
+    .row
+        .col-md-12
 
-    .well
+            div(pop-form="form", ng-model="record", ng-show="display == 'init'")
 
-        form.form(name="registerForm", role="form", novalidate, ng-submit="submit()", ng-class="{ 'show-errors': showErrors }", ng-show="mode == 'init'")
+            div(ng-show="display == 'success'")
 
-            .alert.alert-danger(ng-show="showErrors && registerForm.$invalid")
-                p
-                    b Please correct the following errors:
-                ul.list-unstyled(ng-repeat="error in errors")
-                    li {{ error }}
-                .list-unstyled(form-errors, error-messages="errorMessages")
+                p Your account has been created. Please check your email for a link to confirm your email.
 
-            .form-group
-                label.control-label(for="username") Username *
-                input.form-control#username(type="text", name="username", required, valid-available="username", placeholder="Username", ng-model="user.username")
-
-            .form-group
-                label.control-label(for="email") Email Address *
-                input.form-control#email(type="email", name="email", required, valid-available="email", placeholder="email@example.org", ng-model="user.email")
-
-            .form-group
-                label.control-label(for="password") Password * (min 7 characters with 1 capitalized letter)
-                input.form-control#password(type="password", name="password", placeholder="password", ng-model="user.password", ng-minlength="7", ng-pattern="/(?=.*?[A-Z]){7,}/", required)
-
-            .form-group
-                label.control-label(for="password_confirmation") Confirm Password *
-                input.form-control#password_confirmation(type="password", name="password_confirmation", placeholder="password", nice-name="Confirm Password", ng-model="user.password_confirmation", valid-equals="{{ user.password }}", required)
-
-
-            button.btn.btn-primary(type="submit") Register
-
-        div(ng-show="mode == 'success'")
-
-            p Your account has been created. Please check your email for a link to confirm your email.

@@ -1,0 +1,16 @@
+
+.form-group
+    label.control-label(for="username") Username *
+    input.form-control#username(type="text", name="username", required, valid-available="username", ng-minlength="5", placeholder="Username", ng-model="record.username", ng-model-options="{ debounce: 500 }", error-messages="{ required: 'is required.', validAvailable: 'is already taken.', minlength: 'must be at least 5 characters.' }")
+
+.form-group
+    label.control-label(for="email") Email Address *
+    input.form-control#email(type="email", name="email", required, valid-available="email", placeholder="email@example.org", ng-model="record.email", ng-model-options="{ debounce: 500 }", error-messages="{ required: 'is required.', email: 'is not a valid email address.', validAvailable: 'is already taken.' }")
+
+.form-group
+    label.control-label(for="password") Password * (min 7 characters with 1 capitalized letter)
+    input.form-control#password(type="password", name="password", placeholder="password", ng-model="record.password", ng-minlength="7", ng-pattern="/(?=.*?[A-Z]){7,}/", required, error-messages="{ required: 'is required.', minlength: 'must be at least 7 characters.', pattern: 'must contain at least one capitalized letter.' }")
+
+.form-group
+    label.control-label(for="password_confirmation") Confirm Password *
+    input.form-control#password_confirmation(type="password", name="password_confirmation", placeholder="password", nice-name="Confirm Password", ng-model="record.password_confirmation", valid-equals="{{ record.password }}", required, error-messages="{ required: 'is required.', validEquals: 'doesnt match Password.' }")

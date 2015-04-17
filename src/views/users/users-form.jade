@@ -8,12 +8,12 @@
     input.form-control#email(type="email", name="Email", ng-model="record.email", required)
 
 .form-group
-    label.control-label(for="password") Password * (min 7 characters with 1 capitalized letter)
-    input.form-control#password(type="password", name="password", placeholder="password", ng-model="record.password", ng-minlength="7", ng-pattern="/(?=.*?[A-Z]){7,}/", required)
+    label.control-label(for="password") Password * (min 7 characters with 1 capitalized letter) (leave empty to keep current password)
+    input.form-control#password(type="password", name="password", placeholder="password", ng-model="record.password", ng-minlength="7", ng-pattern="/(?=.*?[A-Z]){7,}/")
 
 .form-group
     label.control-label(for="password_confirmation") Confirm Password *
-    input.form-control#password_confirmation(type="password", name="password_confirmation", placeholder="password", nice-name="Confirm Password", ng-model="record.password_confirmation", valid-equals="{{ record.password }}", required)
+    input.form-control#password_confirmation(type="password", name="password_confirmation", placeholder="password", nice-name="Confirm Password", ng-model="record.password_confirmation", valid-equals="{{ record.password }}")
 
 .form-group
     label(for="roles") Roles
