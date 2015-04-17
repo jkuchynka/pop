@@ -29,7 +29,7 @@ class AuthController extends \BaseController {
             $user = new User;
 
             // Check if there was too many login attempts
-            if (Confide::isThrottled($input)) {
+            if (1 === 0 && Confide::isThrottled($input)) {
                 $errMsg = Lang::get('confide::confide.alerts.too_many_attempts');
             } elseif ($user->checkUserExists($input) && ! $user->isConfirmed($input)) {
                 $errMsg = Lang::get('confide::confide.alerts.not_confirmed');

@@ -19,4 +19,4 @@ form(name="popform", role="form", novalidate, ng-submit="doSave()", ng-class="{ 
 
     .form-footer.modal-footer
         button.btn.btn-danger.pull-left(type="button", ng-click="doClose()", ng-show="doClose") Cancel
-        button.btn.btn-primary.pull-right(type="submit") Save
+        button.btn.btn-primary.pull-right(type="submit") {{ config.buttons.save}}

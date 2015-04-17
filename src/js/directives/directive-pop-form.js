@@ -4,7 +4,7 @@ app.directive('popForm', function ($sce) {
         restrict: 'A',
         scope: {
             config: '=popForm',
-            record: '=ngModel'
+            record: '=?ngModel'
         },
         templateUrl: '/assets/views/forms/form-pop.html',
         /*
@@ -16,8 +16,10 @@ app.directive('popForm', function ($sce) {
             // Setup config, override default
             scope.config = _.extend({
                 modal: false,
-                recordLabel: 'Item',
-                elements: []
+                elements: [],
+                buttons: {
+                    save: 'Save'
+                }
             }, scope.config);
             // Setup form elements
             scope.elements = scope.config.elements;
@@ -63,8 +65,10 @@ app.directive('popForm', function ($sce) {
                         } else {
                             $log.log('posting record', $scope.record);
                             Api.all($scope.config.endpoint).post($scope.record).then(function (response) {
-                                growl.addSuccessMessage($scope.config.recordLabel + ' created.');
-                                $scope.config.success($scope);
+                                if ($scope.config.recordLabel) {
+                                    growl.addSuccessMessage($scope.config.recordLabel + ' created.');
+                                }
+                                $scope.config.success($scope, response);
                             }, $scope.handleErrors);
                         }
                     }

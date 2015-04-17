@@ -21,29 +21,19 @@ var ConfirmCtrl = function ($scope, $location, $rootScope, $stateParams, growl, 
 };
 app.controller('UsersConfirmCtrl', ConfirmCtrl);
 
-var LoginCtrl = function ($scope, $rootScope, $location, $state, Api, growl, store, Restangular) {
+var LoginCtrl = function ($scope, $rootScope, $log, $state, Api, growl) {
 
-    $scope.errors = [];
-    $scope.showErrors = false;
-
-    $scope.user = {};
-
-    $scope.submit = function () {
-        $scope.showErrors = false;
-        if ($scope.loginForm.$valid) {
-            Api.all('auth').post($scope.user).then(function (user) {
-                // Load up all user info
-                Restangular.one('users', user.id).get({'with[]': ['roles', 'image']}).then(function (user) {
-                    growl.addSuccessMessage('Welcome back, ' + user.username + ' !');
-                    $rootScope.setUser(user);
-                    $state.go('users.profile');
-                });
-            }, function (response) {
-                $scope.errors = response.data.errors;
-                $scope.showErrors = true;
+    $scope.form = {
+        title: 'Login',
+        endpoint: 'auth',
+        templateUrl: '/assets/views/users/users-login-form.html',
+        buttons: { save: 'Login' },
+        success: function ($formScope, response) {
+            Api.one('users', response.id).get({ 'with[]': ['roles', 'image'] }).then(function (user) {
+                $rootScope.setUser(user);
+                growl.addSuccessMessage('Welcome back, ' + user.username + ' !');
+                $state.go('users.profile');
             });
-        } else {
-            $scope.showErrors = true;
         }
     };
 

@@ -1,0 +1,10 @@
+.form-group
+    label.control-label(for="username") Username or Email *
+    input.form-control#username(type="text", name="username", ng-model="record.username", placeholder="username", required)
+
+.form-group
+    label.control-label(for="password") Password *
+    input.form-control#password(type="password", name="password", ng-model="record.password", placeholder="password", required)
+
+.form-group
+    a(ui-sref="users.reset") Forgot password?
