@@ -42,7 +42,12 @@ app.config(function ($stateProvider) {
         .state('users.confirm', {
             url: '/confirm/:confirmcode',
             controller: 'UsersConfirmCtrl',
-            template: ''
+            template: '',
+            resolve: {
+                user: function (store) {
+                    return store.get('user');
+                }
+            }
         })
         .state('users.password.success', {
             url: '/password/success',

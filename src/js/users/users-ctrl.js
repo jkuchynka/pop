@@ -1,22 +1,21 @@
 
-var ConfirmCtrl = function ($scope, $location, $rootScope, $routeParams, growl, Api) {
-
-    Api.getCurrentUser(true).then(function (user) {
-        if (user.id) {
-            // trying to confirm account when already logged in
+var ConfirmCtrl = function ($scope, $location, $rootScope, $stateParams, growl, Api, user) {
+    if (user && user.id) {
+        // trying to confirm account when already logged in
+        $location.path('/');
+        return;
+    }
+    Api.all('users').customPUT({ code: $stateParams.confirmcode }, 'confirm').then(function (user) {
+        // User is successfully confirmed, and should be logged in
+        // They should have set their password on register page
+        // Set the current user and redirect
+        Api.one('users', user.id).get({ 'with[]': ['roles', 'image'] }).then(function (user) {
+            $rootScope.setUser(user);
+            growl.addSuccessMessage("Your account has been confirmed. Welcome to Pop!");
             $location.path('/');
-        }
-        Api.Users.customPUT({ code: $routeParams.confirmcode }, 'confirm').then(function (user) {
-            // User is successfully confirmed, and should be logged in
-            // They should have set their password on register page
-            // Set the current user and redirect
-            $rootScope.getCurrentUser().then(function (user) {
-                growl.addSuccessMessage("Your account has been confirmed. Welcome to Pop!");
-                $location.path('/');
-            });
-        }, function (response) {
-            $location.path('/users/reset/invalid');
         });
+    }, function (response) {
+        $state.go('users.reset.invalid');
     });
 
 };
@@ -123,8 +122,7 @@ var ProfileCtrl = function ($scope, $rootScope, Api, ModalService, user) {
 };
 app.controller('UsersProfileCtrl', ProfileCtrl);
 
-var RegisterCtrl = function ($scope, $rootScope, growl, Api) {
-
+var RegisterCtrl = function ($scope) {
     $scope.display = 'init';
     $scope.form = {
         title: 'Register',
@@ -135,7 +133,6 @@ var RegisterCtrl = function ($scope, $rootScope, growl, Api) {
             $scope.display = 'success';
         }
     };
-
 };
 app.controller('UsersRegisterCtrl', RegisterCtrl);
 
