@@ -105,7 +105,7 @@ var LoginCtrl = function ($scope, $rootScope, $location, $state, Api, growl, sto
     $scope.submit = function () {
         $scope.showErrors = false;
         if ($scope.loginForm.$valid) {
-            Api.Auth.post($scope.user).then(function (user) {
+            Api.all('auth').post($scope.user).then(function (user) {
                 // Load up all user info
                 Restangular.one('users', user.id).get({'with[]': ['roles', 'image']}).then(function (user) {
                     growl.addSuccessMessage('Welcome back, ' + user.username + ' !');

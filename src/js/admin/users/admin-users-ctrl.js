@@ -1,41 +1,89 @@
 
-var UsersCtrl = function ($scope, $filter, $modal, users, growl, App) {
+var AdminUsersCtrl = function ($scope, $filter, $log, $modal, $state, growl, App, ModalService, Api) {
 
-    console.log('AdminUsersCtrl', users.plain());
+    $scope.refresh = function () {
+        $scope.data = null;
+        $scope.ngTable.reload();
+    };
 
     // Setup users table
-    $scope.table = App.ngTable($scope, users);
+    App.ngTable($scope, {
+        sorting: {
+            id: 'asc'
+        },
+        getData: function ($defer, params) {
+            Api.all('users').getList({ 'with[]': ['roles', 'image'] }).then(function (users) {
+                $scope.data = users;
+                $scope.resolveData($defer, params);
+            });
+        }
+    });
 
-    $scope.tableUsers = [];
-
-    $scope.deleteUser = function (user) {
+    // User create / edit form
+    // This is a heavily commented example of how to use
+    // both the ModalService and popForm directive to use a form
+    // for users that handles both add and edit, with a minimal
+    // amount of code.
+    //
+    // Currently, there are a lot of assumptions made with the form
+    // which is good for consistency, but needs more configurable options
+    $scope.doUserForm = function (user) {
+        if (user) {
+            $log.log('edit user', user.plain());
+        }
+        // Set a reference to current scope that can be
+        // used inside the modal
         var parentScope = $scope;
-        $modal.open({
-            templateUrl: 'confirm.html',
-            controller: function ($scope, $modalInstance) {
-
-                $scope.message = 'Are you sure you want to delete the user: <i>' + user.username + '</i> ?';
-                $scope.okText = 'Delete';
-                $scope.cancelText = 'Cancel';
-
-                $scope.ok = function () {
-                    user.remove().then(function () {
-                        growl.addSuccessMessage('User ' + user.username + ' deleted');
-                        parentScope.table.reload();
-                        $modalInstance.close();
+        // Popup a modal form for editing or adding user
+        // No specific templates needed, uses popForm directive
+        ModalService.form($scope, {
+            record: user,
+            form: {
+                // Initialize
+                init: function ($scope) {
+                    $scope.roles = [];
+                    // Get roles
+                    Api.all('roles').getList().then(function (roles) {
+                        $scope.roles = roles;
                     });
-                };
+                },
+                // Sets title for Edit User / Add User
+                recordLabel: 'User',
+                // Api endpoint, POST /api/users or PUT /api/users
+                endpoint: 'users',
+                // Elements template, wrapped by form
+                templateUrl: '/assets/views/users/users-form.html',
+                // @todo: Add ability to modify buttons (text/classes, etc...)
+                buttons: [
 
-                $scope.cancel = function () {
-                    $modalInstance.dismiss('cancel');
-                };
+                ],
+                // Success callback, popForm should popup a message with growl
+                // so just update users data and reload ngTable
+                // Errors should be handled and displayed in the form
+                success: function ($scope) {
+                    parentScope.refresh();
+                    $scope.doClose();
+                }
+            }
+        });
+    };
+
+    // User delete confirmation
+    $scope.doDeleteUser = function (user) {
+        ModalService.confirm($scope, {
+            title: 'Delete user: ' + user.username + ' ?',
+            doConfirm: function ($scope) {
+                user.remove().then(function (response) {
+                    growl.addSuccessMessage('User ' + user.username + ' deleted.');
+                    $scope.parentScope.refresh();
+                    $scope.doClose();
+                }, $scope.handleErrors);
             }
         });
     };
 
 };
-app.controller('AdminUsersCtrl', UsersCtrl);
-
+app.controller('AdminUsersCtrl', AdminUsersCtrl);
 
 app.controller('AdminUsersPermissionsCtrl', function ($scope, $rootScope, $filter, $modal, Api, growl, ngTableParams) {
 

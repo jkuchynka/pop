@@ -1,0 +1,21 @@
+
+form(name="popform", role="form", novalidate, ng-submit="doSave()", ng-class="{ 'show-errors': showErrors }")
+
+    .form-header.modal-header
+        span(ng-show="mode == 'add'") Add {{ config.recordLabel }}
+        span(ng-show="mode == 'edit'") Edit {{ config.recordLabel }}
+
+    .form-body.modal-body
+        .row
+            .col-md-12
+                .alert.alert-danger(ng-show="showErrors && (popform.$invalid || serverErrors)")
+                    p
+                        strong Please correct the following errors:
+                    p(ng-repeat="error in serverErrors") {{ error }}
+                    .list-unstyled(form-errors)
+
+        div(ng-include="config.templateUrl")
+
+    .form-footer.modal-footer
+        button.btn.btn-danger.pull-left(type="button", ng-click="doClose()") Cancel
+        button.btn.btn-primary.pull-right(type="submit") Save

@@ -1,0 +1,22 @@
+
+.form-group
+    label(for="username") Username *
+    input.form-control#username(type="text", name="Username", ng-model="record.username", required)
+
+.form-group
+    label(for="email") Email *
+    input.form-control#email(type="email", name="Email", ng-model="record.email", required)
+
+.form-group
+    label.control-label(for="password") Password * (min 7 characters with 1 capitalized letter)
+    input.form-control#password(type="password", name="password", placeholder="password", ng-model="record.password", ng-minlength="7", ng-pattern="/(?=.*?[A-Z]){7,}/", required)
+
+.form-group
+    label.control-label(for="password_confirmation") Confirm Password *
+    input.form-control#password_confirmation(type="password", name="password_confirmation", placeholder="password", nice-name="Confirm Password", ng-model="record.password_confirmation", valid-equals="{{ record.password }}", required)
+
+.form-group
+    label(for="roles") Roles
+    ui-select.form-control#roles(multiple, reset-search-input="true", ng-model="record.roles")
+        ui-select-match(placeholder="Select roles") {{ $item.name }}
+        ui-select-choices(repeat="role as role in roles | filter: $select.search") {{ role.name }}

@@ -1,0 +1,21 @@
+
+form.modalform(name="modalform", role="form", novalidate, ng-submit="doSave()", ng-class="{ 'show-errors': showErrors }")
+
+    .modal-header
+        span(ng-show="mode == 'add'") Add {{ recordLabel }}
+        span(ng-show="mode == 'edit'") Edit {{ recordLabel }}
+
+    .modal-body
+        .row
+            .col-md-12
+                .alert.alert-danger(ng-show="showErrors && (modalform.$invalid || serverErrors)")
+                    p
+                        strong Please correct the following errors:
+                    p(ng-repeat="error in serverErrors") {{ error }}
+                    .list-unstyled(form-errors)
+
+        div(ng-include="templateUrl")
+
+    .modal-footer
+        button.btn.btn-danger.pull-left(type="button", ng-click="doClose()") Cancel
+        button.btn.btn-primary.pull-right(type="submit", ng-click="doSave()") Save

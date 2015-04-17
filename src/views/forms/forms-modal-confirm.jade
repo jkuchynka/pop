@@ -1,0 +1,17 @@
+
+.modal-header {{ title }}
+
+.modal-body
+    .row(ng-show="message")
+        strong(ng-bind="message")
+
+    .row
+        .col-md-12
+            .alert.alert-danger(ng-show="showErrors")
+                p
+                    strong Please correct the following errors:
+                p(ng-show="serverErrors", ng-repeat="error in serverErrors", ng-bind="error")
+
+.modal-footer
+    button.btn.btn-danger.pull-left(type="button", ng-click="doClose()") No
+    button.btn.btn-primary.pull-right(type="button", ng-click="doConfirm()") Yes

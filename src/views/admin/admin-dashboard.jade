@@ -54,5 +54,9 @@
                             td(style='color: dark-yellow') Load 0.35 CPU 54% Mem 89%
 
         .row
+            .col-md-12
+                h3 Admin Modules
 
-            .col-md-3
+        .row
+            .col-md-3(ng-repeat="module in modules")
+                a(ui-sref="{{ module.sref }}") {{ module.label }}

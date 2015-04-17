@@ -5,12 +5,10 @@ var app = angular.module('app', [
     'FormErrors', 'ui.router', 'angular-storage', 'ncy-angular-breadcrumb'
 ]);
 
-app.config(function (growlProvider, RestangularProvider, $locationProvider, $httpProvider, uiSelectConfig) {
+app.config(function (growlProvider, $locationProvider, $httpProvider, uiSelectConfig) {
     growlProvider.globalTimeToLive(5000);
     growlProvider.onlyUniqueMessages(false);
     growlProvider.globalEnableHtml(true);
-
-    RestangularProvider.setBaseUrl('/api');
 
     $locationProvider.html5Mode(true);
 
