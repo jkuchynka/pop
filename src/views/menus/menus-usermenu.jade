@@ -10,7 +10,7 @@ div.nav.navbar-nav.navbar-right(ng-if="user.id")
 
 ul.nav.navbar-nav.navbar-right(ng-if="!user.id")
     li
-        a(ui-sref="users.login") Login
+        a#login(ui-sref="users.login") Login
 
     li
-        a(ui-sref="users.register") Register
+        a#register(ui-sref="users.register") Register

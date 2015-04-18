@@ -21,7 +21,7 @@ app.directive('uploader', function ($upload, growl) {
                     $scope.image = data;
                 }).error(function (data, status, headers, config) {
                     // file failed to upload
-                    growl.addErrorMessage("Error uploading image");
+                    growl.error("Error uploading image");
                 });
             };
             $scope.doRemoveImage = function () {

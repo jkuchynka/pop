@@ -10,7 +10,7 @@ app.controller('ContactCtrl', function ($scope, $rootScope, Api, growl) {
             $scope.showErrors = false;
             Api.Contact.post($scope.contact).then(function (response) {
                 $scope.contact = {};
-                growl.addSuccessMessage("Thanks for contacting us. We'll be in touch shortly!");
+                growl.success("Thanks for contacting us. We'll be in touch shortly!");
             });
         } else {
             $scope.showErrors = true;

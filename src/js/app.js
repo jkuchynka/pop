@@ -6,9 +6,9 @@ var app = angular.module('app', [
 ]);
 
 app.config(function (growlProvider, $locationProvider, $httpProvider, uiSelectConfig) {
-    growlProvider.globalTimeToLive(5000);
+    //growlProvider.globalTimeToLive(5000);
+    growlProvider.globalTimeToLive(-1);
     growlProvider.onlyUniqueMessages(false);
-    growlProvider.globalEnableHtml(true);
 
     $locationProvider.html5Mode(true);
 
@@ -53,7 +53,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
     // Allow the server to directly set messages
     Restangular.setResponseInterceptor(function (response) {
         if (response.message) {
-            growl.addSuccessMessage(response.message);
+            growl.success(response.message);
         }
         return response;
     });
@@ -61,7 +61,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
     // Handle error responses
     Restangular.setErrorInterceptor(function (response) {
         if (response.errors) {
-            growl.addErrorMessage(response.errors[0]);
+            growl.error(response.errors[0]);
         }
         return response;
     });
@@ -120,7 +120,7 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
             if (angular.isDefined(toState.auth.authed)) {
                 if ((toState.auth.authed && !App.userIsAuthed()) ||
                     (!toState.auth.authed && App.userIsAuthed())) {
-                    growl.addErrorMessage("You are not allowed to visit that page.");
+                    growl.error("You are not allowed to visit that page.");
                     $state.go('home');
                     event.preventDefault();
                 }

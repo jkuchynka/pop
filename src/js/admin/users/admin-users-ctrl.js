@@ -53,10 +53,6 @@ var AdminUsersCtrl = function ($scope, $rootScope, $log, growl, App, ModalServic
                 endpoint: 'users',
                 // Elements template, wrapped by form
                 templateUrl: '/assets/views/users/users-form.html',
-                // @todo: Add ability to modify buttons (text/classes, etc...)
-                buttons: [
-
-                ],
                 // Success callback, popForm should popup a message with growl
                 // so just update users data and reload ngTable
                 // Errors should be handled and displayed in the form
@@ -79,7 +75,7 @@ var AdminUsersCtrl = function ($scope, $rootScope, $log, growl, App, ModalServic
             title: 'Delete user: ' + user.username + ' ?',
             doConfirm: function ($scope) {
                 user.remove().then(function (response) {
-                    growl.addSuccessMessage('User ' + user.username + ' deleted.');
+                    growl.success('User ' + user.username + ' deleted.');
                     $scope.parentScope.refresh();
                     $scope.doClose();
                 }, $scope.handleErrors);

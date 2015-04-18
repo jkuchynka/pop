@@ -26,16 +26,16 @@ app.controller('ComponentsCtrl', function ($scope, $rootScope, growl) {
             var message = $scope.growl.message;
             switch ($scope.growl.type) {
                 case 'success':
-                    growl.addSuccessMessage(message, config);
+                    growl.success(message, config);
                 break;
                 case 'info':
-                    growl.addInfoMessage(message, config);
+                    growl.info(message, config);
                 break;
                 case 'warn':
-                    growl.addWarnMessage(message, config);
+                    growl.warning(message, config);
                 break;
                 case 'error':
-                    growl.addErrorMessage(message, config);
+                    growl.error(message, config);
                 break;
             }
         }

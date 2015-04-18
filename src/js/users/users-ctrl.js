@@ -11,7 +11,7 @@ var ConfirmCtrl = function ($scope, $location, $rootScope, $stateParams, growl, 
         // Set the current user and redirect
         Api.one('users', user.id).get({ 'with[]': ['roles', 'image'] }).then(function (user) {
             $rootScope.setUser(user);
-            growl.addSuccessMessage("Your account has been confirmed. Welcome to Pop!");
+            growl.success("Your account has been confirmed. Welcome to Pop!");
             $location.path('/');
         });
     }, function (response) {
@@ -31,7 +31,7 @@ var LoginCtrl = function ($scope, $rootScope, $log, $state, Api, growl) {
         success: function ($formScope, response) {
             Api.one('users', response.id).get({ 'with[]': ['roles', 'image'] }).then(function (user) {
                 $rootScope.setUser(user);
-                growl.addSuccessMessage('Welcome back, ' + user.username + ' !');
+                growl.success('Welcome back, ' + user.username + ' !');
                 $state.go('users.profile');
             });
         }

@@ -59,14 +59,14 @@ app.directive('popForm', function ($sce) {
                     } else {
                         if ($scope.mode == 'edit') {
                             $scope.record.put().then(function (response) {
-                                growl.addSuccessMessage($scope.config.recordLabel + ' updated.');
+                                growl.success($scope.config.recordLabel + ' updated.');
                                 $scope.config.success($scope);
                             }, $scope.handleErrors);
                         } else {
                             $log.log('posting record', $scope.record);
                             Api.all($scope.config.endpoint).post($scope.record).then(function (response) {
                                 if ($scope.config.recordLabel) {
-                                    growl.addSuccessMessage($scope.config.recordLabel + ' created.');
+                                    growl.success($scope.config.recordLabel + ' created.');
                                 }
                                 $scope.config.success($scope, response);
                             }, $scope.handleErrors);
