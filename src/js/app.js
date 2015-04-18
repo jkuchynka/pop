@@ -6,8 +6,8 @@ var app = angular.module('app', [
 ]);
 
 app.config(function (growlProvider, $locationProvider, $httpProvider, uiSelectConfig) {
-    //growlProvider.globalTimeToLive(5000);
-    growlProvider.globalTimeToLive(-1);
+    growlProvider.globalTimeToLive(5000);
+    //growlProvider.globalTimeToLive(-1);
     growlProvider.onlyUniqueMessages(false);
 
     $locationProvider.html5Mode(true);
@@ -31,7 +31,7 @@ app.config(function (growlProvider, $locationProvider, $httpProvider, uiSelectCo
     uiSelectConfig.theme = 'bootstrap';
 });
 
-app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, store, Restangular, App) {
+app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, store, Restangular, App, Api) {
     $rootScope.showNav = false;
     $rootScope.title = '';
 
@@ -87,9 +87,11 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
 
     $rootScope.setUser = function (user) {
         console.log('$rootScope.setUser', user);
-        user.date_created_at = App.parseDate(user.created_at);
-        user.date_updated_at = App.parseDate(user.updated_at);
-        user.isAdmin = App.userIsAdmin(user);
+        if (user.id) {
+            user.date_created_at = App.parseDate(user.created_at);
+            user.date_updated_at = App.parseDate(user.updated_at);
+            user.isAdmin = App.userIsAdmin(user);
+        }
         store.set('user', user);
         $rootScope.user = user;
         $rootScope.$emit('userSet', {user: user});
@@ -97,9 +99,13 @@ app.run(function ($rootScope, $window, $anchorScroll, $location, $state, growl, 
 
     // Logout user from app and server
     $rootScope.doLogout = function (user) {
-        store.remove('user');
-        // This should be a server route which also handles redirect
-        $location.path('/logout');
+        Api.one('auth', 'current').remove().then(function (response) {
+            Api.one('auth', 'current').get().then(function (user) {
+                $rootScope.setUser(user);
+                $state.go('home');
+                growl.success('You have logged out.');
+            });
+        });
     };
 
     $rootScope.$on('$stateChangeStart', function (event, toState) {

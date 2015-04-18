@@ -7,9 +7,9 @@ div.subnav-wrapper
                 img.user-image(ng-src="/image/small/{{ user.image.filename }}" ng-if="user.image")
                 img.user-image(ng-src="/assets/images/default-userimage.png" ng-if="!user.image")
         li
-            a(ui-sref="users.profile") View Profile
+            a#profile(ui-sref="users.profile") View Profile
         li
-            a(href="/logout", target="_self", title="Logout")
+            a#logout(href="", ng-click="doLogout()", title="Logout")
                 |Logout &nbsp;
                 i.fa.fa-lg.fa-sign-out
 
