@@ -1,6 +1,6 @@
 ## Pop
 
-Pop is a Laravel 4 and AngularJS SPA starter site.
+Pop is a Laravel 4 and AngularJS SPA starter site. There's lots of good stuff sprinkled in. So feel free to poke around, clone the repo, use it to start a new project, and submit feature requests, pull requests, or just browse the code and learn more about the awesome combination that is Laravel and Angular.
 
 
 ## Features
@@ -103,6 +103,8 @@ Add your machine name to the local environment in bootstrap/start.php
 Edit your database settings in database.php, create your database
 
     $ php artisan migrate
+    
+Take a look at the seeders setup in app/database/seeds. You can add roles and users here that will be created when you run:
 
     $ php artisan db:seed
 
