@@ -8,6 +8,11 @@ use Jbizzay\Magma\MagmaAccess;
 Route::group(['prefix' => 'api'], function()
 {
 
+    Route::get('env', function () {
+        $env = App::environment();
+        return $env;
+    });
+
     Route::post('contact', 'Pop\MessageController@contact');
 
     // Pop routes

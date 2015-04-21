@@ -118,6 +118,9 @@ var RegisterCtrl = function ($scope) {
         title: 'Register',
         recordLabel: 'User',
         endpoint: 'users',
+        buttons: {
+            save: 'Register'
+        },
         templateUrl: '/assets/views/users/users-register-form.html',
         success: function ($formScope) {
             $scope.display = 'success';

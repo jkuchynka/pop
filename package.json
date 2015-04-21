@@ -25,7 +25,8 @@
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.5",
     "karma-spec-json-reporter": "0.0.8",
-    "main-bower-files": "^2.4.0"
+    "main-bower-files": "^2.4.0",
+    "protractor-html-screenshot-reporter": "0.0.19"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

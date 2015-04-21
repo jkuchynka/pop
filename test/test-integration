@@ -1,0 +1,29 @@
+#!/bin/bash
+
+echo -e "\nChecking testing server status."
+
+url="http://localhost:8787/api/env"
+env="$(curl -s $url)"
+
+echo -e "\nEnvironment: $env"
+
+if [ "$env" != "testing" ]
+then
+    echo -e "\nTesting server not setup, exiting..."
+    exit
+fi
+
+echo -e "\nSetting up testing sqlite db.\n"
+
+export LARAVEL_ENV=testing
+
+php ../artisan migrate:refresh --seed --database="setup"
+cp ../app/database/testing/stubdb.sqlite ../app/database/testing/testdb.sqlite
+
+echo -e "\nRunning integration specs."
+
+protractor ./protractor.conf.js --verbose --includeStackTrace
+#protractor ./protractor.conf.js --verbose --includeStackTrace --specs e2e/users/users-profile.spec.js
+
+#chromium-browser /tmp/screenshots/chrome/pop-reporter.html
+firefox /tmp/screenshots/chrome/pop-reporter.html

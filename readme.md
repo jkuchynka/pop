@@ -10,6 +10,7 @@ Pop is a Laravel 4 and AngularJS SPA starter site.
 - Contact form
 - Demo pages of all front-end widgets (bootstrap, angular-bootstrap, growl, ui-select, ng-table etc...)
 - Limited Admin system
+- Modal forms
 - Popout menus
 - Form validation and error handling
 - Backend phpunit tests
@@ -68,6 +69,8 @@ Here's a quick glance of 3rd party libraries used by pop:
 ### Testing:
 
 - phpunit
+- protractor
+- jasmine
 
 
 ### Deployment/Build:
@@ -112,6 +115,27 @@ You will also want to make these folders writeable by your webserver: /app/stora
 **Configuration**
 
 Take a look around /app/config, as there are probably some more settings you will want to change. Also, you can start out with a good theme by adding a bootswatch theme to bower.json . Superhero is used by default.
+
+
+**Testing**
+
+***Integration***
+
+If you need to install and setup protractor, you can follow this [tutorial](http://angular.github.io/protractor/#/tutorial)
+
+Start testing server. Set laravel environment, which correlates to app/config/testing. The database set for the testing environment is testdb.sqlite
+
+    $ LARAVEL_ENV=testing && php artisan serve --port=8787
+
+In a separate terminal, start a Selenium server
+
+    $ webdriver-manager start
+
+In a separate terminal, run through integration tests. This script builds a starting sqlite database that contains all migrations and runs seeder. This way, you can run integration tests against a real database, with a consistent starting point. Edit the test-integration script if you want to call specific tests, or edit options. This will also open a browser with a report of the tests, including screenshots.
+
+    $ cd test
+
+    $ ./test-integration
 
 
 

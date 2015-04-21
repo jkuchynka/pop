@@ -1,15 +1,31 @@
 <?php
 
-return array(
+return [
 
-  'default' => 'testing',  
+    'default' => 'testing',
 
-  'connections' => array(
-    'testing' => array(
-      'driver' => 'sqlite',
-      'database' => ':memory:',
-      'prefix' => '',
-    )
-  )
+    'connections' => [
 
-);
+        'setup' => [
+            'driver' => 'sqlite',
+            'database' => __DIR__ .'/../../database/testing/stubdb.sqlite',
+            'prefix' => ''
+        ],
+
+        'testing' => [
+            'driver' => 'sqlite',
+            'database' => __DIR__ .'/../../database/testing/testdb.sqlite',
+            'prefix' => ''
+        ],
+
+        'sqlite' => [
+            'driver' => 'sqlite',
+            'database' => ':memory:',
+            'prefix' => ''
+        ]
+
+    ],
+
+    'migrations' => 'migrations'
+
+];

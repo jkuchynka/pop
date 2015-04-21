@@ -29,9 +29,10 @@ class UserSeeder extends Seeder {
             $user->username = $username;
             $user->email = $data['email'];
             $user->password = $user->password_confirmation = 'password';
-            $user->created_at = $user->updated_at = time();
+            $user->created_at = $user->updated_at = new DateTime;
             $user->confirmed = 1;
-            $user->updateUniques();
+            $user->status = 1;
+            $user->save();
             if ($data['roles']) {
                 $r_ids = [];
                 foreach ($data['roles'] as $role) {
