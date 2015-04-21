@@ -12,9 +12,10 @@
     ],
     "require": {
         "laravel/framework": "4.2.*",
+        "doctrine/dbal": "~2.3",
         "laravelbook/ardent": "dev-master as 2.4.0",
         "zizaco/confide": "3.2.*",
-        "zizaco/entrust": "dev-master",
+        "zizaco/entrust": "~1.0",
         "summerstreet/woodling": "dev-master",
         "intervention/imagecache": "2.*",
         "anahkiasen/underscore-php" : "dev-master",
